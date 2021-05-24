@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 
 @Serializable
-data class KuttResponse(
+data class KuttLinkResponse(
     val limit: Int,
     val skip: Int,
     val total: Int,
