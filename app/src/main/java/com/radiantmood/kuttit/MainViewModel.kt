@@ -7,12 +7,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.radiantmood.kuttit.data.KuttResponse
 import com.radiantmood.kuttit.data.RetrofitBuilder.kuttService
+import com.radiantmood.kuttit.dev.getApiKeyOrEmpty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainViewModel: ViewModel() {
 
-    private val _apiKeyLiveData: MutableLiveData<String?> = MutableLiveData()
+    private val _apiKeyLiveData: MutableLiveData<String?> = MutableLiveData(getApiKeyOrEmpty())
     val apiKeyLiveData: LiveData<String?> get() = _apiKeyLiveData
 
     private val _linksLiveData: MutableLiveData<KuttResponse> = MutableLiveData()
