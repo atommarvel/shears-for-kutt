@@ -10,11 +10,13 @@ Donations help me prioritize my side projects :)
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6S64QETK)
 
 # Progress to Beta
-- [x] (05/24/21) Created example of fetching a user's urls to validate that the APIs are usable and the project is worth doing
+- [x] (05/24/21) Created example of fetching a user's urls to validate that the APIs are usable and
+  the project is worth doing
 - [x] (05/24/21) Figma [wireframe prototype](data/kutt-android-wireframe.gif) created
 - [x] Add LICENSE
 - [x] Jetpack Navigation Setup
-- [ ] API key persistence
+- [x] API key persistence
+- [ ] Add ktlint / detekt (as githooks?)
 - [ ] Settings Screen
 - [ ] Home Screen
 - [ ] Home Screen Paging
