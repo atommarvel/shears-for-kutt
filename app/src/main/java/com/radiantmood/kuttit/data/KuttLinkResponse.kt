@@ -2,7 +2,6 @@ package com.radiantmood.kuttit.data
 
 import kotlinx.serialization.Serializable
 
-
 @Serializable
 data class KuttLinkResponse(
     val limit: Int,
