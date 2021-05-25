@@ -13,11 +13,11 @@ Donations help me prioritize my side projects :)
 - [x] (05/24/21) Created example of fetching a user's urls to validate that the APIs are usable and the project is worth doing
 - [x] (05/24/21) Figma [wireframe prototype](data/kutt-android-wireframe.gif) created
 - [x] Add LICENSE
-- [ ] Jetpack Navigation Setup
+- [x] Jetpack Navigation Setup
 - [ ] API key persistence
 - [ ] Settings Screen
-- [ ] View Links Screen
-- [ ] View Links Screen Paging
+- [ ] Home Screen
+- [ ] Home Screen Paging
 - [ ] Create Link Screen
 - [ ] Link Options Modal
 - [ ] Delete links via link options modal

@@ -1,4 +1,4 @@
-package com.radiantmood.kuttit
+package com.radiantmood.kuttit.screen.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,7 +10,7 @@ import com.radiantmood.kuttit.dev.getApiKeyOrEmpty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainViewModel: ViewModel() {
+class HomeViewModel: ViewModel() {
 
     private val _apiKeyLiveData: MutableLiveData<String?> = MutableLiveData(getApiKeyOrEmpty())
     val apiKeyLiveData: LiveData<String?> get() = _apiKeyLiveData

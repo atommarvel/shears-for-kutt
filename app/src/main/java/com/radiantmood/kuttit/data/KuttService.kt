@@ -1,4 +1,4 @@
-package com.radiantmood.kuttit
+package com.radiantmood.kuttit.data
 
 import com.radiantmood.kuttit.data.KuttLinkResponse
 import retrofit2.http.GET

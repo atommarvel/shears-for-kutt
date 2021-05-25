@@ -1,7 +1,6 @@
 package com.radiantmood.kuttit.data
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.radiantmood.kuttit.KuttService
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType
