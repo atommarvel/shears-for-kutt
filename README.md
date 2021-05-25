@@ -16,7 +16,7 @@ Donations help me prioritize my side projects :)
 - [x] Add LICENSE
 - [x] Jetpack Navigation Setup
 - [x] API key persistence
-- [ ] Add ktlint / detekt (as githooks?)
+- [x] Add ktlint / detekt (as githooks?)
 - [ ] Settings Screen
 - [ ] Home Screen
 - [ ] Home Screen Paging
