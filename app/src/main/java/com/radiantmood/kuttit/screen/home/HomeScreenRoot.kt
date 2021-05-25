@@ -3,12 +3,20 @@ package com.radiantmood.kuttit.screen.home
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -17,11 +25,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.radiantmood.kuttit.LocalNavController
 import com.radiantmood.kuttit.SettingsScreen
 import com.radiantmood.kuttit.navigate
+import com.radiantmood.kuttit.ui.component.KuttTopAppBar
 
 @Composable
 fun HomeScreenRoot() {
     val nav = LocalNavController.current
     Column {
+        KuttTopAppBar("Kutt")
         Text(text = "Hello home screen")
         Button(onClick = { nav.navigate(SettingsScreen) }) {
             Text("Go to settings screen")
