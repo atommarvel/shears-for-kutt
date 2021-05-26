@@ -1,5 +1,6 @@
 package com.radiantmood.kuttit
 
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
@@ -13,8 +14,10 @@ val LocalNavController = compositionLocalOf<NavHostController> { error("No NavCo
 @Composable
 fun ComposeRoot() {
     KuttItTheme {
-        RootLocalProvider {
-            Navigation()
+        Surface {
+            RootLocalProvider {
+                Navigation()
+            }
         }
     }
 }

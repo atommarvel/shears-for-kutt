@@ -16,19 +16,25 @@ Donations help me prioritize my side projects :)
 - [x] Add LICENSE
 - [x] Jetpack Navigation Setup
 - [x] API key persistence
-- [x] Add ktlint / detekt (as githooks?)
+- [x] Setup ktlint
 - [ ] Settings Screen
+- [ ] Finalize color scheme based on Kutt.it
 - [ ] Home Screen
 - [ ] Home Screen Paging
 - [ ] Create Link Screen
 - [ ] Link Options Modal
 - [ ] Delete links via link options modal
+- [ ] Beta UI Polish
 - [ ] Share urls to app to create shortened urls
-- [ ] Setup CI/CD
+- [ ] Text selection url shortening
 - [ ] Setup Crash Analytics
 - [ ] Setup Play Store force upgrade lib
 - [ ] Create translation system for strings
+- [ ] Ask for translators in settings screen
 - [ ] Decide and implement maintenance model
+- [ ] Unit tests and documentation
+- [ ] Do a pass on all marked TODOs
+- [ ] Setup CI/CD
 - [ ] Release Beta
 - [ ] Add [get on play store badge](https://play.google.com/intl/en_gb/badges/)
 

@@ -10,7 +10,6 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -29,7 +28,7 @@ import com.radiantmood.kuttit.ui.theme.KuttItTheme
 fun KuttTopAppBar(title: String, actions: @Composable () -> Unit = {}) {
     Surface(
         modifier = Modifier.height(56.dp),
-        color = MaterialTheme.colors.primarySurface
+        color = MaterialTheme.colors.primaryVariant
     ) {
         Row(
             modifier = Modifier,
@@ -65,10 +64,10 @@ fun AppBarAction(imageVector: ImageVector, onClick: () -> Unit) {
     }
 }
 
-@Preview
+@Preview()
 @Composable
 fun DefaultPreview() {
-    KuttItTheme {
+    KuttItTheme(false) {
         CompositionLocalProvider(
             LocalNavController provides rememberNavController()
         ) {
