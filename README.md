@@ -29,6 +29,7 @@ Donations help me prioritize my side projects :)
 - [ ] Text selection url shortening
 - [ ] Setup Crash Analytics
 - [ ] Setup Play Store force upgrade lib
+- [ ] In-app review lib
 - [ ] Create translation system for strings
 - [ ] Ask for translators in settings screen
 - [ ] Decide and implement maintenance model
