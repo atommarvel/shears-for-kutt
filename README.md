@@ -23,9 +23,9 @@ That being said... Donations help me prioritize my side projects :)
 - [x] API key persistence
 - [x] Setup ktlint
 - [x] Settings Screen
-- [x] Create app
-  icon. [Kutt logo usage approved](https://github.com/thedevs-network/kutt/issues/165#issuecomment-848490148)
+- [x] [Kutt logo usage approved](https://github.com/thedevs-network/kutt/issues/165#issuecomment-848490148)
 - [x] Rename app to Shears
+- [ ] Add app icon to README once logo variation is approved by Kutt team
 - [ ] convert pngs to webp
 - [ ] Finalize color scheme (based on Kutt.it?)
 - [ ] Use Kutt font?
