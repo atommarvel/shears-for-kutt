@@ -16,11 +16,8 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import com.radiantmood.kuttit.LocalNavController
 import com.radiantmood.kuttit.ui.theme.KuttItTheme
@@ -38,7 +35,7 @@ fun KuttTopAppBar(title: String, actions: @Composable () -> Unit = {}) {
             NavBack()
             Text(
                 text = title,
-                style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.SemiBold),
+                style = MaterialTheme.typography.h6,
                 modifier = Modifier
                     .weight(1f)
                     .padding(start = 16.dp)

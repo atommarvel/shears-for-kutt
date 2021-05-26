@@ -171,9 +171,9 @@ fun Disclosure() {
             Text("Disclosure", style = MaterialTheme.typography.h5)
             Text(
                 """
-                    This is an unofficial app not managed by the creators of Kutt.it. If you are experiencing issues with Kutt.it itself, please reach out to the Kutt.it maintainers themselves.
+                    Shears is an unofficial app not managed by the creators of Kutt.it. If you are experiencing issues with Kutt.it itself, please reach out to the Kutt.it maintainers themselves.
                     
-                    Conversely, if you are experiencing issues with this unofficial app, please reach out to the unofficial app dev instead of the Kutt team! 
+                    Conversely, if you are experiencing issues with Shears, please reach out to the Shears app dev instead of the Kutt team! 
                 """.trimIndent()
             )
         }
@@ -218,7 +218,7 @@ fun KuttItLink() {
 @Composable
 fun Contact() {
     SettingsRowUrl(
-        text = "Contact unofficial app dev on Twitter",
+        text = "Contact Shears app dev on Twitter",
         url = "https://twitter.com/radiantmood"
     )
 }

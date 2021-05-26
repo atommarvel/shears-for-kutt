@@ -31,7 +31,7 @@ import com.radiantmood.kuttit.ui.component.KuttTopAppBar
 fun HomeScreenRoot() {
     val nav = LocalNavController.current
     Column {
-        KuttTopAppBar("Kutt")
+        KuttTopAppBar("Shears")
         Text(text = "Hello home screen")
         Button(onClick = { nav.navigate(SettingsScreen) }) {
             Text("Go to settings screen")
