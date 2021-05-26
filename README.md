@@ -1,5 +1,5 @@
 # kutt-android
-An Android client for [Kutt](http://kutt.it/).
+An unofficial Android client for [Kutt](http://kutt.it/).
 
 # Maintenance Approach
 

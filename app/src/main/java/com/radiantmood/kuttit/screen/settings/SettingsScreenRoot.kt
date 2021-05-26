@@ -168,9 +168,8 @@ fun Disclosure() {
         Column(
             modifier = Modifier.padding(8.dp)
         ) {
-            // TODO: make disclosure stand out a tad more?
             Text("Disclosure", style = MaterialTheme.typography.h5)
-            Text("This app is not managed by the creators of Kutt.it. If you are experiencing issues with Kutt.it itself, please reach out to the Kutt.it maintainers themselves.")
+            Text("This is an unofficial app not managed by the creators of Kutt.it. If you are experiencing issues with Kutt.it itself, please reach out to the Kutt.it maintainers themselves.")
         }
     }
 }
