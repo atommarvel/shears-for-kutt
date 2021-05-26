@@ -25,8 +25,8 @@ That being said... Donations help me prioritize my side projects :)
 - [x] Settings Screen
 - [x] [Kutt logo usage approved](https://github.com/thedevs-network/kutt/issues/165#issuecomment-848490148)
 - [x] Rename app to Shears
-- [ ] Finalize color scheme (based on Kutt.it?)
-- [ ] Use Kutt font?
+- [x] Finalize primary colors
+- [ ] Use Kutt font
 - [ ] Add app icon to README once logo variation is approved by Kutt team
 - [ ] convert pngs to webp
 
