@@ -6,12 +6,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -25,18 +29,44 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.radiantmood.kuttit.LocalNavController
 import com.radiantmood.kuttit.SettingsScreen
 import com.radiantmood.kuttit.navigate
+import com.radiantmood.kuttit.ui.component.AppBarAction
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
+
+private val LocalHomeViewModel =
+    compositionLocalOf<HomeViewModel> { error("No HomeViewModel") }
 
 @Composable
 fun HomeScreenRoot() {
+    val vm: HomeViewModel = viewModel()
+    CompositionLocalProvider(
+        LocalHomeViewModel provides vm
+    ) {
+        HomeScreen()
+    }
+}
+
+@Composable
+fun HomeScreen() {
+    Scaffold(
+        topBar = { HomeAppBar() },
+    ) {
+        HomeBody()
+    }
+}
+
+@Composable
+fun HomeAppBar() {
     val nav = LocalNavController.current
-    Column {
-        KuttTopAppBar("Shears")
-        Text(text = "Hello home screen")
-        Button(onClick = { nav.navigate(SettingsScreen) }) {
-            Text("Go to settings screen")
+    KuttTopAppBar(title = "Shears") {
+        AppBarAction(imageVector = Icons.Default.Settings) {
+            nav.navigate(SettingsScreen)
         }
     }
+}
+
+@Composable
+fun HomeBody() {
+    Text("Hello home")
 }
 
 @Composable
