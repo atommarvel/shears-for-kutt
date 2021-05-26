@@ -53,6 +53,7 @@ That being said... Donations help me prioritize my side projects :)
 - [ ] Setup CI/CD
 - [ ] [App Launch Checklist](https://developer.android.com/distribute/best-practices/launch/launch-checklist)
 - [ ] Update README with contributing process, setup + installation.
+- [ ] Create static landing website for app (hosted by github?)
 - [ ] Release Open Beta
 - [ ] Add [get on play store badge](https://play.google.com/intl/en_gb/badges/)
 
