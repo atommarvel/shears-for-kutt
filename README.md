@@ -15,6 +15,7 @@ That being said... Donations help me prioritize my side projects :)
 
 ## Alpha Phase
 
+### Setup and Settings
 - [x] Created example of fetching a user's urls to validate that the APIs are usable and the project
   is worth doing
 - [x] Figma [wireframe prototype](data/kutt-android-wireframe.gif) created
@@ -26,7 +27,7 @@ That being said... Donations help me prioritize my side projects :)
 - [x] [Kutt logo usage approved](https://github.com/thedevs-network/kutt/issues/165#issuecomment-848490148)
 - [x] Rename app to Shears
 - [x] Finalize primary colors
-- [ ] Use Kutt font
+- [X] Use Nunito font
 - [ ] Add app icon to README once logo variation is approved by Kutt team
 - [ ] convert pngs to webp
 
