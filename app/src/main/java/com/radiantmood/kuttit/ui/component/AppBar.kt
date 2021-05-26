@@ -1,5 +1,6 @@
 package com.radiantmood.kuttit.ui.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,15 +24,15 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import com.radiantmood.kuttit.LocalNavController
 import com.radiantmood.kuttit.ui.theme.KuttItTheme
+import com.radiantmood.kuttit.ui.theme.primaryGradient
 
 @Composable
 fun KuttTopAppBar(title: String, actions: @Composable () -> Unit = {}) {
-    Surface(
-        modifier = Modifier.height(56.dp),
-        color = MaterialTheme.colors.primaryVariant
-    ) {
+    Surface(color = MaterialTheme.colors.primary) {
         Row(
-            modifier = Modifier,
+            modifier = Modifier
+                .background(primaryGradient)
+                .height(56.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             NavBack()
