@@ -1,5 +1,7 @@
 package com.radiantmood.kuttit.screen.settings
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,9 +29,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
 
@@ -99,7 +103,7 @@ fun ApiKeyField() {
                     "show/hide key"
                 )
             }
-        },
+        }
     )
 }
 
@@ -131,6 +135,17 @@ fun SettingsRow(text: String, onClick: () -> Unit) {
 }
 
 @Composable
+fun SettingsRowUrl(text: String, url: String) {
+    val ctx = LocalContext.current
+    SettingsRow(text) {
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse(url)
+        }
+        startActivity(ctx, intent, null)
+    }
+}
+
+@Composable
 fun ManageDomains() {
     SettingsRow("Manage domains") {
         // TODO: nav to manage domains screen
@@ -139,16 +154,12 @@ fun ManageDomains() {
 
 @Composable
 fun KuttItLink() {
-    SettingsRow("Go to Kutt.it") {
-        // TODO: nav to kutt.it
-    }
+    SettingsRowUrl(text = "Go to Kutt.it", url = "https://kutt.it")
 }
 
 @Composable
 fun Contact() {
-    SettingsRow("Contact Kutt Android Dev") {
-        // TODO: nav to twitter
-    }
+    SettingsRowUrl(text = "Contact Kutt Android Dev", url = "https://twitter.com/radiantmood")
 }
 
 @Composable
