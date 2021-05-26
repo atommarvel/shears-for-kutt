@@ -13,7 +13,6 @@ That being said... Donations help me prioritize my side projects :)
 # TODO Tracker
 
 ## Alpha Phase
-
 - [x] Created example of fetching a user's urls to validate that the APIs are usable and the project
   is worth doing
 - [x] Figma [wireframe prototype](data/kutt-android-wireframe.gif) created
@@ -27,7 +26,6 @@ That being said... Donations help me prioritize my side projects :)
 - [ ] Create app icon. Check with Kutt.it creators about logo usage
 
 ### Home
-
 - [ ] Home Screen
 - [ ] Direct users to settings screen when no api key provided
 - [ ] Snackbar errors
@@ -37,14 +35,12 @@ That being said... Donations help me prioritize my side projects :)
 - [ ] Delete links via link options modal
 
 ### Table Stakes
-
 - [ ] Share urls to app to create shortened urls
 - [ ] Text selection url shortening
 - [ ] UI Polish
 - [ ] Android 12 Splash screen
 
 ### Production Ready
-
 - [ ] Setup Crash Analytics
 - [ ] Setup Play Store force upgrade lib
 - [ ] Setup In-app review lib
@@ -56,12 +52,11 @@ That being said... Donations help me prioritize my side projects :)
 - [ ] Double check accessibility
 - [ ] Setup CI/CD
 - [ ] [App Launch Checklist](https://developer.android.com/distribute/best-practices/launch/launch-checklist)
-- [ ] Release Open Beta
 - [ ] Update README with contributing process, setup + installation.
+- [ ] Release Open Beta
 - [ ] Add [get on play store badge](https://play.google.com/intl/en_gb/badges/)
 
 ## Open Beta Phase
-
 - [ ] API key-less UX
 - [ ] API key-less Implementation
 - [ ] Update Link Screen
@@ -74,21 +69,17 @@ That being said... Donations help me prioritize my side projects :)
 ## Stable Phase
 
 ### Exit Strategy
-
 - [ ] Export all links to a csv for easy migration
 - [ ] Automate importing a csv and creating short links for the data
 - [ ] Add the ability to work with self-hosted kutt instances
 
 ### Stats
-
 - [ ] Stats Screen UX
 - [ ] Stats Screen Implementation
 
 ### QR
-
 - [ ] View QR Code UX
 - [ ] View QR Code Implementation
 
 ### Material You
-
 - [ ] Integrate with "Material You" once Compose updates to support it. 
