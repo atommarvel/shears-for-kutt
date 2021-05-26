@@ -33,7 +33,7 @@ That being said... Donations help me prioritize my side projects :)
 - [x] Finalize primary colors
 - [X] Use Nunito font
 - [x] Add app icon to README once logo variation is approved by Kutt team
-- [ ] convert pngs to webp
+- [x] convert pngs to webp
 
 ### Home
 - [ ] Home Screen
