@@ -1,5 +1,6 @@
-# kutt-android
-An unofficial Android client for [Kutt](http://kutt.it/).
+# Shears for Kutt
+
+✂️ An unofficial Android client for [Kutt](http://kutt.it/).
 
 # Maintenance Approach
 
@@ -13,6 +14,7 @@ That being said... Donations help me prioritize my side projects :)
 # TODO Tracker
 
 ## Alpha Phase
+
 - [x] Created example of fetching a user's urls to validate that the APIs are usable and the project
   is worth doing
 - [x] Figma [wireframe prototype](data/kutt-android-wireframe.gif) created
@@ -21,9 +23,12 @@ That being said... Donations help me prioritize my side projects :)
 - [x] API key persistence
 - [x] Setup ktlint
 - [x] Settings Screen
+- [x] Create app
+  icon. [Kutt logo usage approved](https://github.com/thedevs-network/kutt/issues/165#issuecomment-848490148)
+- [x] Rename app to Shears
+- [ ] convert pngs to webp
 - [ ] Finalize color scheme (based on Kutt.it?)
 - [ ] Use Kutt font?
-- [ ] Create app icon. Check with Kutt.it creators about logo usage
 
 ### Home
 - [ ] Home Screen
