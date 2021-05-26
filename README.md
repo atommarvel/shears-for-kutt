@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="data/shears-logo.svg" height="300"/>
+</p>  
+
 # Shears for Kutt
 
 ✂️ An unofficial Android client for [Kutt](http://kutt.it/).
@@ -15,7 +19,7 @@ That being said... Donations help me prioritize my side projects :)
 
 ## Alpha Phase
 
-### Setup and Settings
+### Foundation
 - [x] Created example of fetching a user's urls to validate that the APIs are usable and the project
   is worth doing
 - [x] Figma [wireframe prototype](data/kutt-android-wireframe.gif) created
@@ -28,7 +32,7 @@ That being said... Donations help me prioritize my side projects :)
 - [x] Rename app to Shears
 - [x] Finalize primary colors
 - [X] Use Nunito font
-- [ ] Add app icon to README once logo variation is approved by Kutt team
+- [x] Add app icon to README once logo variation is approved by Kutt team
 - [ ] convert pngs to webp
 
 ### Home
