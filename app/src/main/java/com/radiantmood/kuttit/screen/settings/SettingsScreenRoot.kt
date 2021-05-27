@@ -101,6 +101,10 @@ fun SettingsBody(showHelpDialog: Boolean, setShowHelpDialog: (Boolean) -> Unit) 
                 Divider()
             }
             item {
+                Report()
+                Divider()
+            }
+            item {
                 OpenSourceAttribution()
                 Divider()
             }
@@ -221,6 +225,14 @@ fun Contact() {
     SettingsRowUrl(
         text = "Contact Shears app dev on Twitter",
         url = "https://twitter.com/radiantmood"
+    )
+}
+
+@Composable
+fun Report() {
+    SettingsRowUrl(
+        text = "Report abuses, malware and phishing Kutt links",
+        url = "https://kutt.it/report"
     )
 }
 
