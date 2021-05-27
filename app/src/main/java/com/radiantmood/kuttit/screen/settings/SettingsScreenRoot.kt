@@ -57,6 +57,7 @@ fun SettingsScreenRoot() {
 
 @Composable
 fun SettingsScreen() {
+    // TODO: move dialog show logic to vm and use model container
     val (showHelpDialog, setShowHelpDialog) = remember { mutableStateOf(false) }
     Scaffold(
         topBar = { SettingsAppBar(setShowHelpDialog) },

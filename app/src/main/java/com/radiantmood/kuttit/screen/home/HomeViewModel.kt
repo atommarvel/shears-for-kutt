@@ -4,27 +4,43 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.radiantmood.kuttit.data.KuttLinkResponse
+import com.radiantmood.kuttit.data.KuttLink
+import com.radiantmood.kuttit.data.LoadingModelContainer
+import com.radiantmood.kuttit.data.ModelContainer
 import com.radiantmood.kuttit.data.RetrofitBuilder.kuttService
-import com.radiantmood.kuttit.dev.getApiKeyOrEmpty
+import com.radiantmood.kuttit.repo.ApiKeyRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
 
-    private val _apiKeyLiveData: MutableLiveData<String?> = MutableLiveData(getApiKeyOrEmpty())
-    val apiKeyLiveData: LiveData<String?> get() = _apiKeyLiveData
-
-    private val _linksLiveData: MutableLiveData<KuttLinkResponse> = MutableLiveData()
-    val linksLiveData: LiveData<KuttLinkResponse> get() = _linksLiveData
-
-    fun updateApiKey(key: String) {
-        _apiKeyLiveData.value = key
-    }
+    private var _homeScreen =
+        MutableLiveData<ModelContainer<HomeScreenModel>>(LoadingModelContainer())
+    val homeScreen: LiveData<ModelContainer<HomeScreenModel>> get() = _homeScreen
 
     fun getLinks() = viewModelScope.launch(Dispatchers.IO) {
-        val links = kuttService.getLinks(apiKeyLiveData.value.orEmpty())
+        _homeScreen.postValue(LoadingModelContainer())
+        val apiKey = ApiKeyRepo.apiKey
+        if (apiKey.isNullOrBlank()) {
+            _homeScreen.postValue(HomeScreenModel.ApiKeyMissing)
+        } else {
+            val response = kuttService.getLinks(ApiKeyRepo.apiKey.orEmpty())
+            // TODO: if you have no links, is data missing or an empty array?
+            _homeScreen.postValue(HomeScreenModel.Content(response.data))
+        }
+    }
 
-        _linksLiveData.postValue(links)
+    fun closeDialog() {
+        val container = _homeScreen.value
+        if (container is HomeScreenModel.Content && container.dialogLink != null) {
+            _homeScreen.value = container.copy(dialogLink = null)
+        }
+    }
+
+    fun openDialog(link: KuttLink) {
+        val container = _homeScreen.value
+        if (container is HomeScreenModel.Content && container.dialogLink == null) {
+            _homeScreen.value = container.copy(dialogLink = link)
+        }
     }
 }

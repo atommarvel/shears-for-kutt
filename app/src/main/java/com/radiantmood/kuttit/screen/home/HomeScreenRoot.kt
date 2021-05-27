@@ -1,36 +1,38 @@
 package com.radiantmood.kuttit.screen.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.radiantmood.kuttit.LocalNavController
 import com.radiantmood.kuttit.SettingsScreen
+import com.radiantmood.kuttit.data.KuttLink
+import com.radiantmood.kuttit.data.LoadingModelContainer
 import com.radiantmood.kuttit.navigate
 import com.radiantmood.kuttit.ui.component.AppBarAction
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
+import com.radiantmood.kuttit.util.Fullscreen
+import com.radiantmood.kuttit.util.ModelContainerContent
 
 private val LocalHomeViewModel =
     compositionLocalOf<HomeViewModel> { error("No HomeViewModel") }
@@ -38,6 +40,7 @@ private val LocalHomeViewModel =
 @Composable
 fun HomeScreenRoot() {
     val vm: HomeViewModel = viewModel()
+    vm.getLinks()
     CompositionLocalProvider(
         LocalHomeViewModel provides vm
     ) {
@@ -66,37 +69,62 @@ fun HomeAppBar() {
 
 @Composable
 fun HomeBody() {
-    Text("Hello home")
+    val vm = LocalHomeViewModel.current
+    val modelContainer by vm.homeScreen.observeAsState(LoadingModelContainer())
+    ModelContainerContent(modelContainer) { screenModel ->
+        when (screenModel) {
+            is HomeScreenModel.ApiKeyMissing -> ApiKeyMissing()
+            is HomeScreenModel.Content -> UserLinks(screenModel)
+        }
+    }
 }
 
 @Composable
-fun Links() {
-    val vm: HomeViewModel = viewModel()
-    val apiKey by vm.apiKeyLiveData.observeAsState()
-    val response by vm.linksLiveData.observeAsState()
-    var passwordVisibility: Boolean by remember { mutableStateOf(false) }
-
-    Column {
-        TextField(
-            value = apiKey.orEmpty(),
-            onValueChange = { vm.updateApiKey(it) },
-            visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
-            trailingIcon = {
-                IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
-                    Icon(
-                        if (passwordVisibility) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                        "show/hide key"
-                    )
-                }
-            },
+fun ApiKeyMissing() {
+    val nav = LocalNavController.current
+    Fullscreen {
+        Text(
+            """
+                Shears currently only supports logged-in users. 
+                Please go to settings and add your API key.
+            """.trimIndent(),
+            textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { vm.getLinks() }) {
-            Text("Get Links")
+        Button(onClick = { nav.navigate(SettingsScreen) }) {
+            Icon(imageVector = Icons.Default.Settings, contentDescription = "Settings")
+            Text("Settings")
         }
-        response?.let {
-            it.data.forEach { link ->
+    }
+}
+
+@Composable
+fun UserLinks(content: HomeScreenModel.Content) {
+    val vm = LocalHomeViewModel.current
+    Column(
+        Modifier.fillMaxSize()
+    ) {
+        LinkDialog(content.dialogLink)
+        Spacer(modifier = Modifier.height(16.dp))
+        content.links.forEach { link ->
+            Row(
+                modifier = Modifier
+                    .clickable { vm.openDialog(link) }
+                    .padding(16.dp)
+            ) {
                 Text("${link.link} → ${link.target}")
+            }
+        }
+    }
+}
+
+@Composable
+fun LinkDialog(link: KuttLink?) {
+    val vm = LocalHomeViewModel.current
+    link?.let {
+        Dialog(onDismissRequest = { vm.closeDialog() }) {
+            Surface {
+                Text("Hello ${link.target}")
             }
         }
     }
