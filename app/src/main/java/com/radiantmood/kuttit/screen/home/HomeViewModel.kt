@@ -24,6 +24,7 @@ class HomeViewModel : ViewModel() {
         if (apiKey.isNullOrBlank()) {
             _homeScreen.postValue(HomeScreenModel.ApiKeyMissing)
         } else {
+            // TODO: try/catch system for requests to prevent crashes
             val response = kuttService.getLinks(ApiKeyRepo.apiKey.orEmpty())
             // TODO: if you have no links, is data missing or an empty array?
             val items = mutableListOf<KuttLink>().apply {
