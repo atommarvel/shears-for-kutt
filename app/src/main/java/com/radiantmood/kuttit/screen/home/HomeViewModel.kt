@@ -26,7 +26,19 @@ class HomeViewModel : ViewModel() {
         } else {
             val response = kuttService.getLinks(ApiKeyRepo.apiKey.orEmpty())
             // TODO: if you have no links, is data missing or an empty array?
-            _homeScreen.postValue(HomeScreenModel.Content(response.data))
+            val items = mutableListOf<KuttLink>().apply {
+                addAll(response.data)
+                // TODO: be sure to remove this in the future!
+                // artificially make list of links longer to test longer lists
+                for (i in 0..5) {
+                    add(
+                        response.data.first().copy(
+                            id = "id_$i"
+                        )
+                    )
+                }
+            }
+            _homeScreen.postValue(HomeScreenModel.Content(items))
         }
     }
 

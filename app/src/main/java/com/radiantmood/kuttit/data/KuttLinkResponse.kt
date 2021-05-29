@@ -16,8 +16,8 @@ data class KuttLink(
     val created_at: String, //date-time
     val updated_at: String?, //date-time
     val address: String?,
-    val link: String?,
-    val target: String?,
+    val link: String,
+    val target: String,
     val description: String?,
     val password: Boolean,
     val visit_count: Int,

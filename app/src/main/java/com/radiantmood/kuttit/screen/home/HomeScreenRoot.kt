@@ -1,12 +1,13 @@
 package com.radiantmood.kuttit.screen.home
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
@@ -100,19 +101,27 @@ fun ApiKeyMissing() {
 
 @Composable
 fun UserLinks(content: HomeScreenModel.Content) {
-    val vm = LocalHomeViewModel.current
     Column(
         Modifier.fillMaxSize()
     ) {
         LinkDialog(content.dialogLink)
         Spacer(modifier = Modifier.height(16.dp))
-        content.links.forEach { link ->
-            Row(
-                modifier = Modifier
-                    .clickable { vm.openDialog(link) }
-                    .padding(16.dp)
-            ) {
-                Text("${link.link} → ${link.target}")
+        UserLinkList(content)
+    }
+}
+
+@Composable
+private fun UserLinkList(
+    content: HomeScreenModel.Content
+) {
+    val vm = LocalHomeViewModel.current
+    LazyColumn {
+        items(content.links, key = { it.id }) { link ->
+            // TODO: verify that beta08 fixes lazycolumn bugs :(
+            Box(modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)) {
+                KuttLinkCard(link) {
+                    vm.openDialog(link)
+                }
             }
         }
     }
