@@ -48,7 +48,6 @@ private val LocalScaffoldState =
 fun HomeScreenRoot() {
     val vm: HomeViewModel = viewModel()
     val scaffoldState = rememberScaffoldState()
-    vm.getLinks()
     CompositionLocalProvider(
         LocalHomeViewModel provides vm,
         LocalScaffoldState provides scaffoldState
@@ -125,7 +124,7 @@ fun Overlays(content: HomeScreenModel.Content) {
     val scope = rememberCoroutineScope()
     val snackbarHostState = LocalScaffoldState.current.snackbarHostState
     val snackbarMessage by vm.snackbar.observeAsState()
-    snackbarMessage?.let {
+    snackbarMessage?.getContentIfNotHandled()?.let {
         scope.launch {
             snackbarHostState.showSnackbar(it)
         }

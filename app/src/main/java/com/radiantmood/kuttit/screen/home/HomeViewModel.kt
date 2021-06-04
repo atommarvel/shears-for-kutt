@@ -9,7 +9,7 @@ import com.radiantmood.kuttit.data.LoadingModelContainer
 import com.radiantmood.kuttit.data.ModelContainer
 import com.radiantmood.kuttit.data.RetrofitBuilder.kuttService
 import com.radiantmood.kuttit.repo.ApiKeyRepo
-import com.radiantmood.kuttit.util.SingleLiveEvent
+import com.radiantmood.kuttit.util.Event
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -19,8 +19,12 @@ class HomeViewModel : ViewModel() {
         MutableLiveData<ModelContainer<HomeScreenModel>>(LoadingModelContainer())
     val homeScreen: LiveData<ModelContainer<HomeScreenModel>> get() = _homeScreen
 
-    private var _snackbar = SingleLiveEvent<String?>()
-    val snackbar: LiveData<String?> get() = _snackbar
+    private var _snackbar = MutableLiveData<Event<String>>()
+    val snackbar: LiveData<Event<String>> get() = _snackbar
+
+    init {
+        getLinks()
+    }
 
     fun getLinks() = viewModelScope.launch(Dispatchers.IO) {
         _homeScreen.postValue(LoadingModelContainer())
@@ -34,7 +38,7 @@ class HomeViewModel : ViewModel() {
             val items = mutableListOf<KuttLink>().apply {
                 addAll(response.data)
             }
-            _snackbar.postValue("finished fetching data!")
+            _snackbar.postValue(Event("finished fetching data!"))
             _homeScreen.postValue(HomeScreenModel.Content(items))
         }
     }
