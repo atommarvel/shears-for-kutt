@@ -38,7 +38,6 @@ class HomeViewModel : ViewModel() {
             val items = mutableListOf<KuttLink>().apply {
                 addAll(response.data)
             }
-            _snackbar.postValue(Event("finished fetching data!"))
             _homeScreen.postValue(HomeScreenModel.Content(items))
         }
     }
