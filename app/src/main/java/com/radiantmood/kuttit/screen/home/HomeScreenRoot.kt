@@ -4,11 +4,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
@@ -19,6 +20,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -28,6 +30,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import com.radiantmood.kuttit.LocalNavController
 import com.radiantmood.kuttit.SettingsScreen
 import com.radiantmood.kuttit.data.KuttLink
@@ -36,6 +41,7 @@ import com.radiantmood.kuttit.navigate
 import com.radiantmood.kuttit.ui.component.AppBarAction
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
 import com.radiantmood.kuttit.util.Fullscreen
+import com.radiantmood.kuttit.util.LoadingScreen
 import com.radiantmood.kuttit.util.ModelContainerContent
 import kotlinx.coroutines.launch
 
@@ -137,12 +143,42 @@ private fun UserLinkList(
     content: HomeScreenModel.Content
 ) {
     val vm = LocalHomeViewModel.current
+    val lazyLinks = content.kuttLinkPager.flow.collectAsLazyPagingItems()
     LazyColumn {
-        items(content.links, key = { it.id }) { link ->
-            // TODO: verify that beta08 fixes lazycolumn bugs :(
-            Box(modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)) {
-                KuttLinkCard(link) {
-                    vm.openDialog(link)
+        items(lazyLinks) { link ->
+            KuttLinkCardListItem(link)
+        }
+
+        lazyLinks.apply {
+            when {
+                loadState.refresh is LoadState.Loading -> {
+                    item { LoadingScreen() }
+                }
+                loadState.append is LoadState.Loading -> {
+                    item {
+                        Box(
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp, horizontal = 16.dp)) {
+                            CircularProgressIndicator()
+                        }
+                    }
+                }
+                loadState.refresh is LoadState.Error -> {
+                    val e = (loadState.refresh as LoadState.Error).error
+                    item {
+                        SideEffect {
+                            vm.onError(e)
+                        }
+                    }
+                }
+                loadState.append is LoadState.Error -> {
+                    val e = (loadState.append as LoadState.Error).error
+                    item {
+                        SideEffect {
+                            vm.onError(e)
+                        }
+                    }
                 }
             }
         }
@@ -156,6 +192,18 @@ fun LinkDialog(link: KuttLink?) {
         Dialog(onDismissRequest = { vm.closeDialog() }) {
             Surface {
                 Text("Hello ${link.target}")
+            }
+        }
+    }
+}
+
+@Composable
+fun KuttLinkCardListItem(link: KuttLink?) {
+    val vm = LocalHomeViewModel.current
+    link?.let {
+        Box(modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)) {
+            KuttLinkCard(link) {
+                vm.openDialog(link)
             }
         }
     }

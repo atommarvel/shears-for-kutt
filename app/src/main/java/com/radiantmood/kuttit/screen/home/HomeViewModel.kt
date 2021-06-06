@@ -4,10 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import com.radiantmood.kuttit.data.KuttLink
 import com.radiantmood.kuttit.data.LoadingModelContainer
 import com.radiantmood.kuttit.data.ModelContainer
-import com.radiantmood.kuttit.data.RetrofitBuilder.kuttService
 import com.radiantmood.kuttit.repo.ApiKeyRepo
 import com.radiantmood.kuttit.util.Event
 import kotlinx.coroutines.Dispatchers
@@ -18,6 +19,8 @@ class HomeViewModel : ViewModel() {
     private var _homeScreen =
         MutableLiveData<ModelContainer<HomeScreenModel>>(LoadingModelContainer())
     val homeScreen: LiveData<ModelContainer<HomeScreenModel>> get() = _homeScreen
+
+    private val kuttLinkPager: Pager<Int, KuttLink> = Pager(PagingConfig(10)) { KuttLinkSource() }
 
     private var _snackbar = MutableLiveData<Event<String>>()
     val snackbar: LiveData<Event<String>> get() = _snackbar
@@ -32,20 +35,7 @@ class HomeViewModel : ViewModel() {
         if (apiKey.isNullOrBlank()) {
             _homeScreen.postValue(HomeScreenModel.ApiKeyMissing)
         } else {
-            fetchLinks()
-        }
-    }
-
-    private suspend fun fetchLinks() {
-        try {
-            val response = kuttService.getLinks(ApiKeyRepo.apiKey.orEmpty())
-            // TODO: if you have no links, is data missing or an empty array?
-            val items = mutableListOf<KuttLink>().apply {
-                addAll(response.data)
-            }
-            _homeScreen.postValue(HomeScreenModel.Content(items))
-        } catch (e: Exception) {
-            _snackbar.postValue(Event("There was a problem fetching your links."))
+            _homeScreen.postValue(HomeScreenModel.Content(kuttLinkPager))
         }
     }
 
@@ -61,5 +51,9 @@ class HomeViewModel : ViewModel() {
         if (container is HomeScreenModel.Content && container.dialogLink == null) {
             _homeScreen.value = container.copy(dialogLink = link)
         }
+    }
+
+    fun onError(e: Throwable) {
+        _snackbar.postValue(Event(e.localizedMessage.orEmpty()))
     }
 }

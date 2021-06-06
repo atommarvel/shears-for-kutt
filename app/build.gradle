@@ -65,6 +65,7 @@ dependencies {
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
     implementation "androidx.compose.runtime:runtime:$compose_version"
+    implementation "androidx.paging:paging-compose:1.0.0-alpha10"
 
 
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
