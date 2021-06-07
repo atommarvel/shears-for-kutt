@@ -8,6 +8,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.NamedNavArgument
 import androidx.navigation.compose.composable
+import com.radiantmood.kuttit.screen.create.CreateScreenRoot
 import com.radiantmood.kuttit.screen.home.HomeScreenRoot
 import com.radiantmood.kuttit.screen.settings.SettingsScreenRoot
 
@@ -23,6 +24,8 @@ object HomeScreen : ComposableScreen(route = "home_screen", content = { HomeScre
 
 object SettingsScreen :
     ComposableScreen(route = "settings_screen", content = { SettingsScreenRoot() })
+
+object CreateScreen : ComposableScreen(route = "create_screen", content = { CreateScreenRoot() })
 //endregion
 
 //region ComposeableScreen helpers

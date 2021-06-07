@@ -10,12 +10,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -33,6 +36,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
+import com.radiantmood.kuttit.CreateScreen
 import com.radiantmood.kuttit.LocalNavController
 import com.radiantmood.kuttit.SettingsScreen
 import com.radiantmood.kuttit.data.KuttLink
@@ -67,6 +71,7 @@ fun HomeScreen() {
     Scaffold(
         scaffoldState = LocalScaffoldState.current,
         topBar = { HomeAppBar() },
+        floatingActionButton = { Fab() },
     ) {
         HomeBody()
     }
@@ -91,6 +96,17 @@ fun HomeBody() {
             is HomeScreenModel.ApiKeyMissing -> ApiKeyMissing()
             is HomeScreenModel.Content -> UserLinks(screenModel)
         }
+    }
+}
+
+@Composable
+fun Fab() {
+    val nav = LocalNavController.current
+    FloatingActionButton(
+        onClick = { nav.navigate(CreateScreen) },
+        backgroundColor = MaterialTheme.colors.primary,
+    ) {
+        Icon(imageVector = Icons.Default.Add, contentDescription = "Create new link")
     }
 }
 
@@ -129,6 +145,7 @@ fun Overlays(content: HomeScreenModel.Content) {
     val vm = LocalHomeViewModel.current
     val scope = rememberCoroutineScope()
     val snackbarHostState = LocalScaffoldState.current.snackbarHostState
+    // TODO: make snackbar stuff
     val snackbarMessage by vm.snackbar.observeAsState()
     snackbarMessage?.getContentIfNotHandled()?.let {
         scope.launch {
