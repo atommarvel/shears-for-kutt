@@ -3,6 +3,7 @@ package com.radiantmood.kuttit.screen.create
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavHostController
 import com.radiantmood.kuttit.data.LoadingModelContainer
 import com.radiantmood.kuttit.data.ModelContainer
 
@@ -18,32 +19,39 @@ class CreateViewModel : ViewModel() {
 
     private fun setupDefaultModel() {
         _createScreen.value = CreateScreenModel(
-            targetUrl = null, // TODO: could we grab the data from the clipboard?
-            currentDomain = KUTT_IT, // TODO: allow user to default to their custom domain in domain management.
+            targetUrl = "", // TODO: could we grab the data from the clipboard?
+            currentDomain = 0, // TODO: allow user to default to their custom domain in domain management.
             domains = listOf(KUTT_IT),
-            path = null,
-            password = null,
-            expires = null,
-            description = null
+            path = "",
+            password = "",
+            expires = "",
+            description = ""
         )
     }
 
-    fun onTargetUrlChanged(url: String?) = onChange { it.copy(targetUrl = url) }
+    fun onTargetUrlChanged(url: String) = onChange { it.copy(targetUrl = url) }
 
-    fun onDomainChanged(domain: String) = onChange { it.copy(currentDomain = domain) }
+    fun onDomainChanged(domain: Int) = onChange { it.copy(currentDomain = domain) }
 
-    fun onPathChanged(path: String?) = onChange { it.copy(path = path) }
+    fun onPathChanged(path: String) = onChange { it.copy(path = path) }
 
-    fun onPasswordChanged(password: String?) = onChange { it.copy(password = password) }
+    fun onPasswordChanged(password: String) = onChange { it.copy(password = password) }
 
-    fun onExpiresChanged(expires: String?) = onChange { it.copy(expires = expires) }
+    fun onExpiresChanged(expires: String) = onChange { it.copy(expires = expires) }
 
-    fun onDescriptionChanged(description: String?) = onChange { it.copy(description = description) }
+    fun onDescriptionChanged(description: String) = onChange { it.copy(description = description) }
 
     private inline fun onChange(block: (CreateScreenModel) -> CreateScreenModel) {
         model?.let {
             _createScreen.value = block(it)
         }
+    }
+
+    fun createLink(nav: NavHostController) {
+        // TODO: update UI to show we are talking to Kutt. Disable all fields?
+        // TODO: make api call
+        // TODO: navigate back home with UX indicating success
+        // TODO: if failed, show snackbar and re-enable UI
     }
 
     companion object {

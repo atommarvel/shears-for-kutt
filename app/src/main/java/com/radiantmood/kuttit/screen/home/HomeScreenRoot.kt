@@ -14,7 +14,6 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -38,6 +37,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.radiantmood.kuttit.CreateScreen
 import com.radiantmood.kuttit.LocalNavController
+import com.radiantmood.kuttit.LocalScaffoldState
 import com.radiantmood.kuttit.SettingsScreen
 import com.radiantmood.kuttit.data.KuttLink
 import com.radiantmood.kuttit.data.LoadingModelContainer
@@ -51,8 +51,6 @@ import kotlinx.coroutines.launch
 
 private val LocalHomeViewModel =
     compositionLocalOf<HomeViewModel> { error("No HomeViewModel") }
-private val LocalScaffoldState =
-    compositionLocalOf<ScaffoldState> { error("No ScaffoldState") }
 
 @Composable
 fun HomeScreenRoot() {

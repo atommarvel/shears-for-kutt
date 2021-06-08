@@ -1,5 +1,6 @@
 package com.radiantmood.kuttit
 
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -10,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import com.radiantmood.kuttit.ui.theme.KuttItTheme
 
 val LocalNavController = compositionLocalOf<NavHostController> { error("No NavController") }
+val LocalScaffoldState = compositionLocalOf<ScaffoldState> { error("No ScaffoldState") }
 
 @Composable
 fun ComposeRoot() {
