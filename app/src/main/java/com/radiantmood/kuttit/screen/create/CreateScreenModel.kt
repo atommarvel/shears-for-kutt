@@ -9,5 +9,6 @@ data class CreateScreenModel(
     val path: String,
     val password: String,
     val expires: String,
-    val description: String
+    val description: String,
+    val fieldsEnabled: Boolean
 ) : FinishedModelContainer<CreateScreenModel>()

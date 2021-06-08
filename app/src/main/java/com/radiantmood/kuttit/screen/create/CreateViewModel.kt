@@ -3,9 +3,13 @@ package com.radiantmood.kuttit.screen.create
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.radiantmood.kuttit.data.LoadingModelContainer
 import com.radiantmood.kuttit.data.ModelContainer
+import com.radiantmood.kuttit.util.postSnackbar
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class CreateViewModel : ViewModel() {
     private var _createScreen =
@@ -25,7 +29,8 @@ class CreateViewModel : ViewModel() {
             path = "",
             password = "",
             expires = "",
-            description = ""
+            description = "",
+            fieldsEnabled = true,
         )
     }
 
@@ -43,15 +48,22 @@ class CreateViewModel : ViewModel() {
 
     private inline fun onChange(block: (CreateScreenModel) -> CreateScreenModel) {
         model?.let {
-            _createScreen.value = block(it)
+            _createScreen.postValue(block(it))
         }
     }
 
-    fun createLink(nav: NavHostController) {
+    private fun setFieldAbleness(enabled: Boolean) = onChange { it.copy(fieldsEnabled = enabled) }
+
+    fun createLink(nav: NavHostController) = viewModelScope.launch {
+        // RESUME
         // TODO: update UI to show we are talking to Kutt. Disable all fields?
+        setFieldAbleness(false)
         // TODO: make api call
+        postSnackbar("TODO: This is the part where a network call gets made")
+        delay(1000L)
         // TODO: navigate back home with UX indicating success
         // TODO: if failed, show snackbar and re-enable UI
+        setFieldAbleness(true)
     }
 
     companion object {

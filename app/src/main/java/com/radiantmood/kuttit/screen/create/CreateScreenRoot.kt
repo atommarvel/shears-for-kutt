@@ -113,7 +113,8 @@ fun CreateForm(model: CreateScreenModel) {
                 value = model.targetUrl,
                 onValueChange = { vm.onTargetUrlChanged(it) },
                 label = { Text("URL to shorten") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                enabled = model.fieldsEnabled,
             )
             Spacer(Modifier.height(32.dp))
         }
@@ -130,7 +131,8 @@ fun CreateForm(model: CreateScreenModel) {
                 value = model.path,
                 onValueChange = { vm.onPathChanged(it) },
                 label = { Text("Custom path") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                enabled = model.fieldsEnabled,
             )
             Spacer(Modifier.height(16.dp))
         }
@@ -139,7 +141,8 @@ fun CreateForm(model: CreateScreenModel) {
                 value = model.password,
                 onValueChange = { vm.onPasswordChanged(it) },
                 label = { Text("Password") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                enabled = model.fieldsEnabled,
             )
             Spacer(Modifier.height(16.dp))
         }
@@ -149,7 +152,8 @@ fun CreateForm(model: CreateScreenModel) {
                 onValueChange = { vm.onExpiresChanged(it) },
                 label = { Text("Expire in") },
                 placeholder = { Text("2 minutes/hours/days") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                enabled = model.fieldsEnabled,
             )
             Spacer(Modifier.height(16.dp))
         }
@@ -158,7 +162,8 @@ fun CreateForm(model: CreateScreenModel) {
                 value = model.description,
                 onValueChange = { vm.onDescriptionChanged(it) },
                 label = { Text("Description") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                enabled = model.fieldsEnabled,
             )
         }
 
@@ -180,7 +185,8 @@ fun DomainDropdown(model: CreateScreenModel) {
             )
             Spacer(Modifier.width(8.dp))
             Box {
-                Button(onClick = { expanded = true }, enabled = !expanded) {
+                // TODO: why does this button not disable until after the first time interacting with it? is this a me issue or a compose issue?
+                Button(onClick = { expanded = true }, enabled = !expanded && model.fieldsEnabled) {
                     Text(model.domains[model.currentDomain])
                     Icon(Icons.Default.ExpandMore, "Show domain choices")
                 }
