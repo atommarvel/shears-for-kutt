@@ -10,7 +10,6 @@ import com.radiantmood.kuttit.data.KuttLink
 import com.radiantmood.kuttit.data.LoadingModelContainer
 import com.radiantmood.kuttit.data.ModelContainer
 import com.radiantmood.kuttit.repo.ApiKeyRepo
-import com.radiantmood.kuttit.util.Event
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -21,9 +20,6 @@ class HomeViewModel : ViewModel() {
     val homeScreen: LiveData<ModelContainer<HomeScreenModel>> get() = _homeScreen
 
     private val kuttLinkPager: Pager<Int, KuttLink> = Pager(PagingConfig(10)) { KuttLinkSource() }
-
-    private var _snackbar = MutableLiveData<Event<String>>()
-    val snackbar: LiveData<Event<String>> get() = _snackbar
 
     init {
         getLinks()
@@ -51,9 +47,5 @@ class HomeViewModel : ViewModel() {
         if (container is HomeScreenModel.Content && container.dialogLink == null) {
             _homeScreen.value = container.copy(dialogLink = link)
         }
-    }
-
-    fun onError(e: Throwable) {
-        _snackbar.postValue(Event(e.localizedMessage.orEmpty()))
     }
 }

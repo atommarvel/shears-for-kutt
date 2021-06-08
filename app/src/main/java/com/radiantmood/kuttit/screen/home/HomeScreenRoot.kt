@@ -22,7 +22,6 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -45,9 +44,10 @@ import com.radiantmood.kuttit.navigate
 import com.radiantmood.kuttit.ui.component.AppBarAction
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
 import com.radiantmood.kuttit.util.Fullscreen
+import com.radiantmood.kuttit.util.KuttSnackbar
 import com.radiantmood.kuttit.util.LoadingScreen
 import com.radiantmood.kuttit.util.ModelContainerContent
-import kotlinx.coroutines.launch
+import com.radiantmood.kuttit.util.postSnackbar
 
 private val LocalHomeViewModel =
     compositionLocalOf<HomeViewModel> { error("No HomeViewModel") }
@@ -140,16 +140,7 @@ fun UserLinks(content: HomeScreenModel.Content) {
 
 @Composable
 fun Overlays(content: HomeScreenModel.Content) {
-    val vm = LocalHomeViewModel.current
-    val scope = rememberCoroutineScope()
-    val snackbarHostState = LocalScaffoldState.current.snackbarHostState
-    // TODO: make snackbar stuff
-    val snackbarMessage by vm.snackbar.observeAsState()
-    snackbarMessage?.getContentIfNotHandled()?.let {
-        scope.launch {
-            snackbarHostState.showSnackbar(it)
-        }
-    }
+    KuttSnackbar()
     LinkDialog(content.dialogLink)
 }
 
@@ -157,7 +148,7 @@ fun Overlays(content: HomeScreenModel.Content) {
 private fun UserLinkList(
     content: HomeScreenModel.Content
 ) {
-    val vm = LocalHomeViewModel.current
+    val scope = rememberCoroutineScope()
     val lazyLinks = content.kuttLinkPager.flow.collectAsLazyPagingItems()
     LazyColumn {
         items(lazyLinks) { link ->
@@ -182,17 +173,13 @@ private fun UserLinkList(
                 loadState.refresh is LoadState.Error -> {
                     val e = (loadState.refresh as LoadState.Error).error
                     item {
-                        SideEffect {
-                            vm.onError(e)
-                        }
+                        scope.postSnackbar(e)
                     }
                 }
                 loadState.append is LoadState.Error -> {
                     val e = (loadState.append as LoadState.Error).error
                     item {
-                        SideEffect {
-                            vm.onError(e)
-                        }
+                        scope.postSnackbar(e)
                     }
                 }
             }
