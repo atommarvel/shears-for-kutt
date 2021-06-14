@@ -28,7 +28,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,11 +42,11 @@ import com.radiantmood.kuttit.ui.component.AppBarAction
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
 import com.radiantmood.kuttit.util.KuttSnackbar
 import com.radiantmood.kuttit.util.ModelContainerContent
-import com.radiantmood.kuttit.util.postSnackbar
 
 private val LocalCreateViewModel =
     compositionLocalOf<CreateViewModel> { error("No CreateViewModel") }
 
+// TODO: 'create' is too loaded of a verb to use as a noun. Rename all usages of create please!
 @Composable
 fun CreateScreenRoot() {
     val vm: CreateViewModel = viewModel()
@@ -62,9 +61,6 @@ fun CreateScreenRoot() {
 
 @Composable
 fun CreateScreen() {
-    // RESUME
-    // TODO: set up submit apis in vm
-
     Scaffold(
         scaffoldState = LocalScaffoldState.current,
         topBar = { CreateAppBar() }
@@ -84,10 +80,8 @@ fun CreateScreen() {
 fun CreateAppBar() {
     val nav = LocalNavController.current
     val vm = LocalCreateViewModel.current
-    val scope = rememberCoroutineScope()
     KuttTopAppBar(title = "Create") {
         AppBarAction(imageVector = Icons.Default.Send) {
-            scope.postSnackbar("TODO: implement create link")
             vm.createLink(nav)
         }
     }

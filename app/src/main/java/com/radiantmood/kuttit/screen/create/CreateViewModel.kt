@@ -7,15 +7,17 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.radiantmood.kuttit.data.LoadingModelContainer
 import com.radiantmood.kuttit.data.ModelContainer
+import com.radiantmood.kuttit.data.NewKuttLinkBody
+import com.radiantmood.kuttit.data.RetrofitBuilder.kuttService
+import com.radiantmood.kuttit.repo.ApiKeyRepo
 import com.radiantmood.kuttit.util.postSnackbar
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class CreateViewModel : ViewModel() {
     private var _createScreen =
         MutableLiveData<ModelContainer<CreateScreenModel>>(LoadingModelContainer())
     val createScreen: LiveData<ModelContainer<CreateScreenModel>> get() = _createScreen
-    private val model: CreateScreenModel? get() = (_createScreen.value as? CreateScreenModel)
+    private val screenModel: CreateScreenModel? get() = (_createScreen.value as? CreateScreenModel)
 
     init {
         setupDefaultModel()
@@ -47,23 +49,37 @@ class CreateViewModel : ViewModel() {
     fun onDescriptionChanged(description: String) = onChange { it.copy(description = description) }
 
     private inline fun onChange(block: (CreateScreenModel) -> CreateScreenModel) {
-        model?.let {
+        screenModel?.let {
             _createScreen.postValue(block(it))
         }
     }
 
-    private fun setFieldAbleness(enabled: Boolean) = onChange { it.copy(fieldsEnabled = enabled) }
+    private fun setFieldsEnabled(enabled: Boolean) = onChange { it.copy(fieldsEnabled = enabled) }
 
+    private fun createNewKuttLinkBody(model: CreateScreenModel): NewKuttLinkBody = with(model) {
+        NewKuttLinkBody(
+            targetUrl = targetUrl,
+            description = description,
+            expires = expires,
+            password = password,
+            path = path,
+            domain = if (currentDomain != 0) domains[currentDomain] else null,
+        )
+    }
+
+    // TODO: test that this works
     fun createLink(nav: NavHostController) = viewModelScope.launch {
-        // RESUME
-        // TODO: update UI to show we are talking to Kutt. Disable all fields?
-        setFieldAbleness(false)
-        // TODO: make api call
-        postSnackbar("TODO: This is the part where a network call gets made")
-        delay(1000L)
-        // TODO: navigate back home with UX indicating success
-        // TODO: if failed, show snackbar and re-enable UI
-        setFieldAbleness(true)
+        setFieldsEnabled(false)
+        try {
+            val apiKey = checkNotNull(ApiKeyRepo.apiKey) { "API key is missing" }
+            val model = checkNotNull(screenModel) { "Something went wrong" }
+            kuttService.postLink(apiKey, createNewKuttLinkBody(model))
+            nav.popBackStack() // TODO: UX feedback that link was created successfully?
+        } catch (e: Exception) {
+            postSnackbar(e)
+        } finally {
+            setFieldsEnabled(true)
+        }
     }
 
     companion object {
