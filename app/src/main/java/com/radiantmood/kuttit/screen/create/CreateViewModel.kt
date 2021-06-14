@@ -67,7 +67,6 @@ class CreateViewModel : ViewModel() {
         )
     }
 
-    // TODO: test that this works
     fun createLink(nav: NavHostController) = viewModelScope.launch {
         setFieldsEnabled(false)
         try {
