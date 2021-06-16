@@ -39,7 +39,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
-import com.radiantmood.kuttit.CreateScreen
+import com.radiantmood.kuttit.CreationScreen
 import com.radiantmood.kuttit.LocalNavController
 import com.radiantmood.kuttit.LocalScaffoldState
 import com.radiantmood.kuttit.SettingsScreen
@@ -106,7 +106,7 @@ fun HomeBody() {
 fun Fab() {
     val nav = LocalNavController.current
     FloatingActionButton(
-        onClick = { nav.navigate(CreateScreen) },
+        onClick = { nav.navigate(CreationScreen) },
         backgroundColor = MaterialTheme.colors.primary,
     ) {
         Icon(imageVector = Icons.Default.Add, contentDescription = "Create new link")
@@ -192,8 +192,6 @@ private fun UserLinkList(
     }
 }
 
-// RESUME
-// TODO: act on modal options
 @Composable
 fun LinkDialog(link: KuttLink?) {
     val vm = LocalHomeViewModel.current
@@ -227,7 +225,7 @@ fun LinkDialog(link: KuttLink?) {
                         modifier = Modifier
                             .clickable {
                                 // TODO: link updating
-                                scope.postSnackbar("TODO: link updating coming soon!")
+                                scope.postSnackbar("TODO: link updating is coming soon!")
                                 vm.closeDialog()
                             }
                             .padding(16.dp)

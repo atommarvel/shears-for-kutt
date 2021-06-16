@@ -1,8 +1,8 @@
-package com.radiantmood.kuttit.screen.create
+package com.radiantmood.kuttit.screen.creation
 
 import com.radiantmood.kuttit.data.FinishedModelContainer
 
-data class CreateScreenModel(
+data class CreationScreenModel(
     val targetUrl: String,
     val currentDomain: Int,
     val domains: List<String>,
@@ -10,5 +10,5 @@ data class CreateScreenModel(
     val password: String,
     val expires: String,
     val description: String,
-    val fieldsEnabled: Boolean
-) : FinishedModelContainer<CreateScreenModel>()
+    val fieldsEnabled: Boolean,
+) : FinishedModelContainer<CreationScreenModel>()

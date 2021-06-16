@@ -1,4 +1,4 @@
-package com.radiantmood.kuttit.screen.create
+package com.radiantmood.kuttit.screen.creation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,21 +13,22 @@ import com.radiantmood.kuttit.repo.ApiKeyRepo
 import com.radiantmood.kuttit.util.postSnackbar
 import kotlinx.coroutines.launch
 
-class CreateViewModel : ViewModel() {
-    private var _createScreen =
-        MutableLiveData<ModelContainer<CreateScreenModel>>(LoadingModelContainer())
-    val createScreen: LiveData<ModelContainer<CreateScreenModel>> get() = _createScreen
-    private val screenModel: CreateScreenModel? get() = (_createScreen.value as? CreateScreenModel)
+class CreationViewModel : ViewModel() {
+    private var _creationScreen =
+        MutableLiveData<ModelContainer<CreationScreenModel>>(LoadingModelContainer())
+    val creationScreen: LiveData<ModelContainer<CreationScreenModel>> get() = _creationScreen
+    private val screenModel: CreationScreenModel? get() = (_creationScreen.value as? CreationScreenModel)
 
     init {
         setupDefaultModel()
     }
 
     private fun setupDefaultModel() {
-        _createScreen.value = CreateScreenModel(
+        _creationScreen.value = CreationScreenModel(
             targetUrl = "", // TODO: could we grab the data from the clipboard?
             currentDomain = 0, // TODO: allow user to default to their custom domain in domain management.
-            domains = listOf(KUTT_IT),
+            domains = listOf(KUTT_IT,
+                "radiantmood.com"), // TODO: get domains from the domain repository
             path = "",
             password = "",
             expires = "",
@@ -48,15 +49,15 @@ class CreateViewModel : ViewModel() {
 
     fun onDescriptionChanged(description: String) = onChange { it.copy(description = description) }
 
-    private inline fun onChange(block: (CreateScreenModel) -> CreateScreenModel) {
+    private inline fun onChange(block: (CreationScreenModel) -> CreationScreenModel) {
         screenModel?.let {
-            _createScreen.postValue(block(it))
+            _creationScreen.postValue(block(it))
         }
     }
 
     private fun setFieldsEnabled(enabled: Boolean) = onChange { it.copy(fieldsEnabled = enabled) }
 
-    private fun createNewKuttLinkBody(model: CreateScreenModel): NewKuttLinkBody = with(model) {
+    private fun createNewKuttLinkBody(model: CreationScreenModel): NewKuttLinkBody = with(model) {
         NewKuttLinkBody(
             targetUrl = targetUrl,
             description = description,

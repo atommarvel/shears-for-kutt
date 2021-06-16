@@ -1,4 +1,4 @@
-package com.radiantmood.kuttit.screen.create
+package com.radiantmood.kuttit.screen.creation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -44,26 +44,26 @@ import com.radiantmood.kuttit.util.KuttSnackbar
 import com.radiantmood.kuttit.util.ModelContainerContent
 
 private val LocalCreateViewModel =
-    compositionLocalOf<CreateViewModel> { error("No CreateViewModel") }
+    compositionLocalOf<CreationViewModel> { error("No CreateViewModel") }
 
 // TODO: 'create' is too loaded of a verb to use as a noun. Rename all usages of create please!
 @Composable
-fun CreateScreenRoot() {
-    val vm: CreateViewModel = viewModel()
+fun CreationScreenRoot() {
+    val vm: CreationViewModel = viewModel()
     val scaffoldState = rememberScaffoldState()
     CompositionLocalProvider(
         LocalCreateViewModel provides vm,
         LocalScaffoldState provides scaffoldState
     ) {
-        CreateScreen()
+        CreationScreen()
     }
 }
 
 @Composable
-fun CreateScreen() {
+fun CreationScreen() {
     Scaffold(
         scaffoldState = LocalScaffoldState.current,
-        topBar = { CreateAppBar() }
+        topBar = { CreationAppBar() }
     ) { padding ->
         Box(
             Modifier
@@ -71,13 +71,13 @@ fun CreateScreen() {
                 .padding(horizontal = 16.dp)
         ) {
             KuttSnackbar()
-            CreateBody()
+            CreationBody()
         }
     }
 }
 
 @Composable
-fun CreateAppBar() {
+fun CreationAppBar() {
     val nav = LocalNavController.current
     val vm = LocalCreateViewModel.current
     KuttTopAppBar(title = "Create") {
@@ -88,16 +88,16 @@ fun CreateAppBar() {
 }
 
 @Composable
-fun CreateBody() {
+fun CreationBody() {
     val vm = LocalCreateViewModel.current
-    val modelContainer by vm.createScreen.observeAsState(LoadingModelContainer())
+    val modelContainer by vm.creationScreen.observeAsState(LoadingModelContainer())
     ModelContainerContent(modelContainer) { screenModel ->
-        CreateForm(screenModel)
+        CreationForm(screenModel)
     }
 }
 
 @Composable
-fun CreateForm(model: CreateScreenModel) {
+fun CreationForm(model: CreationScreenModel) {
     val vm = LocalCreateViewModel.current
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -165,7 +165,7 @@ fun CreateForm(model: CreateScreenModel) {
 }
 
 @Composable
-fun DomainDropdown(model: CreateScreenModel) {
+fun DomainDropdown(model: CreationScreenModel) {
     val vm = LocalCreateViewModel.current
     var expanded by remember { mutableStateOf(false) }
     val nav = LocalNavController.current

@@ -38,6 +38,6 @@ fun Navigation() {
     NavHost(navController = LocalNavController.current, startDestination = HomeScreen.route) {
         composableScreen(HomeScreen)
         composableScreen(SettingsScreen)
-        composableScreen(CreateScreen)
+        composableScreen(CreationScreen)
     }
 }
