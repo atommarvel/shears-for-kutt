@@ -27,8 +27,10 @@ class CreationViewModel : ViewModel() {
         _creationScreen.value = CreationScreenModel(
             targetUrl = "", // TODO: could we grab the data from the clipboard?
             currentDomain = 0, // TODO: allow user to default to their custom domain in domain management.
-            domains = listOf(KUTT_IT,
-                "radiantmood.com"), // TODO: get domains from the domain repository
+            domains = listOf(
+                KUTT_IT,
+                "radiantmood.com", // TODO: get domains from the domain repository
+            ),
             path = "",
             password = "",
             expires = "",
