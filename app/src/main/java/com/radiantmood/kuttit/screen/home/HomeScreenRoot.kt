@@ -30,6 +30,8 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -195,6 +197,8 @@ private fun UserLinkList(
 @Composable
 fun LinkDialog(link: KuttLink?) {
     val vm = LocalHomeViewModel.current
+    val clipboardManager = LocalClipboardManager.current
+    val scope = rememberCoroutineScope()
     link?.let {
         Dialog(onDismissRequest = { vm.closeDialog() }) {
             Card {
@@ -202,9 +206,6 @@ fun LinkDialog(link: KuttLink?) {
                     Text(
                         text = link.link,
                         modifier = Modifier
-                            .clickable {
-                                vm.closeDialog()
-                            }
                             .padding(16.dp)
                             .fillMaxWidth(),
                         textAlign = TextAlign.Center
@@ -213,6 +214,8 @@ fun LinkDialog(link: KuttLink?) {
                         text = "Copy to clipboard",
                         modifier = Modifier
                             .clickable {
+                                clipboardManager.setText(AnnotatedString(link.link))
+                                scope.postSnackbar("Link copied.")
                                 vm.closeDialog()
                             }
                             .padding(16.dp)
@@ -223,6 +226,8 @@ fun LinkDialog(link: KuttLink?) {
                         text = "Update",
                         modifier = Modifier
                             .clickable {
+                                // TODO: link updating
+                                scope.postSnackbar("TODO: link updating coming soon!")
                                 vm.closeDialog()
                             }
                             .padding(16.dp)
@@ -233,6 +238,7 @@ fun LinkDialog(link: KuttLink?) {
                         text = "Delete",
                         modifier = Modifier
                             .clickable {
+                                vm.deleteLink(link)
                                 vm.closeDialog()
                             }
                             .padding(16.dp)

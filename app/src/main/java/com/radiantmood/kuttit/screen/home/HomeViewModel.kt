@@ -9,7 +9,9 @@ import androidx.paging.PagingConfig
 import com.radiantmood.kuttit.data.KuttLink
 import com.radiantmood.kuttit.data.LoadingModelContainer
 import com.radiantmood.kuttit.data.ModelContainer
+import com.radiantmood.kuttit.data.RetrofitBuilder.kuttService
 import com.radiantmood.kuttit.repo.ApiKeyRepo
+import com.radiantmood.kuttit.util.postSnackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -46,6 +48,16 @@ class HomeViewModel : ViewModel() {
         val container = _homeScreen.value
         if (container is HomeScreenModel.Content && container.dialogLink == null) {
             _homeScreen.value = container.copy(dialogLink = link)
+        }
+    }
+
+    fun deleteLink(link: KuttLink) = viewModelScope.launch(Dispatchers.IO) {
+        try {
+            val apiKey = checkNotNull(ApiKeyRepo.apiKey) { "API key is missing." }
+            kuttService.deleteLink(apiKey, link.id)
+            postSnackbar("Link deleted.")
+        } catch (e: Exception) {
+            postSnackbar(e)
         }
     }
 }
