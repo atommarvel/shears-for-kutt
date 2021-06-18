@@ -84,7 +84,7 @@ fun HomeScreen() {
 fun HomeAppBar() {
     val nav = LocalNavController.current
     KuttTopAppBar(title = "Shears") {
-        AppBarAction(imageVector = Icons.Default.Settings) {
+        AppBarAction(imageVector = Icons.Default.Settings, contentDescription = "Settings") {
             nav.navigate(SettingsScreen)
         }
     }

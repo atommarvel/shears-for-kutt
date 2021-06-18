@@ -57,7 +57,6 @@ fun SettingsScreenRoot() {
 
 @Composable
 fun SettingsScreen() {
-    // TODO: move dialog show logic to vm and use model container
     val (showHelpDialog, setShowHelpDialog) = remember { mutableStateOf(false) }
     Scaffold(
         topBar = { SettingsAppBar(setShowHelpDialog) },
@@ -69,7 +68,7 @@ fun SettingsScreen() {
 @Composable
 fun SettingsAppBar(setShowHelpDialog: (Boolean) -> Unit) {
     KuttTopAppBar(title = "Settings") {
-        AppBarAction(imageVector = Icons.Default.Help) {
+        AppBarAction(imageVector = Icons.Default.Help, contentDescription = "Help") {
             setShowHelpDialog(true)
         }
     }

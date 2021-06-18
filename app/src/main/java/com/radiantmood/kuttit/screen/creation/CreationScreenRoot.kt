@@ -81,7 +81,7 @@ fun CreationAppBar() {
     val nav = LocalNavController.current
     val vm = LocalCreateViewModel.current
     KuttTopAppBar(title = "Create") {
-        AppBarAction(imageVector = Icons.Default.Send) {
+        AppBarAction(imageVector = Icons.Default.Send, contentDescription = "Create link") {
             vm.createLink(nav)
         }
     }

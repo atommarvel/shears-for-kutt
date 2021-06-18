@@ -51,14 +51,15 @@ fun NavBack() {
     if (navController.previousBackStackEntry != null) {
         AppBarAction(
             imageVector = Icons.Default.ArrowBack,
+            contentDescription = "Go back",
             onClick = { navController.popBackStack() })
     }
 }
 
 @Composable
-fun AppBarAction(imageVector: ImageVector, onClick: () -> Unit) {
+fun AppBarAction(imageVector: ImageVector, contentDescription: String, onClick: () -> Unit) {
     IconButton(onClick) {
-        Icon(imageVector, null) // TODO: null
+        Icon(imageVector, contentDescription)
     }
 }
 
