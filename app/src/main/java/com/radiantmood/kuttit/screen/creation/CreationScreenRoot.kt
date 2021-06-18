@@ -31,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.radiantmood.kuttit.LocalNavController
@@ -83,9 +84,10 @@ fun CreationScreen() {
 fun CreationAppBar() {
     val nav = LocalNavController.current
     val vm = LocalCreateViewModel.current
+    val clipboardManager = LocalClipboardManager.current
     KuttTopAppBar(title = "Create") {
         AppBarAction(imageVector = Icons.Default.Send, contentDescription = "Create link") {
-            vm.createLink(nav)
+            vm.createLink(nav, clipboardManager)
         }
     }
 }

@@ -18,8 +18,8 @@ interface KuttService {
     @POST("links")
     suspend fun postLink(
         @Header("X-API-KEY") apiKey: String, // TODO: move key to an interceptor
-        @Body body: NewKuttLinkBody
-    )
+        @Body body: NewKuttLinkBody,
+    ): KuttLinkCreation
 
     @DELETE("links/{id}")
     suspend fun deleteLink(

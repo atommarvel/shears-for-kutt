@@ -25,3 +25,8 @@ data class KuttLink(
     val expire_in: String?,
     val domain: String?,
 )
+
+@Serializable
+data class KuttLinkCreation(
+    val link: String,
+)

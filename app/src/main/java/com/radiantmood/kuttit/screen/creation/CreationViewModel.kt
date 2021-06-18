@@ -1,5 +1,7 @@
 package com.radiantmood.kuttit.screen.creation
 
+import androidx.compose.ui.platform.ClipboardManager
+import androidx.compose.ui.text.AnnotatedString
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -71,16 +73,18 @@ class CreationViewModel : ViewModel() {
         )
     }
 
-    fun createLink(nav: NavHostController) = viewModelScope.launch {
-        setFieldsEnabled(false)
-        try {
-            val apiKey = checkNotNull(ApiKeyRepo.apiKey) { "API key is missing" }
-            val model = checkNotNull(screenModel) { "Something went wrong" }
-            kuttService.postLink(apiKey, createNewKuttLinkBody(model))
-            nav.popBackStack() // TODO: UX feedback that link was created successfully?
-        } catch (e: Exception) {
-            postSnackbar(e)
-        } finally {
+    fun createLink(nav: NavHostController, clipboardManager: ClipboardManager? = null) =
+        viewModelScope.launch {
+            setFieldsEnabled(false)
+            try {
+                val apiKey = checkNotNull(ApiKeyRepo.apiKey) { "API key is missing" }
+                val model = checkNotNull(screenModel) { "Something went wrong" }
+                val creation = kuttService.postLink(apiKey, createNewKuttLinkBody(model))
+                clipboardManager?.setText(AnnotatedString(creation.link))
+                nav.popBackStack() // TODO: UX feedback that link was created successfully? Tell the user link was copied to clipboard.
+            } catch (e: Exception) {
+                postSnackbar(e)
+            } finally {
             setFieldsEnabled(true)
         }
     }

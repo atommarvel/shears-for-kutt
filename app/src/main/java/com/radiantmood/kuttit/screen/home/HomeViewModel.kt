@@ -21,14 +21,17 @@ class HomeViewModel : ViewModel() {
         MutableLiveData<ModelContainer<HomeScreenModel>>(LoadingModelContainer())
     val homeScreen: LiveData<ModelContainer<HomeScreenModel>> get() = _homeScreen
 
-    private val kuttLinkPager: Pager<Int, KuttLink> = Pager(PagingConfig(10)) { KuttLinkSource() }
+    private var kuttLinkPager: Pager<Int, KuttLink> = createPager()
 
     init {
         getLinks()
     }
 
-    fun getLinks() = viewModelScope.launch(Dispatchers.IO) {
+    private fun createPager() = Pager(PagingConfig(10)) { KuttLinkSource() }
+
+    private fun getLinks() = viewModelScope.launch(Dispatchers.IO) {
         _homeScreen.postValue(LoadingModelContainer())
+        kuttLinkPager = createPager()
         val apiKey = ApiKeyRepo.apiKey
         if (apiKey.isNullOrBlank()) {
             _homeScreen.postValue(HomeScreenModel.ApiKeyMissing)
@@ -54,6 +57,7 @@ class HomeViewModel : ViewModel() {
     fun deleteLink(link: KuttLink) = viewModelScope.launch(Dispatchers.IO) {
         try {
             val apiKey = checkNotNull(ApiKeyRepo.apiKey) { "API key is missing." }
+            // TODO: UX while user waits for deletion request to complete
             kuttService.deleteLink(apiKey, link.id)
             postSnackbar("Link deleted.")
             getLinks()

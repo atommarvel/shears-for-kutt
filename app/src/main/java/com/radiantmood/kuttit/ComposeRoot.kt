@@ -2,7 +2,6 @@ package com.radiantmood.kuttit
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.util.Log
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Surface
@@ -56,9 +55,12 @@ fun Navigation() {
 
 fun Activity.consumeIntent(nav: NavHostController) {
     try {
-        val uri = Uri.parse(intent.getStringExtra(Intent.EXTRA_TEXT))
-        intent = null
-        nav.navigate(CreationScreen.route(uri.toString()))
+        intent?.let { currentIntent ->
+            val sharedText = currentIntent.getStringExtra(Intent.EXTRA_TEXT)
+                ?: currentIntent.getCharSequenceExtra(Intent.EXTRA_PROCESS_TEXT)
+            intent = null
+            sharedText?.let { nav.navigate(CreationScreen.route(it.toString())) }
+        }
     } catch (e: Exception) {
         Log.e("araiff", "${e.message}")
     }
