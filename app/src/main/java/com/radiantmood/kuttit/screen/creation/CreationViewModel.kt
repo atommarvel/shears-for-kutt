@@ -10,6 +10,7 @@ import com.radiantmood.kuttit.data.ModelContainer
 import com.radiantmood.kuttit.data.NewKuttLinkBody
 import com.radiantmood.kuttit.data.RetrofitBuilder.kuttService
 import com.radiantmood.kuttit.repo.ApiKeyRepo
+import com.radiantmood.kuttit.repo.KuttBaseUrlRepo
 import com.radiantmood.kuttit.util.postSnackbar
 import kotlinx.coroutines.launch
 
@@ -27,8 +28,8 @@ class CreationViewModel : ViewModel() {
         _creationScreen.value = CreationScreenModel(
             targetUrl = "", // TODO: could we grab the data from the clipboard?
             currentDomain = 0, // TODO: allow user to default to their custom domain in domain management.
-            domains = listOf(
-                KUTT_IT,
+            domains = listOfNotNull(
+                KuttBaseUrlRepo.baseUrl,
                 "radiantmood.com", // TODO: get domains from the domain repository
             ),
             path = "",
@@ -82,10 +83,5 @@ class CreationViewModel : ViewModel() {
         } finally {
             setFieldsEnabled(true)
         }
-    }
-
-    companion object {
-        // TODO centralize kutt.it usage in a repo to prep for self hosting
-        private const val KUTT_IT = "kutt.it"
     }
 }
