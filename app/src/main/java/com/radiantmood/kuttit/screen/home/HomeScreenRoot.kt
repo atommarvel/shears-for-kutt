@@ -85,7 +85,7 @@ fun HomeAppBar() {
     val nav = LocalNavController.current
     KuttTopAppBar(title = "Shears") {
         AppBarAction(imageVector = Icons.Default.Settings, contentDescription = "Settings") {
-            nav.navigate(SettingsScreen)
+            nav.navigate(SettingsScreen.route())
         }
     }
 }
@@ -106,7 +106,7 @@ fun HomeBody() {
 fun Fab() {
     val nav = LocalNavController.current
     FloatingActionButton(
-        onClick = { nav.navigate(CreationScreen) },
+        onClick = { nav.navigate(CreationScreen.route()) },
         backgroundColor = MaterialTheme.colors.primary,
     ) {
         Icon(imageVector = Icons.Default.Add, contentDescription = "Create new link")
@@ -125,7 +125,7 @@ fun ApiKeyMissing() {
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { nav.navigate(SettingsScreen) }) {
+        Button(onClick = { nav.navigate(SettingsScreen.route()) }) {
             Icon(imageVector = Icons.Default.Settings, contentDescription = "Settings")
             Text("Settings")
         }
@@ -138,7 +138,6 @@ fun UserLinks(content: HomeScreenModel.Content) {
         Modifier.fillMaxSize()
     ) {
         Overlays(content)
-        Spacer(modifier = Modifier.height(16.dp))
         UserLinkList(content)
     }
 }
@@ -156,6 +155,10 @@ private fun UserLinkList(
     val scope = rememberCoroutineScope()
     val lazyLinks = content.kuttLinkPager.flow.collectAsLazyPagingItems()
     LazyColumn {
+        item {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+
         items(lazyLinks) { link ->
             KuttLinkCardListItem(link)
         }

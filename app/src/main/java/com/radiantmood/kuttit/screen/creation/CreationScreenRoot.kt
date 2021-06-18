@@ -46,11 +46,14 @@ import com.radiantmood.kuttit.util.ModelContainerContent
 private val LocalCreateViewModel =
     compositionLocalOf<CreationViewModel> { error("No CreateViewModel") }
 
-// TODO: 'create' is too loaded of a verb to use as a noun. Rename all usages of create please!
 @Composable
-fun CreationScreenRoot() {
+fun CreationScreenRoot(target: String) {
     val vm: CreationViewModel = viewModel()
     val scaffoldState = rememberScaffoldState()
+
+    val startingTarget = remember { target }
+    vm.onTargetUrlChanged(startingTarget)
+
     CompositionLocalProvider(
         LocalCreateViewModel provides vm,
         LocalScaffoldState provides scaffoldState
@@ -68,7 +71,7 @@ fun CreationScreen() {
         Box(
             Modifier
                 .padding(padding)
-                .padding(horizontal = 16.dp)
+                .padding(16.dp)
         ) {
             KuttSnackbar()
             CreationBody()
@@ -198,7 +201,7 @@ fun DomainDropdown(model: CreationScreenModel) {
                     }
                     DropdownMenuItem(onClick = {
                         expanded = false
-                        nav.navigate(SettingsScreen) // TODO: nav to domain management screen instead
+                        nav.navigate(SettingsScreen.route()) // TODO: nav to domain management screen instead
                     }) {
                         Text("Add your custom domain")
                     }

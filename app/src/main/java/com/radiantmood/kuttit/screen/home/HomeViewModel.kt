@@ -56,6 +56,7 @@ class HomeViewModel : ViewModel() {
             val apiKey = checkNotNull(ApiKeyRepo.apiKey) { "API key is missing." }
             kuttService.deleteLink(apiKey, link.id)
             postSnackbar("Link deleted.")
+            getLinks()
         } catch (e: Exception) {
             postSnackbar(e)
         }
