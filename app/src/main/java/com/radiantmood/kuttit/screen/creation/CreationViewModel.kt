@@ -13,7 +13,8 @@ import com.radiantmood.kuttit.data.NewKuttLinkBody
 import com.radiantmood.kuttit.data.RetrofitBuilder.kuttService
 import com.radiantmood.kuttit.repo.ApiKeyRepo
 import com.radiantmood.kuttit.repo.KuttBaseUrlRepo
-import com.radiantmood.kuttit.util.postSnackbar
+import com.radiantmood.kuttit.util.snackbar.postSnackbar
+import com.radiantmood.kuttit.util.snackbar.postSnackbarBuffer
 import kotlinx.coroutines.launch
 
 class CreationViewModel : ViewModel() {
@@ -73,18 +74,21 @@ class CreationViewModel : ViewModel() {
         )
     }
 
-    fun createLink(nav: NavHostController, clipboardManager: ClipboardManager? = null) =
-        viewModelScope.launch {
-            setFieldsEnabled(false)
-            try {
-                val apiKey = checkNotNull(ApiKeyRepo.apiKey) { "API key is missing" }
-                val model = checkNotNull(screenModel) { "Something went wrong" }
-                val creation = kuttService.postLink(apiKey, createNewKuttLinkBody(model))
-                clipboardManager?.setText(AnnotatedString(creation.link))
-                nav.popBackStack() // TODO: UX feedback that link was created successfully? Tell the user link was copied to clipboard.
-            } catch (e: Exception) {
-                postSnackbar(e)
-            } finally {
+    fun createLink(
+        nav: NavHostController,
+        clipboardManager: ClipboardManager? = null,
+    ) = viewModelScope.launch {
+        setFieldsEnabled(false)
+        try {
+            val apiKey = checkNotNull(ApiKeyRepo.apiKey) { "API key is missing" }
+            val model = checkNotNull(screenModel) { "Something went wrong" }
+            val creation = kuttService.postLink(apiKey, createNewKuttLinkBody(model))
+            clipboardManager?.setText(AnnotatedString(creation.link))
+            nav.postSnackbarBuffer("Shortened link copied to clipboard.")
+            nav.popBackStack()
+        } catch (e: Exception) {
+            postSnackbar(e)
+        } finally {
             setFieldsEnabled(true)
         }
     }

@@ -42,16 +42,17 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.radiantmood.kuttit.LocalNavController
 import com.radiantmood.kuttit.LocalScaffoldState
+import com.radiantmood.kuttit.RootCommon
 import com.radiantmood.kuttit.data.KuttLink
 import com.radiantmood.kuttit.data.LoadingModelContainer
 import com.radiantmood.kuttit.nav.navigate
 import com.radiantmood.kuttit.ui.component.AppBarAction
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
 import com.radiantmood.kuttit.util.Fullscreen
-import com.radiantmood.kuttit.util.KuttSnackbar
 import com.radiantmood.kuttit.util.LoadingScreen
 import com.radiantmood.kuttit.util.ModelContainerContent
-import com.radiantmood.kuttit.util.postSnackbar
+import com.radiantmood.kuttit.util.snackbar.KuttSnackbar
+import com.radiantmood.kuttit.util.snackbar.postSnackbar
 
 private val LocalHomeViewModel =
     compositionLocalOf<HomeViewModel> { error("No HomeViewModel") }
@@ -60,6 +61,7 @@ private val LocalHomeViewModel =
 fun HomeScreenRoot() {
     val vm: HomeViewModel = viewModel()
     val scaffoldState = rememberScaffoldState()
+    RootCommon()
     CompositionLocalProvider(
         LocalHomeViewModel provides vm,
         LocalScaffoldState provides scaffoldState

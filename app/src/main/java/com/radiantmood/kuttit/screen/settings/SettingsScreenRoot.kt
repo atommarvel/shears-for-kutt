@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.radiantmood.kuttit.RootCommon
 import com.radiantmood.kuttit.ui.component.AppBarAction
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
 
@@ -48,6 +49,7 @@ private val LocalSettingsViewModel =
 @Composable
 fun SettingsScreenRoot() {
     val vm: SettingsViewModel = viewModel()
+    RootCommon()
     CompositionLocalProvider(
         LocalSettingsViewModel provides vm
     ) {

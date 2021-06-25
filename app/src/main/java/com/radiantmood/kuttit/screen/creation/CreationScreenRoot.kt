@@ -37,12 +37,13 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.radiantmood.kuttit.LocalNavController
 import com.radiantmood.kuttit.LocalScaffoldState
+import com.radiantmood.kuttit.RootCommon
 import com.radiantmood.kuttit.data.LoadingModelContainer
 import com.radiantmood.kuttit.nav.navigate
 import com.radiantmood.kuttit.ui.component.AppBarAction
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
-import com.radiantmood.kuttit.util.KuttSnackbar
 import com.radiantmood.kuttit.util.ModelContainerContent
+import com.radiantmood.kuttit.util.snackbar.KuttSnackbar
 
 private val LocalCreateViewModel =
     compositionLocalOf<CreationViewModel> { error("No CreateViewModel") }
@@ -54,6 +55,8 @@ fun CreationScreenRoot(target: String) {
 
     val startingTarget = remember { target }
     vm.onTargetUrlChanged(startingTarget)
+
+    RootCommon()
 
     CompositionLocalProvider(
         LocalCreateViewModel provides vm,

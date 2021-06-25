@@ -11,7 +11,7 @@ import com.radiantmood.kuttit.data.LoadingModelContainer
 import com.radiantmood.kuttit.data.ModelContainer
 import com.radiantmood.kuttit.data.RetrofitBuilder.kuttService
 import com.radiantmood.kuttit.repo.ApiKeyRepo
-import com.radiantmood.kuttit.util.postSnackbar
+import com.radiantmood.kuttit.util.snackbar.postSnackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
