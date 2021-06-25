@@ -1,5 +1,6 @@
 package com.radiantmood.kuttit.screen.home
 
+import ComposableScreen
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,13 +40,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
-import com.radiantmood.kuttit.CreationScreen
 import com.radiantmood.kuttit.LocalNavController
 import com.radiantmood.kuttit.LocalScaffoldState
-import com.radiantmood.kuttit.SettingsScreen
 import com.radiantmood.kuttit.data.KuttLink
 import com.radiantmood.kuttit.data.LoadingModelContainer
-import com.radiantmood.kuttit.navigate
+import com.radiantmood.kuttit.nav.navigate
 import com.radiantmood.kuttit.ui.component.AppBarAction
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
 import com.radiantmood.kuttit.util.Fullscreen
@@ -85,7 +84,7 @@ fun HomeAppBar() {
     val nav = LocalNavController.current
     KuttTopAppBar(title = "Shears") {
         AppBarAction(imageVector = Icons.Default.Settings, contentDescription = "Settings") {
-            nav.navigate(SettingsScreen.route())
+            nav.navigate(ComposableScreen.SettingsScreen.route())
         }
     }
 }
@@ -106,7 +105,7 @@ fun HomeBody() {
 fun Fab() {
     val nav = LocalNavController.current
     FloatingActionButton(
-        onClick = { nav.navigate(CreationScreen.route()) },
+        onClick = { nav.navigate(ComposableScreen.CreationScreen.route()) },
         backgroundColor = MaterialTheme.colors.primary,
     ) {
         Icon(imageVector = Icons.Default.Add, contentDescription = "Create new link")
@@ -125,7 +124,7 @@ fun ApiKeyMissing() {
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { nav.navigate(SettingsScreen.route()) }) {
+        Button(onClick = { nav.navigate(ComposableScreen.SettingsScreen.route()) }) {
             Icon(imageVector = Icons.Default.Settings, contentDescription = "Settings")
             Text("Settings")
         }

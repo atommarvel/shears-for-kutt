@@ -1,5 +1,6 @@
 package com.radiantmood.kuttit.screen.creation
 
+import ComposableScreen
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,9 +37,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.radiantmood.kuttit.LocalNavController
 import com.radiantmood.kuttit.LocalScaffoldState
-import com.radiantmood.kuttit.SettingsScreen
 import com.radiantmood.kuttit.data.LoadingModelContainer
-import com.radiantmood.kuttit.navigate
+import com.radiantmood.kuttit.nav.navigate
 import com.radiantmood.kuttit.ui.component.AppBarAction
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
 import com.radiantmood.kuttit.util.KuttSnackbar
@@ -203,7 +203,7 @@ fun DomainDropdown(model: CreationScreenModel) {
                     }
                     DropdownMenuItem(onClick = {
                         expanded = false
-                        nav.navigate(SettingsScreen.route()) // TODO: nav to domain management screen instead
+                        nav.navigate(ComposableScreen.SettingsScreen.route()) // TODO: nav to domain management screen instead
                     }) {
                         Text("Add your custom domain")
                     }
