@@ -153,15 +153,17 @@ fun Overlays(content: HomeScreenModel.Content) {
 private fun UserLinkList(
     content: HomeScreenModel.Content
 ) {
+    val vm = LocalHomeViewModel.current
     val scope = rememberCoroutineScope()
     val lazyLinks = content.kuttLinkPager.flow.collectAsLazyPagingItems()
+    val mods by vm.modifiers.observeAsState(emptyMap())
     LazyColumn {
         item {
             Spacer(modifier = Modifier.height(16.dp))
         }
 
         items(lazyLinks) { link ->
-            KuttLinkCardListItem(link)
+            KuttLinkCardListItem(link, mods)
         }
 
         lazyLinks.apply {
@@ -256,11 +258,13 @@ fun LinkDialog(link: KuttLink?) {
 }
 
 @Composable
-fun KuttLinkCardListItem(link: KuttLink?) {
+fun KuttLinkCardListItem(link: KuttLink?, mods: Map<String, KuttLinkModifier>) {
     val vm = LocalHomeViewModel.current
     link?.let {
-        Box(modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)) {
-            KuttLinkCard(link) {
+        Box(modifier = Modifier
+            .padding(vertical = 8.dp, horizontal = 16.dp)
+            .fillMaxWidth()) {
+            KuttLinkCard(link, mods.containsKey(link.id)) {
                 vm.openDialog(link)
             }
         }

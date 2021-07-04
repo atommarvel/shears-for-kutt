@@ -21,6 +21,9 @@ class HomeViewModel : ViewModel() {
         MutableLiveData<ModelContainer<HomeScreenModel>>(LoadingModelContainer())
     val homeScreen: LiveData<ModelContainer<HomeScreenModel>> get() = _homeScreen
 
+    private var _modifiers = MutableLiveData<Map<String, KuttLinkModifier>>(emptyMap())
+    val modifiers: LiveData<Map<String, KuttLinkModifier>> get() = _modifiers
+
     private var kuttLinkPager: Pager<Int, KuttLink> = createPager()
 
     init {
@@ -31,6 +34,7 @@ class HomeViewModel : ViewModel() {
 
     private fun getLinks() = viewModelScope.launch(Dispatchers.IO) {
         _homeScreen.postValue(LoadingModelContainer())
+        _modifiers.postValue(emptyMap())
         kuttLinkPager = createPager()
         val apiKey = ApiKeyRepo.apiKey
         if (apiKey.isNullOrBlank()) {
@@ -57,12 +61,19 @@ class HomeViewModel : ViewModel() {
     fun deleteLink(link: KuttLink) = viewModelScope.launch(Dispatchers.IO) {
         try {
             val apiKey = checkNotNull(ApiKeyRepo.apiKey) { "API key is missing." }
-            // TODO: UX while user waits for deletion request to complete
+            addDeletionModifier(link)
             kuttService.deleteLink(apiKey, link.id)
             postSnackbar("Link deleted.")
-            getLinks()
+            getLinks() // TODO: play nicer with paging to not reload entire screen when getting fresh data
         } catch (e: Exception) {
             postSnackbar(e)
         }
+    }
+
+    private fun addDeletionModifier(link: KuttLink) {
+        val mods: MutableMap<String, KuttLinkModifier> =
+            _modifiers.value?.toMutableMap() ?: mutableMapOf()
+        mods[link.id] = KuttLinkModifier(link.id, true)
+        _modifiers.postValue(mods)
     }
 }

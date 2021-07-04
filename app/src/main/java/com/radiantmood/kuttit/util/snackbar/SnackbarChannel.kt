@@ -46,7 +46,7 @@ fun ConsumeSnackbarBuffer() {
         ?.savedStateHandle
         ?.getLiveData<String?>(SNACKBAR_BUFFER_KEY)
         ?.observeAsState<String?>()?.value?.let { message ->
-            nav.currentBackStackEntry?.savedStateHandle?.set(SNACKBAR_BUFFER_KEY, null)
             scope.postSnackbar(message)
+            nav.currentBackStackEntry?.savedStateHandle?.set(SNACKBAR_BUFFER_KEY, null)
         }
 }

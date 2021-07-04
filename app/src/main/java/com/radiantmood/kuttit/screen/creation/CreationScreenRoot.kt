@@ -31,8 +31,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.radiantmood.kuttit.LocalNavController
@@ -83,14 +85,17 @@ fun CreationScreen() {
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun CreationAppBar() {
     val nav = LocalNavController.current
     val vm = LocalCreateViewModel.current
     val clipboardManager = LocalClipboardManager.current
+    val keyboardCtrl = LocalSoftwareKeyboardController.current
     KuttTopAppBar(title = "Create") {
         AppBarAction(imageVector = Icons.Default.Send, contentDescription = "Create link") {
             vm.createLink(nav, clipboardManager)
+            keyboardCtrl?.hide()
         }
     }
 }

@@ -8,8 +8,10 @@ sealed class HomeScreenModel : FinishedModelContainer<HomeScreenModel>() {
     // TODO: abstract the pager into a state object + list of links?
     data class Content(
         val kuttLinkPager: Pager<Int, KuttLink>,
-        val dialogLink: KuttLink? = null
+        val dialogLink: KuttLink? = null,
     ) : HomeScreenModel()
 
     object ApiKeyMissing : HomeScreenModel()
 }
+
+data class KuttLinkModifier(val linkId: String, val isDeleting: Boolean = false)

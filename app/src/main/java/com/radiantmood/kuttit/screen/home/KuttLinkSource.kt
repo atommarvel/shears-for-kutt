@@ -16,15 +16,11 @@ class KuttLinkSource : PagingSource<Int, KuttLink>() {
             val response = RetrofitBuilder.kuttService.getLinks(ApiKeyRepo.apiKey.orEmpty(), skip)
             LoadResult.Page(
                 data = response.data,
-                prevKey = if (skip == 0) null else max(skip - skipStep, 0),
-                nextKey = if (response.data.size < skipStep) null else skip + skipStep
+                prevKey = if (skip == 0) null else max(skip - params.loadSize, 0),
+                nextKey = if (response.data.size < params.loadSize) null else skip + params.loadSize
             )
         } catch (e: Exception) {
             LoadResult.Error(e)
         }
-    }
-
-    companion object {
-        const val skipStep = 10
     }
 }
