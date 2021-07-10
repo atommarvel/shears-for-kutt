@@ -10,7 +10,7 @@ import com.radiantmood.kuttit.data.KuttLink
 import com.radiantmood.kuttit.data.LoadingModelContainer
 import com.radiantmood.kuttit.data.ModelContainer
 import com.radiantmood.kuttit.data.RetrofitBuilder.kuttService
-import com.radiantmood.kuttit.repo.ApiKeyRepo
+import com.radiantmood.kuttit.repo.SettingsRepo
 import com.radiantmood.kuttit.util.snackbar.postSnackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,7 +36,7 @@ class HomeViewModel : ViewModel() {
         _homeScreen.postValue(LoadingModelContainer())
         _modifiers.postValue(emptyMap())
         kuttLinkPager = createPager()
-        val apiKey = ApiKeyRepo.apiKey
+        val apiKey = SettingsRepo.apiKey
         if (apiKey.isNullOrBlank()) {
             _homeScreen.postValue(HomeScreenModel.ApiKeyMissing)
         } else {
@@ -60,7 +60,7 @@ class HomeViewModel : ViewModel() {
 
     fun deleteLink(link: KuttLink) = viewModelScope.launch(Dispatchers.IO) {
         try {
-            val apiKey = checkNotNull(ApiKeyRepo.apiKey) { "API key is missing." }
+            val apiKey = checkNotNull(SettingsRepo.apiKey) { "API key is missing." }
             addDeletionModifier(link)
             kuttService.deleteLink(apiKey, link.id)
             postSnackbar("Link deleted.")

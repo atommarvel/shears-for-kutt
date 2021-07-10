@@ -11,8 +11,7 @@ import com.radiantmood.kuttit.data.LoadingModelContainer
 import com.radiantmood.kuttit.data.ModelContainer
 import com.radiantmood.kuttit.data.NewKuttLinkBody
 import com.radiantmood.kuttit.data.RetrofitBuilder.kuttService
-import com.radiantmood.kuttit.repo.ApiKeyRepo
-import com.radiantmood.kuttit.repo.KuttBaseUrlRepo
+import com.radiantmood.kuttit.repo.SettingsRepo
 import com.radiantmood.kuttit.util.snackbar.postSnackbar
 import com.radiantmood.kuttit.util.snackbar.postSnackbarBuffer
 import kotlinx.coroutines.launch
@@ -32,7 +31,7 @@ class CreationViewModel : ViewModel() {
             targetUrl = "", // TODO: could we grab the data from the clipboard?
             currentDomain = 0, // TODO: allow user to default to their custom domain in domain management.
             domains = listOfNotNull(
-                KuttBaseUrlRepo.baseUrl,
+                SettingsRepo.baseUrl,
                 "radiantmood.com", // TODO: get domains from the domain repository
             ),
             path = "",
@@ -80,7 +79,7 @@ class CreationViewModel : ViewModel() {
     ) = viewModelScope.launch {
         setFieldsEnabled(false)
         try {
-            val apiKey = checkNotNull(ApiKeyRepo.apiKey) { "API key is missing" }
+            val apiKey = checkNotNull(SettingsRepo.apiKey) { "API key is missing" }
             val model = checkNotNull(screenModel) { "Something went wrong" }
             val creation = kuttService.postLink(apiKey, createNewKuttLinkBody(model))
             clipboardManager?.setText(AnnotatedString(creation.link))

@@ -5,17 +5,20 @@ import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
@@ -40,8 +43,10 @@ import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.radiantmood.kuttit.RootCommon
+import com.radiantmood.kuttit.data.LoadingModelContainer
 import com.radiantmood.kuttit.ui.component.AppBarAction
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
+import com.radiantmood.kuttit.util.ModelContainerContent
 
 private val LocalSettingsViewModel =
     compositionLocalOf<SettingsViewModel> { error("No SettingsViewModel") }
@@ -78,40 +83,40 @@ fun SettingsAppBar(setShowHelpDialog: (Boolean) -> Unit) {
 
 @Composable
 fun SettingsBody(showHelpDialog: Boolean, setShowHelpDialog: (Boolean) -> Unit) {
-    Column {
-        LazyColumn(Modifier.padding(16.dp)) {
-            item {
-                ApiKeyField()
-                Spacer(modifier = Modifier.height(16.dp))
+    val vm = LocalSettingsViewModel.current
+    val modelContainer by vm.settingsScreen.observeAsState(LoadingModelContainer())
+    ModelContainerContent(modelContainer) { screenModel ->
+        Column {
+            LazyColumn(Modifier.padding(16.dp)) {
+                ApiKeyField(screenModel.apiKey)
+                LazySpacer(modifier = Modifier.height(16.dp))
+                item { Disclosure() }
+                LazySpacer(modifier = Modifier.height(16.dp))
+                LazyDivider()
+                item { ManageDomains() }
+                LazyDivider()
+                item { KuttItLink() }
+                LazyDivider()
+                item { Contact() }
+                LazyDivider()
+                item { Report() }
+                LazyDivider()
+                item { Crashlytics(screenModel.isCrashlyticsEnabled) }
+                LazyDivider()
+                item { OpenSourceAttribution() }
+                LazyDivider()
             }
-            item {
-                Disclosure()
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-            item {
-                Divider()
-                ManageDomains()
-                Divider()
-            }
-            item {
-                KuttItLink()
-                Divider()
-            }
-            item {
-                Contact()
-                Divider()
-            }
-            item {
-                Report()
-                Divider()
-            }
-            item {
-                OpenSourceAttribution()
-                Divider()
-            }
+            HelpDialog(show = showHelpDialog, updateShow = setShowHelpDialog)
         }
-        HelpDialog(show = showHelpDialog, updateShow = setShowHelpDialog)
     }
+}
+
+fun LazyListScope.LazyDivider(modifier: Modifier = Modifier) = item {
+    Divider(modifier = modifier)
+}
+
+fun LazyListScope.LazySpacer(modifier: Modifier = Modifier) = item {
+    Spacer(modifier = modifier)
 }
 
 @Composable
@@ -130,12 +135,12 @@ fun HelpDialog(show: Boolean, updateShow: (Boolean) -> Unit) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         """
-                    While logged in, your API key can be found at https://kutt.it/settings in the "API" section. It will look like a string of nonsense.
+                        While logged in, your API key can be found at https://kutt.it/settings in the "API" section. It will look like a string of nonsense.
                     
-                    Paste your api key into the "API Key" field in settings to allow the app to talk to Kutt servers on your behalf. It's a lot like logging into Kutt. 
+                        Paste your api key into the "API Key" field in settings to allow the app to talk to Kutt servers on your behalf. It's a lot like logging into Kutt. 
                     
-                    DO NOT share this key with sources/people you don't trust!
-                """.trimIndent()
+                        DO NOT share this key with sources/people you don't trust!
+                        """.trimIndent()
                     )
                 }
             }
@@ -143,10 +148,8 @@ fun HelpDialog(show: Boolean, updateShow: (Boolean) -> Unit) {
     }
 }
 
-@Composable
-fun ApiKeyField() {
+fun LazyListScope.ApiKeyField(apiKey: String?) = item {
     val vm = LocalSettingsViewModel.current
-    val apiKey by vm.apiKeyLiveData.observeAsState()
     var passwordVisibility: Boolean by remember { mutableStateOf(false) }
     TextField(
         modifier = Modifier.fillMaxWidth(),
@@ -177,9 +180,9 @@ fun Disclosure() {
             Text("Disclosure", style = MaterialTheme.typography.h5)
             Text(
                 """
-                    Shears is an unofficial app not managed by the creators of Kutt.it. If you are experiencing issues with Kutt.it itself, please reach out to the Kutt.it maintainers themselves.
+                Shears is an unofficial app not managed by the creators of Kutt.it. If you are experiencing issues with Kutt.it itself, please reach out to the Kutt.it maintainers themselves.
                     
-                    Conversely, if you are experiencing issues with Shears, please reach out to the Shears app dev instead of the Kutt team! 
+                Conversely, if you are experiencing issues with Shears, please reach out to the Shears app dev instead of the Kutt team! 
                 """.trimIndent()
             )
         }
@@ -187,38 +190,43 @@ fun Disclosure() {
 }
 
 @Composable
-fun SettingsRow(text: String, onClick: () -> Unit) {
+fun SettingsRow(onClick: () -> Unit, content: @Composable RowScope.() -> Unit) {
     Row(
         Modifier
             .clickable(onClick = onClick)
             .fillMaxWidth()
             .padding(vertical = 16.dp)
     ) {
-        Text(text = text)
+        content()
     }
 }
 
 @Composable
 fun SettingsRowUrl(text: String, url: String) {
     val ctx = LocalContext.current
-    SettingsRow(text) {
+    SettingsRow(onClick = {
         val intent = Intent(Intent.ACTION_VIEW).apply {
             data = Uri.parse(url)
         }
         startActivity(ctx, intent, null)
+    }) {
+        Text(text)
     }
 }
 
 @Composable
 fun ManageDomains() {
-    SettingsRow("Manage domains") {
-        // TODO: nav to manage domains screen
+    SettingsRow(onClick = { /*TODO*/ }) {
+        Text("Manage domains")
     }
 }
 
 @Composable
 fun KuttItLink() {
-    SettingsRowUrl(text = "Go to https://kutt.it", url = "https://kutt.it")
+    SettingsRowUrl(
+        text = "Go to https://kutt.it",
+        url = "https://kutt.it"
+    )
 }
 
 @Composable
@@ -238,8 +246,26 @@ fun Report() {
 }
 
 @Composable
+fun Crashlytics(enabled: Boolean) {
+    val vm = LocalSettingsViewModel.current
+    val status = if (enabled) "enabled" else "disabled"
+    SettingsRow(onClick = {
+        vm.updateCrashlytics(!enabled)
+    }) {
+        Text(
+            modifier = Modifier.weight(1f),
+            text = "Crashlytics $status"
+        )
+        Switch(
+            checked = enabled,
+            onCheckedChange = { vm.updateCrashlytics(!enabled) }
+        )
+    }
+}
+
+@Composable
 fun OpenSourceAttribution() {
-    SettingsRow("Open Source Attributions") {
-        // TODO: nav to attribution
+    SettingsRow(onClick = { /*TODO: nav to attribution*/ }) {
+        Text("Open Source Attributions")
     }
 }
