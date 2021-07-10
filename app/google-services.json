@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "209173793321",
+    "project_id": "shears-for-kutt",
+    "storage_bucket": "shears-for-kutt.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209173793321:android:0fbddaff4f1ee6d6736a38",
+        "android_client_info": {
+          "package_name": "com.radiantmood.shears"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "209173793321-ndd9jvtd99b9lt04e1m2d9b8thar7olt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCi4YuSNXxbopSaGRppsdbQPRl7yxlqino"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "209173793321-ndd9jvtd99b9lt04e1m2d9b8thar7olt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
