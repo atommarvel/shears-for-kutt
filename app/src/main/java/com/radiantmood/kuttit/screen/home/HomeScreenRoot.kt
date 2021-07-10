@@ -35,7 +35,6 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -48,6 +47,7 @@ import com.radiantmood.kuttit.data.LoadingModelContainer
 import com.radiantmood.kuttit.nav.navigate
 import com.radiantmood.kuttit.ui.component.AppBarAction
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
+import com.radiantmood.kuttit.ui.component.PlatformDialog
 import com.radiantmood.kuttit.util.Fullscreen
 import com.radiantmood.kuttit.util.LoadingScreen
 import com.radiantmood.kuttit.util.ModelContainerContent
@@ -204,7 +204,7 @@ fun LinkDialog(link: KuttLink?) {
     val clipboardManager = LocalClipboardManager.current
     val scope = rememberCoroutineScope()
     link?.let {
-        Dialog(onDismissRequest = { vm.closeDialog() }) {
+        PlatformDialog(onDismissRequest = { vm.closeDialog() }) {
             Card {
                 Column {
                     Text(

@@ -39,13 +39,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.radiantmood.kuttit.RootCommon
 import com.radiantmood.kuttit.data.LoadingModelContainer
 import com.radiantmood.kuttit.ui.component.AppBarAction
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
+import com.radiantmood.kuttit.ui.component.PlatformDialog
 import com.radiantmood.kuttit.util.ModelContainerContent
 
 private val LocalSettingsViewModel =
@@ -122,7 +122,7 @@ fun LazyListScope.LazySpacer(modifier: Modifier = Modifier) = item {
 @Composable
 fun HelpDialog(show: Boolean, updateShow: (Boolean) -> Unit) {
     if (show) {
-        Dialog(onDismissRequest = { updateShow(false) }) {
+        PlatformDialog(onDismissRequest = { updateShow(false) }) {
             Card {
                 Column(
                     modifier = Modifier.padding(16.dp)
