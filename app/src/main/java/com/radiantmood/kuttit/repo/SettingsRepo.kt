@@ -7,6 +7,7 @@ import com.radiantmood.kuttit.util.getPrefDelegate
 object SettingsRepo {
     var baseUrl: String? by getPrefDelegate(prefs, "base_url", "kutt.it")
     var apiKey: String? by getPrefDelegate(prefs, "api_key", getApiKeyOrEmpty())
+    var onboardingFinished: Boolean? by getPrefDelegate(prefs, "onboarding_finished", false)
 
     private var crashlyticsEnabled: Boolean? by getPrefDelegate(prefs, "crashlytics_enabled", false)
 

@@ -8,6 +8,7 @@ import androidx.navigation.compose.NamedNavArgument
 import androidx.navigation.compose.navArgument
 import com.radiantmood.kuttit.screen.creation.CreationScreenRoot
 import com.radiantmood.kuttit.screen.home.HomeScreenRoot
+import com.radiantmood.kuttit.screen.onboarding.OnboardingScreenRoot
 import com.radiantmood.kuttit.screen.settings.SettingsScreenRoot
 
 sealed class ComposableScreen(
@@ -37,7 +38,9 @@ sealed class ComposableScreen(
     }
 
     @Throws(Exception::class)
-    fun route(b: Bundle? = null): Route = buildString {
+    fun route(b: Bundle? = null): Route = routeString(b).route()
+
+    fun routeString(b: Bundle? = null) = buildString {
         val bundle = b ?: Bundle()
         append(rootRoute)
         requiredArgs.forEach { arg ->
@@ -56,7 +59,7 @@ sealed class ComposableScreen(
                 append("&")
             }
         }
-    }.route()
+    }
 
     private fun String.withBraces(): String = "{$this}"
     private fun String.route(): Route = Route(this)
@@ -85,4 +88,7 @@ sealed class ComposableScreen(
         ) {
         fun route(target: String) = route(bundleOf("target" to target))
     }
+
+    object OnboardingScreen :
+        ComposableScreen(rootRoute = "onboarding_screen", content = { OnboardingScreenRoot() })
 }

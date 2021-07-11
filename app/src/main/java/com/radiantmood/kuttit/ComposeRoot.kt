@@ -2,6 +2,7 @@ package com.radiantmood.kuttit
 
 import ComposableScreen.CreationScreen
 import ComposableScreen.HomeScreen
+import ComposableScreen.OnboardingScreen
 import ComposableScreen.SettingsScreen
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Surface
@@ -47,7 +48,8 @@ fun RootLocalProvider(content: @Composable () -> Unit) {
 @Composable
 fun Navigation() {
     val nav = LocalNavController.current
-    NavHost(navController = nav, startDestination = HomeScreen.route().toString()) {
+    NavHost(navController = nav, startDestination = HomeScreen.routeString()) {
+        composableScreen(OnboardingScreen)
         composableScreen(HomeScreen)
         composableScreen(SettingsScreen)
         composableScreen(CreationScreen)
