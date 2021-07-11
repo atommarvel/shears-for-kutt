@@ -167,18 +167,3 @@ fun PagerNavRow(modifier: Modifier = Modifier, pagerState: PagerState) {
     }
 }
 
-@Composable
-fun ApiKeyOnboarding(apiKey: String?) {
-    Column(Modifier.fillMaxWidth()) {
-        Text("apiKey:")
-        Text(text = apiKey.orEmpty())
-    }
-}
-
-@Composable
-fun CrashlyticsOnboarding(crashlyticsEnabled: Boolean) {
-    Column(Modifier.fillMaxWidth()) {
-        Text("CrashlyticsOnboarding\nOpted in: $crashlyticsEnabled")
-    }
-}
-
