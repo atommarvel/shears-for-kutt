@@ -65,6 +65,7 @@ fun OnboardingScreen() {
 fun OnboardingAppBar() {
     KuttTopAppBar(
         title = "Onboarding",
+        allowBack = false,
         actions = { SkipAppBarAction() }
     )
 }
@@ -85,6 +86,10 @@ fun finishOnboarding(nav: NavHostController) {
     nav.popBackStack(HomeScreen.routeString(), false)
 }
 
+/**
+ * See the when expression in HorizontalPager's content param for
+ *  what page maps to what onboarding step.
+ */
 const val onboardingPageCount = 2
 
 @OptIn(ExperimentalPagerApi::class)

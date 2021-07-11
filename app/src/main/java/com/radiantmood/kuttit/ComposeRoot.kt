@@ -16,6 +16,8 @@ import androidx.navigation.compose.rememberNavController
 import com.radiantmood.kuttit.nav.ConsumeExternallySharedText
 import com.radiantmood.kuttit.nav.ExternallySharedTextViewModel
 import com.radiantmood.kuttit.nav.composableScreen
+import com.radiantmood.kuttit.nav.navigate
+import com.radiantmood.kuttit.repo.SettingsRepo
 import com.radiantmood.kuttit.ui.theme.KuttItTheme
 import com.radiantmood.kuttit.util.snackbar.ConsumeSnackbarBuffer
 
@@ -60,4 +62,7 @@ fun Navigation() {
 fun RootCommon() {
     ConsumeExternallySharedText()
     ConsumeSnackbarBuffer()
+    if (SettingsRepo.onboardingFinished != true) {
+        LocalNavController.current.navigate(OnboardingScreen.route())
+    }
 }

@@ -24,7 +24,11 @@ import com.radiantmood.kuttit.ui.theme.KuttItTheme
 import com.radiantmood.kuttit.ui.theme.primaryGradient
 
 @Composable
-fun KuttTopAppBar(title: String, actions: @Composable () -> Unit = {}) {
+fun KuttTopAppBar(
+    title: String,
+    allowBack: Boolean = true,
+    actions: @Composable () -> Unit = {},
+) {
     Surface(color = MaterialTheme.colors.primary) {
         Row(
             modifier = Modifier
@@ -32,7 +36,9 @@ fun KuttTopAppBar(title: String, actions: @Composable () -> Unit = {}) {
                 .height(56.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            NavBack()
+            if (allowBack) {
+                NavBack()
+            }
             Text(
                 text = title,
                 style = MaterialTheme.typography.h6,
