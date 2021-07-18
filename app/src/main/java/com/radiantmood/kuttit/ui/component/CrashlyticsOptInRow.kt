@@ -1,5 +1,6 @@
 package com.radiantmood.kuttit.ui.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
@@ -13,7 +14,7 @@ fun CrashlyticsOptInRow(
     setCrashlyticsEnabled: (Boolean) -> Unit,
 ) {
     val enabled = if (crashlyticsEnabled) "enabled" else "disabled"
-    Row(modifier) {
+    Row(modifier.clickable { setCrashlyticsEnabled(!crashlyticsEnabled) }) {
         Text(
             modifier = Modifier.weight(1f),
             text = "Anonymous crash reporting $enabled"

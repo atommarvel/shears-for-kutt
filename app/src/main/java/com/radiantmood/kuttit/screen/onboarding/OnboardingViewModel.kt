@@ -18,7 +18,7 @@ class OnboardingViewModel : ViewModel() {
         updateScreen()
     }
 
-    fun updateScreen() {
+    private fun updateScreen() {
         _screenModel.value = OnboardingScreenModel(
             apiKey = SettingsRepo.apiKey,
             isCrashlyticsEnabled = SettingsRepo.isCrashlyticsEnabled()

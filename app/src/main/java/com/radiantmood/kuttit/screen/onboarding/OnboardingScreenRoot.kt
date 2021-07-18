@@ -9,12 +9,15 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.radiantmood.kuttit.LocalNavController
 import com.radiantmood.kuttit.LocalScaffoldState
+import com.radiantmood.kuttit.data.LoadingModelContainer
 import com.radiantmood.kuttit.repo.SettingsRepo
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
 
@@ -29,16 +32,18 @@ fun OnboardingScreenRoot() {
         LocalOnboardingViewModel provides vm,
         LocalScaffoldState provides scaffoldState
     ) {
-        OnboardingScreen()
+        OnboardingScreen {
+            OnboardingBody()
+        }
     }
 }
 
 @Composable
-fun OnboardingScreen() {
+fun OnboardingScreen(content: @Composable () -> Unit) {
     Scaffold(
         topBar = { OnboardingAppBar() },
     ) {
-        OnboardingBody()
+        content()
     }
 }
 
@@ -70,10 +75,15 @@ fun finishOnboarding(nav: NavHostController) {
 @Composable
 fun OnboardingBody() {
     val vm = LocalOnboardingViewModel.current
-    OnboardingPager { page, screenModel ->
+    val nav = LocalNavController.current
+    val modelContainer by vm.screenModel.observeAsState(LoadingModelContainer())
+    OnboardingPager(
+        modelContainer = modelContainer,
+        finishOnboarding = { finishOnboarding(nav) }
+    ) { page, screenModel ->
         when (page) {
             0 -> ApiKeyOnboarding(screenModel, setApiKey = vm::updateApiKey)
-            1 -> CrashlyticsOnboarding(screenModel)
+            1 -> CrashlyticsOnboarding(screenModel, vm::updateCrashlytics)
             else -> throw IllegalStateException("unable to handle onboarding page $page")
         }
     }

@@ -4,16 +4,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
-import com.radiantmood.kuttit.LocalNavController
-import com.radiantmood.kuttit.data.LoadingModelContainer
+import com.radiantmood.kuttit.data.ModelContainer
 import com.radiantmood.kuttit.util.ModelContainerContent
 
 /**
@@ -24,10 +23,11 @@ const val onboardingPageCount = 2
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun OnboardingPager(content: @Composable (Int, OnboardingScreenModel) -> Unit) {
-    val nav = LocalNavController.current
-    val vm = LocalOnboardingViewModel.current
-    val modelContainer by vm.screenModel.observeAsState(LoadingModelContainer()) // TODO: nah
+fun OnboardingPager(
+    modelContainer: ModelContainer<OnboardingScreenModel>,
+    finishOnboarding: () -> Unit,
+    content: @Composable (Int, OnboardingScreenModel) -> Unit,
+) {
     val pagerState = rememberPagerState(onboardingPageCount)
     ModelContainerContent(modelContainer) { screenModel ->
         Column {
@@ -49,8 +49,22 @@ fun OnboardingPager(content: @Composable (Int, OnboardingScreenModel) -> Unit) {
             OnboardingBottomNav(
                 pagerState = pagerState,
                 currentPage = pagerState.currentPage,
-                finishOnboarding = { finishOnboarding(nav) }
+                finishOnboarding = finishOnboarding
             )
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun DefaultPreview() {
+    OnboardingPager(
+        modelContainer = OnboardingScreenModel(
+            apiKey = "abcdefghijklmnopqrstuvwxyz",
+            isCrashlyticsEnabled = true
+        ),
+        finishOnboarding = {}
+    ) { page, _ ->
+        Text("Hello Page $page!")
     }
 }
