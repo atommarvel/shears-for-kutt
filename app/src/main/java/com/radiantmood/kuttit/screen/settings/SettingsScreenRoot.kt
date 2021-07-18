@@ -1,7 +1,5 @@
 package com.radiantmood.kuttit.screen.settings
 
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,17 +12,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Help
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
@@ -32,17 +25,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.radiantmood.kuttit.R
 import com.radiantmood.kuttit.RootCommon
 import com.radiantmood.kuttit.data.LoadingModelContainer
+import com.radiantmood.kuttit.ui.component.ApiKeyInput
 import com.radiantmood.kuttit.ui.component.AppBarAction
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
 import com.radiantmood.kuttit.ui.component.PlatformDialog
@@ -133,15 +125,7 @@ fun HelpDialog(show: Boolean, updateShow: (Boolean) -> Unit) {
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        """
-                        While logged in, your API key can be found at https://kutt.it/settings in the "API" section. It will look like a string of nonsense.
-                    
-                        Paste your api key into the "API Key" field in settings to allow the app to talk to Kutt servers on your behalf. It's a lot like logging into Kutt. 
-                    
-                        DO NOT share this key with sources/people you don't trust!
-                        """.trimIndent()
-                    )
+                    Text(stringResource(R.string.api_explanation))
                 }
             }
         }
@@ -150,23 +134,7 @@ fun HelpDialog(show: Boolean, updateShow: (Boolean) -> Unit) {
 
 fun LazyListScope.ApiKeyField(apiKey: String?) = item {
     val vm = LocalSettingsViewModel.current
-    var passwordVisibility: Boolean by remember { mutableStateOf(false) }
-    TextField(
-        modifier = Modifier.fillMaxWidth(),
-        label = { Text("API Key") },
-        value = apiKey.orEmpty(),
-        onValueChange = { vm.updateApiKey(it) },
-        singleLine = true,
-        visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
-        trailingIcon = {
-            IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
-                Icon(
-                    if (passwordVisibility) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                    "show/hide key"
-                )
-            }
-        }
-    )
+    ApiKeyInput(apiKey = apiKey) { vm.updateApiKey(it) }
 }
 
 @Composable
@@ -203,13 +171,8 @@ fun SettingsRow(onClick: () -> Unit, content: @Composable RowScope.() -> Unit) {
 
 @Composable
 fun SettingsRowUrl(text: String, url: String) {
-    val ctx = LocalContext.current
-    SettingsRow(onClick = {
-        val intent = Intent(Intent.ACTION_VIEW).apply {
-            data = Uri.parse(url)
-        }
-        startActivity(ctx, intent, null)
-    }) {
+    val uriHandler = LocalUriHandler.current
+    SettingsRow(onClick = { uriHandler.openUri(url) }) {
         Text(text)
     }
 }
@@ -245,6 +208,7 @@ fun Report() {
     )
 }
 
+// TODO: move to using CrashlyticsOptInRow component
 @Composable
 fun Crashlytics(enabled: Boolean) {
     val vm = LocalSettingsViewModel.current

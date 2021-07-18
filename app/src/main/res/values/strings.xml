@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Shears</string>
+    <string name="api_explanation">While logged in, your API key can be found at %s/settings in the \"API\" section. It will look like a string of nonsense.\n\nPaste your api key into the "API Key" field in settings to allow the app to talk to Kutt servers on your behalf. It\'s a lot like logging into Kutt.\n\nDO NOT share this key with sources/people you don\'t trust!</string>
 </resources>
