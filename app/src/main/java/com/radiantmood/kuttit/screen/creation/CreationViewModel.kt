@@ -16,7 +16,28 @@ import com.radiantmood.kuttit.util.snackbar.postSnackbar
 import com.radiantmood.kuttit.util.snackbar.postSnackbarBuffer
 import kotlinx.coroutines.launch
 
-class CreationViewModel : ViewModel() {
+interface CreationInputs {
+    fun onTargetUrlChanged(url: String)
+    fun onDomainChanged(domain: Int)
+    fun onPathChanged(path: String)
+    fun onPasswordChanged(password: String)
+    fun onExpiresChanged(expires: String)
+    fun onDescriptionChanged(description: String)
+    fun createLink(nav: NavHostController, clipboardManager: ClipboardManager?)
+}
+
+interface CreationNav {
+    fun navToDomainManagement()
+}
+
+interface CreationActions : CreationInputs, CreationNav
+
+class CreationActionsImpl(
+    private val inputs: CreationInputs,
+    private val nav: CreationNav,
+) : CreationActions, CreationInputs by inputs, CreationNav by nav
+
+class CreationViewModel : ViewModel(), CreationInputs {
     private var _creationScreen =
         MutableLiveData<ModelContainer<CreationScreenModel>>(LoadingModelContainer())
     val creationScreen: LiveData<ModelContainer<CreationScreenModel>> get() = _creationScreen
@@ -42,17 +63,18 @@ class CreationViewModel : ViewModel() {
         )
     }
 
-    fun onTargetUrlChanged(url: String) = onChange { it.copy(targetUrl = url) }
+    override fun onTargetUrlChanged(url: String) = onChange { it.copy(targetUrl = url) }
 
-    fun onDomainChanged(domain: Int) = onChange { it.copy(currentDomain = domain) }
+    override fun onDomainChanged(domain: Int) = onChange { it.copy(currentDomain = domain) }
 
-    fun onPathChanged(path: String) = onChange { it.copy(path = path) }
+    override fun onPathChanged(path: String) = onChange { it.copy(path = path) }
 
-    fun onPasswordChanged(password: String) = onChange { it.copy(password = password) }
+    override fun onPasswordChanged(password: String) = onChange { it.copy(password = password) }
 
-    fun onExpiresChanged(expires: String) = onChange { it.copy(expires = expires) }
+    override fun onExpiresChanged(expires: String) = onChange { it.copy(expires = expires) }
 
-    fun onDescriptionChanged(description: String) = onChange { it.copy(description = description) }
+    override fun onDescriptionChanged(description: String) =
+        onChange { it.copy(description = description) }
 
     private inline fun onChange(block: (CreationScreenModel) -> CreationScreenModel) {
         screenModel?.let {
@@ -73,22 +95,21 @@ class CreationViewModel : ViewModel() {
         )
     }
 
-    fun createLink(
-        nav: NavHostController,
-        clipboardManager: ClipboardManager? = null,
-    ) = viewModelScope.launch {
-        setFieldsEnabled(false)
-        try {
-            val apiKey = checkNotNull(SettingsRepo.apiKey) { "API key is missing" }
-            val model = checkNotNull(screenModel) { "Something went wrong" }
-            val creation = kuttService.postLink(apiKey, createNewKuttLinkBody(model))
-            clipboardManager?.setText(AnnotatedString(creation.link))
-            nav.postSnackbarBuffer("Shortened link copied to clipboard.")
-            nav.popBackStack()
-        } catch (e: Exception) {
-            postSnackbar(e)
-        } finally {
-            setFieldsEnabled(true)
+    override fun createLink(nav: NavHostController, clipboardManager: ClipboardManager?) {
+        viewModelScope.launch {
+            setFieldsEnabled(false)
+            try {
+                val apiKey = checkNotNull(SettingsRepo.apiKey) { "API key is missing" }
+                val model = checkNotNull(screenModel) { "Something went wrong" }
+                val creation = kuttService.postLink(apiKey, createNewKuttLinkBody(model))
+                clipboardManager?.setText(AnnotatedString(creation.link))
+                nav.postSnackbarBuffer("Shortened link copied to clipboard.")
+                nav.popBackStack()
+            } catch (e: Exception) {
+                postSnackbar(e)
+            } finally {
+                setFieldsEnabled(true)
+            }
         }
     }
 }

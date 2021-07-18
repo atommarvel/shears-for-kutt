@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.Card
-import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Switch
@@ -37,6 +36,8 @@ import com.radiantmood.kuttit.data.LoadingModelContainer
 import com.radiantmood.kuttit.ui.component.ApiKeyInput
 import com.radiantmood.kuttit.ui.component.AppBarAction
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
+import com.radiantmood.kuttit.ui.component.LazyDivider
+import com.radiantmood.kuttit.ui.component.LazySpacer
 import com.radiantmood.kuttit.ui.component.PlatformDialog
 import com.radiantmood.kuttit.util.ModelContainerContent
 
@@ -101,14 +102,6 @@ fun SettingsBody(showHelpDialog: Boolean, setShowHelpDialog: (Boolean) -> Unit) 
             HelpDialog(show = showHelpDialog, updateShow = setShowHelpDialog)
         }
     }
-}
-
-fun LazyListScope.LazyDivider(modifier: Modifier = Modifier) = item {
-    Divider(modifier = modifier)
-}
-
-fun LazyListScope.LazySpacer(modifier: Modifier = Modifier) = item {
-    Spacer(modifier = modifier)
 }
 
 @Composable
