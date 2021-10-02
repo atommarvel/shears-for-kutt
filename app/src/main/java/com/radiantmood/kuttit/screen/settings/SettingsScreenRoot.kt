@@ -24,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
@@ -40,6 +41,7 @@ import com.radiantmood.kuttit.ui.component.LazyDivider
 import com.radiantmood.kuttit.ui.component.LazySpacer
 import com.radiantmood.kuttit.ui.component.PlatformDialog
 import com.radiantmood.kuttit.util.ModelContainerContent
+import com.radiantmood.kuttit.util.snackbar.postSnackbar
 
 private val LocalSettingsViewModel =
     compositionLocalOf<SettingsViewModel> { error("No SettingsViewModel") }
@@ -67,8 +69,9 @@ fun SettingsScreen() {
 
 @Composable
 fun SettingsAppBar(setShowHelpDialog: (Boolean) -> Unit) {
-    KuttTopAppBar(title = "Settings") {
-        AppBarAction(imageVector = Icons.Default.Help, contentDescription = "Help") {
+    KuttTopAppBar(title = stringResource(R.string.settings)) {
+        AppBarAction(imageVector = Icons.Default.Help,
+            contentDescription = stringResource(R.string.a11y_help)) {
             setShowHelpDialog(true)
         }
     }
@@ -113,7 +116,7 @@ fun HelpDialog(show: Boolean, updateShow: (Boolean) -> Unit) {
                     modifier = Modifier.padding(16.dp)
                 ) {
                     Text(
-                        text = "About API Key",
+                        text = stringResource(R.string.api_key_title),
                         style = MaterialTheme.typography.h5,
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     )
@@ -132,20 +135,10 @@ fun LazyListScope.ApiKeyField(apiKey: String?) = item {
 
 @Composable
 fun Disclosure() {
-    Card(
-        backgroundColor = MaterialTheme.colors.error
-    ) {
-        Column(
-            modifier = Modifier.padding(8.dp)
-        ) {
-            Text("Disclosure", style = MaterialTheme.typography.h5)
-            Text(
-                """
-                Shears is an unofficial app not managed by the creators of Kutt.it. If you are experiencing issues with Kutt.it itself, please reach out to the Kutt.it maintainers themselves.
-                    
-                Conversely, if you are experiencing issues with Shears, please reach out to the Shears app dev instead of the Kutt team! 
-                """.trimIndent()
-            )
+    Card(backgroundColor = MaterialTheme.colors.error) {
+        Column(Modifier.padding(8.dp)) {
+            Text(stringResource(R.string.disclosure_title), style = MaterialTheme.typography.h5)
+            Text(stringResource(R.string.ownership_disclosure))
         }
     }
 }
@@ -172,15 +165,17 @@ fun SettingsRowUrl(text: String, url: String) {
 
 @Composable
 fun ManageDomains() {
-    SettingsRow(onClick = { /*TODO*/ }) {
-        Text("Manage domains")
+    val scope = rememberCoroutineScope()
+    val snackbarManageDomainsTodo = stringResource(R.string.manage_domains_todo)
+    SettingsRow(onClick = { scope.postSnackbar(snackbarManageDomainsTodo) }) {
+        Text(stringResource(R.string.manage_domains))
     }
 }
 
 @Composable
 fun KuttItLink() {
     SettingsRowUrl(
-        text = "Go to https://kutt.it",
+        text = stringResource(R.string.go_to_kutt),
         url = "https://kutt.it"
     )
 }
@@ -188,7 +183,7 @@ fun KuttItLink() {
 @Composable
 fun Contact() {
     SettingsRowUrl(
-        text = "Contact Shears app dev on Twitter",
+        text = stringResource(R.string.twitter_contact),
         url = "https://twitter.com/radiantmood"
     )
 }
@@ -196,7 +191,7 @@ fun Contact() {
 @Composable
 fun Report() {
     SettingsRowUrl(
-        text = "Report abuses, malware and phishing Kutt links",
+        text = stringResource(R.string.report),
         url = "https://kutt.it/report"
     )
 }
@@ -205,13 +200,13 @@ fun Report() {
 @Composable
 fun Crashlytics(enabled: Boolean) {
     val vm = LocalSettingsViewModel.current
-    val status = if (enabled) "enabled" else "disabled"
+    val status = if (enabled) R.string.crashlytics_enabled else R.string.crashlytics_disabled
     SettingsRow(onClick = {
         vm.updateCrashlytics(!enabled)
     }) {
         Text(
             modifier = Modifier.weight(1f),
-            text = "Crashlytics $status"
+            text = stringResource(status)
         )
         Switch(
             checked = enabled,
@@ -223,6 +218,6 @@ fun Crashlytics(enabled: Boolean) {
 @Composable
 fun OpenSourceAttribution() {
     SettingsRow(onClick = { /*TODO: nav to attribution*/ }) {
-        Text("Open Source Attributions")
+        Text(stringResource(R.string.open_source))
     }
 }
