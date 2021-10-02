@@ -12,6 +12,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,6 +20,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
+import com.radiantmood.kuttit.R
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
@@ -30,53 +32,85 @@ fun OnboardingBottomNav(
     finishOnboarding: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
-    Row(modifier = modifier.padding(8.dp)) {
-        Box(Modifier
-            .align(Alignment.CenterVertically)
-            .weight(1f)) {
-            Text("Back", modifier = Modifier
-                .clickable {
-                    val index = pagerState.currentPage - 1
-                    if (index >= 0) {
-                        scope.launch { pagerState.animateScrollToPage(index) }
-                    }
-                }
-                .padding(16.dp)
-            )
-            // Hide back button by covering it up to keep things lined up
-            if (currentPage == 0) {
-                Box(Modifier
-                    .matchParentSize()
-                    .background(MaterialTheme.colors.surface))
-            }
+    val onBackClick = {
+        val index = pagerState.currentPage - 1
+        if (index >= 0) {
+            scope.launch { pagerState.animateScrollToPage(index) }
         }
+    }
+    val onNextClick: () -> Unit = {
+        val index = currentPage + 1
+        if (index < onboardingPageCount) {
+            scope.launch { pagerState.animateScrollToPage(index) }
+        } else {
+            finishOnboarding()
+        }
+    }
+
+    Row(modifier = modifier.padding(8.dp)) {
+        BackNavButton(
+            modifier = Modifier.Companion
+                .align(Alignment.CenterVertically)
+                .weight(1f),
+            onBackClick = onBackClick,
+            currentPage = currentPage
+        )
         HorizontalPagerIndicator(
             pagerState = pagerState,
             modifier = Modifier
                 .align(Alignment.CenterVertically)
                 .padding(16.dp),
         )
-        val forwardLabel =
-            if (pagerState.currentPage == (onboardingPageCount - 1)) "Finish" else "Next"
-        Box(Modifier
-            .weight(1f)
-            .align(Alignment.CenterVertically)) {
-            Text(
-                text = forwardLabel,
-                modifier = Modifier
-                    .clickable {
-                        val index = currentPage + 1
-                        if (index < onboardingPageCount) {
-                            scope.launch { pagerState.animateScrollToPage(index) }
-                        } else {
-                            finishOnboarding()
-                        }
-                    }
-                    .align(Alignment.CenterEnd)
-                    .padding(16.dp),
-                textAlign = TextAlign.End
-            )
+        NextNavButton(
+            modifier = Modifier.Companion
+                .weight(1f)
+                .align(Alignment.CenterVertically),
+            pagerState = pagerState,
+            onNextClick = onNextClick
+        )
+    }
+}
+
+@Composable
+private fun BackNavButton(
+    modifier: Modifier = Modifier,
+    onBackClick: () -> Unit,
+    currentPage: Int,
+) {
+    Box(modifier) {
+        Text(
+            text = stringResource(R.string.pager_back),
+            modifier = Modifier
+                .clickable(onClick = onBackClick)
+                .padding(16.dp)
+        )
+        // Hide back button by covering it up to keep things lined up
+        if (currentPage == 0) {
+            Box(Modifier
+                .matchParentSize()
+                .background(MaterialTheme.colors.surface))
         }
+    }
+}
+
+@ExperimentalPagerApi
+@Composable
+private fun NextNavButton(
+    modifier: Modifier = Modifier,
+    pagerState: PagerState,
+    onNextClick: () -> Unit,
+) {
+    val forwardLabel =
+        if (pagerState.currentPage == (onboardingPageCount - 1)) "Finish" else "Next"
+    Box(modifier) {
+        Text(
+            text = forwardLabel,
+            modifier = Modifier
+                .clickable(onClick = onNextClick)
+                .align(Alignment.CenterEnd)
+                .padding(16.dp),
+            textAlign = TextAlign.End
+        )
     }
 }
 

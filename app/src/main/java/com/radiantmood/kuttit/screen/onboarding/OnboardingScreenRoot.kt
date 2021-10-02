@@ -12,11 +12,13 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.radiantmood.kuttit.LocalNavController
 import com.radiantmood.kuttit.LocalScaffoldState
+import com.radiantmood.kuttit.R
 import com.radiantmood.kuttit.data.LoadingModelContainer
 import com.radiantmood.kuttit.repo.SettingsRepo
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
@@ -50,7 +52,7 @@ fun OnboardingScreen(content: @Composable () -> Unit) {
 @Composable
 fun OnboardingAppBar() {
     KuttTopAppBar(
-        title = "Onboarding",
+        title = stringResource(R.string.onboarding_title),
         allowBack = false,
         actions = { SkipAppBarAction() }
     )
@@ -60,7 +62,7 @@ fun OnboardingAppBar() {
 fun SkipAppBarAction() {
     val nav = LocalNavController.current
     Text(
-        text = "Skip",
+        text = stringResource(R.string.skip_btn_label),
         modifier = Modifier
             .clickable { finishOnboarding(nav) }
             .padding(8.dp)

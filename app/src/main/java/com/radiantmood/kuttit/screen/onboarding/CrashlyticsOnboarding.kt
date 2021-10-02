@@ -8,8 +8,10 @@ import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.radiantmood.kuttit.R
 import com.radiantmood.kuttit.dev.PreviewBox
 import com.radiantmood.kuttit.ui.component.CrashlyticsOptInRow
 
@@ -20,7 +22,7 @@ fun CrashlyticsOnboarding(
 ) {
     Card {
         Column(Modifier.padding(8.dp)) {
-            Text("Enable anonymous crash metrics? This helps the Shears app developer fix crashes and errors faster. You can enable/disable in Settings as well.")
+            Text(stringResource(R.string.onboarding_analytics_req))
             Spacer(Modifier.height(16.dp))
             CrashlyticsOptInRow(
                 crashlyticsEnabled = screenModel.isCrashlyticsEnabled,
