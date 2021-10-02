@@ -1,5 +1,6 @@
 package com.radiantmood.kuttit.screen.settings
 
+import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,10 +28,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.radiantmood.kuttit.R
 import com.radiantmood.kuttit.RootCommon
 import com.radiantmood.kuttit.data.LoadingModelContainer
@@ -227,7 +230,10 @@ fun Crashlytics(enabled: Boolean) {
 
 @Composable
 fun OpenSourceAttribution() {
-    SettingsRow(onClick = { /*TODO: nav to attribution*/ }) {
+    val context = LocalContext.current
+    SettingsRow(onClick = {
+        context.startActivity(Intent(context, OssLicensesMenuActivity::class.java))
+    }) {
         Text(stringResource(R.string.open_source))
     }
 }
