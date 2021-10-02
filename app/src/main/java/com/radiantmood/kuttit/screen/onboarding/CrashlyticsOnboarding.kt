@@ -20,7 +20,7 @@ fun CrashlyticsOnboarding(
 ) {
     Card {
         Column(Modifier.padding(8.dp)) {
-            Text("Enable anonymous crash metrics? This helps the app developer fix crashes and errors faster. You can enable/disable in Settings as well.")
+            Text("Enable anonymous crash metrics? This helps the Shears app developer fix crashes and errors faster. You can enable/disable in Settings as well.")
             Spacer(Modifier.height(16.dp))
             CrashlyticsOptInRow(
                 crashlyticsEnabled = screenModel.isCrashlyticsEnabled,

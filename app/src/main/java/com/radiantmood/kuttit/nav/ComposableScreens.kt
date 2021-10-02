@@ -1,11 +1,11 @@
 import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.core.os.bundleOf
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDeepLink
 import androidx.navigation.NavType
-import androidx.navigation.compose.NamedNavArgument
-import androidx.navigation.compose.navArgument
+import androidx.navigation.navArgument
 import com.radiantmood.kuttit.screen.creation.CreationScreenRoot
 import com.radiantmood.kuttit.screen.home.HomeScreenRoot
 import com.radiantmood.kuttit.screen.onboarding.OnboardingScreenRoot
