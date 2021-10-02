@@ -28,6 +28,7 @@
     <string name="manage_domains_todo">TODO: Manage domains feature is coming soon!</string>
     <string name="go_to_kutt">Go to https://kutt.it</string>
     <string name="twitter_contact">Contact Shears app dev on Twitter</string>
+    <string name="translation_contact">Click here to help translate the app to other languages.</string>
     <string name="report">Report abuses, malware and phishing Kutt links</string>
     <string name="crashlytics_enabled">Crashlytics enabled</string>
     <string name="crashlytics_disabled">Crashlytics disabled</string>

@@ -95,6 +95,8 @@ fun SettingsBody(showHelpDialog: Boolean, setShowHelpDialog: (Boolean) -> Unit) 
                 LazyDivider()
                 item { Contact() }
                 LazyDivider()
+                item { Translations() }
+                LazyDivider()
                 item { Report() }
                 LazyDivider()
                 item { Crashlytics(screenModel.isCrashlyticsEnabled) }
@@ -185,6 +187,14 @@ fun Contact() {
     SettingsRowUrl(
         text = stringResource(R.string.twitter_contact),
         url = "https://twitter.com/radiantmood"
+    )
+}
+
+@Composable
+fun Translations() {
+    SettingsRowUrl(
+        text = stringResource(R.string.translation_contact),
+        url = "https://poeditor.com/join/project?hash=Tw8KdfZZno",
     )
 }
 
