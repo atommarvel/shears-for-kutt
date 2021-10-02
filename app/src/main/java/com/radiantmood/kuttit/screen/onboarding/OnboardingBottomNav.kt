@@ -79,7 +79,7 @@ private fun BackNavButton(
 ) {
     Box(modifier) {
         Text(
-            text = stringResource(R.string.pager_back),
+            text = stringResource(R.string.nav_back),
             modifier = Modifier
                 .clickable(onClick = onBackClick)
                 .padding(16.dp)

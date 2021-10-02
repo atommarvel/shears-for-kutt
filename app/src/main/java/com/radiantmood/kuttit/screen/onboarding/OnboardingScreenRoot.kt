@@ -52,7 +52,7 @@ fun OnboardingScreen(content: @Composable () -> Unit) {
 @Composable
 fun OnboardingAppBar() {
     KuttTopAppBar(
-        title = stringResource(R.string.onboarding_title),
+        title = stringResource(R.string.onboarding),
         allowBack = false,
         actions = { SkipAppBarAction() }
     )
@@ -62,7 +62,7 @@ fun OnboardingAppBar() {
 fun SkipAppBarAction() {
     val nav = LocalNavController.current
     Text(
-        text = stringResource(R.string.skip_btn_label),
+        text = stringResource(R.string.nav_skip),
         modifier = Modifier
             .clickable { finishOnboarding(nav) }
             .padding(8.dp)

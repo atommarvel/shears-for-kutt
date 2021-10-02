@@ -1,7 +1,6 @@
 package com.radiantmood.kuttit.screen.home
 
 import ComposableScreen
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,9 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Divider
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -30,26 +26,24 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.radiantmood.kuttit.LocalNavController
 import com.radiantmood.kuttit.LocalScaffoldState
+import com.radiantmood.kuttit.R
 import com.radiantmood.kuttit.RootCommon
 import com.radiantmood.kuttit.data.KuttLink
 import com.radiantmood.kuttit.data.LoadingModelContainer
 import com.radiantmood.kuttit.nav.navigate
 import com.radiantmood.kuttit.ui.component.AppBarAction
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
-import com.radiantmood.kuttit.ui.component.PlatformDialog
 import com.radiantmood.kuttit.util.Fullscreen
-import com.radiantmood.kuttit.util.LoadingScreen
 import com.radiantmood.kuttit.util.ModelContainerContent
 import com.radiantmood.kuttit.util.snackbar.KuttSnackbar
 import com.radiantmood.kuttit.util.snackbar.postSnackbar
@@ -84,8 +78,9 @@ fun HomeScreen() {
 @Composable
 fun HomeAppBar() {
     val nav = LocalNavController.current
-    KuttTopAppBar(title = "Shears") {
-        AppBarAction(imageVector = Icons.Default.Settings, contentDescription = "Settings") {
+    KuttTopAppBar(title = stringResource(R.string.app_name)) {
+        AppBarAction(imageVector = Icons.Default.Settings,
+            contentDescription = stringResource(R.string.settings)) {
             nav.navigate(ComposableScreen.SettingsScreen.route())
         }
     }
@@ -110,7 +105,10 @@ fun Fab() {
         onClick = { nav.navigate(ComposableScreen.CreationScreen.route()) },
         backgroundColor = MaterialTheme.colors.primary,
     ) {
-        Icon(imageVector = Icons.Default.Add, contentDescription = "Create new link")
+        Icon(
+            imageVector = Icons.Default.Add,
+            contentDescription = stringResource(R.string.a11y_create_link)
+        )
     }
 }
 
@@ -119,10 +117,7 @@ fun ApiKeyMissing() {
     val nav = LocalNavController.current
     Fullscreen {
         Text(
-            """
-                Shears currently only supports logged-in users. 
-                Please go to settings and add your API key.
-            """.trimIndent(),
+            text = stringResource(R.string.missing_api_msg),
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -145,115 +140,42 @@ fun UserLinks(content: HomeScreenModel.Content) {
 
 @Composable
 fun Overlays(content: HomeScreenModel.Content) {
+    val vm = LocalHomeViewModel.current
+    val clipboardManager = LocalClipboardManager.current
+    val scope = rememberCoroutineScope()
+    val snackbarComingSoonMsg = stringResource(R.string.snackbar_update_coming_soon)
+    val snackbarLinkCopiedMsg = stringResource(R.string.snackbar_link_copied_to_clipboard)
     KuttSnackbar()
-    LinkDialog(content.dialogLink)
+    LinkDialog(
+        link = content.dialogLink,
+        copyToClipboard = {
+            clipboardManager.setText(AnnotatedString(it))
+            scope.postSnackbar(snackbarLinkCopiedMsg)
+        },
+        updateLink = {
+            // TODO: link updating
+            scope.postSnackbar(snackbarComingSoonMsg)
+        },
+        deleteLink = {
+            vm.deleteLink(it)
+        },
+        closeDialog = {
+            vm.closeDialog()
+        }
+    )
 }
 
 @Composable
 private fun UserLinkList(
-    content: HomeScreenModel.Content
+    content: HomeScreenModel.Content,
 ) {
     val vm = LocalHomeViewModel.current
-    val scope = rememberCoroutineScope()
     val lazyLinks = content.kuttLinkPager.flow.collectAsLazyPagingItems()
     val mods by vm.modifiers.observeAsState(emptyMap())
     LazyColumn {
-        item {
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-
-        items(lazyLinks) { link ->
-            KuttLinkCardListItem(link, mods)
-        }
-
-        lazyLinks.apply {
-            when {
-                loadState.refresh is LoadState.Loading -> {
-                    item { LoadingScreen() }
-                }
-                loadState.append is LoadState.Loading -> {
-                    item {
-                        Box(
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 8.dp, horizontal = 16.dp)) {
-                            CircularProgressIndicator()
-                        }
-                    }
-                }
-                loadState.refresh is LoadState.Error -> {
-                    val e = (loadState.refresh as LoadState.Error).error
-                    item {
-                        scope.postSnackbar(e)
-                    }
-                }
-                loadState.append is LoadState.Error -> {
-                    val e = (loadState.append as LoadState.Error).error
-                    item {
-                        scope.postSnackbar(e)
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun LinkDialog(link: KuttLink?) {
-    val vm = LocalHomeViewModel.current
-    val clipboardManager = LocalClipboardManager.current
-    val scope = rememberCoroutineScope()
-    link?.let {
-        PlatformDialog(onDismissRequest = { vm.closeDialog() }) {
-            Card {
-                Column {
-                    Text(
-                        text = link.link,
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .fillMaxWidth(),
-                        textAlign = TextAlign.Center
-                    )
-                    Text(
-                        text = "Copy to clipboard",
-                        modifier = Modifier
-                            .clickable {
-                                clipboardManager.setText(AnnotatedString(link.link))
-                                scope.postSnackbar("Link copied.")
-                                vm.closeDialog()
-                            }
-                            .padding(16.dp)
-                            .fillMaxWidth()
-                    )
-                    Divider()
-                    Text(
-                        text = "Update",
-                        modifier = Modifier
-                            .clickable {
-                                // TODO: link updating
-                                scope.postSnackbar("TODO: link updating is coming soon!")
-                                vm.closeDialog()
-                            }
-                            .padding(16.dp)
-                            .fillMaxWidth()
-                    )
-                    Divider()
-                    Text(
-                        text = "Delete",
-                        modifier = Modifier
-                            .clickable {
-                                vm.deleteLink(link)
-                                vm.closeDialog()
-                            }
-                            .padding(16.dp)
-                            .fillMaxWidth(),
-                        color = Color.Red
-                    )
-                    // TODO: View QR Code
-                    // TODO: View Stats
-                }
-            }
-        }
+        item { Spacer(modifier = Modifier.height(16.dp)) }
+        items(lazyLinks) { link -> KuttLinkCardListItem(link, mods) }
+        lazyPagingFooter(lazyLinks, this)
     }
 }
 

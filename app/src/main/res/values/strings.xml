@@ -3,9 +3,21 @@
     <string name="api_explanation">While logged in, your API key can be found at %s/settings in the \"API\" section. It will look like a string of nonsense.\n\nPaste your api key into the "API Key" field in settings to allow the app to talk to Kutt servers on your behalf. It\'s a lot like logging into Kutt.\n\nDO NOT share this key with sources/people you don\'t trust!</string>
 
     <!--Onboarding-->
-    <string name="onboarding_title">Onboarding</string>
-    <string name="skip_btn_label">Skip</string>
-    <string name="pager_next">Next</string>
-    <string name="pager_back">Back</string>
+    <string name="onboarding">Onboarding</string>
+    <string name="nav_skip">Skip</string>
+    <string name="nav_next">Next</string>
+    <string name="nav_back">Back</string>
     <string name="onboarding_analytics_req">Enable anonymous crash metrics? This helps the Shears app developer fix crashes and errors faster. You can enable/disable in Settings as well.</string>
+
+    <!--Home-->
+    <string name="a11y_create_link">Create new link</string>
+    <string name="missing_api_msg">Shears currently only supports logged-in users.\nPlease go to settings and add your API key.</string>
+    <string name="dialog_copy">Copy to clipboard</string>
+    <string name="dialog_update">Update</string>
+    <string name="dialog_delete">Delete</string>
+    <string name="snackbar_link_copied_to_clipboard">Link copied.</string>
+    <string name="snackbar_update_coming_soon">TODO: link updating is coming soon!</string>
+
+    <!--Settings-->
+    <string name="settings">Settings</string>
 </resources>
