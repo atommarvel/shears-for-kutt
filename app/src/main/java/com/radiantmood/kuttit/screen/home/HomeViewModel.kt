@@ -60,9 +60,8 @@ class HomeViewModel : ViewModel() {
 
     fun deleteLink(link: KuttLink) = viewModelScope.launch(Dispatchers.IO) {
         try {
-            val apiKey = checkNotNull(SettingsRepo.apiKey) { "API key is missing." }
             addDeletionModifier(link)
-            kuttService.deleteLink(apiKey, link.id)
+            kuttService.deleteLink(link.id)
             postSnackbar("Link deleted.")
             getLinks() // TODO: play nicer with paging to not reload entire screen when getting fresh data
         } catch (e: Exception) {

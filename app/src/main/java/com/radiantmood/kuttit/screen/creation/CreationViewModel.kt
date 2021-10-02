@@ -98,15 +98,12 @@ class CreationViewModel : ViewModel(), CreationInputs {
     }
 
     override fun createLink(nav: NavHostController, clipboardManager: ClipboardManager?) {
-
         viewModelScope.launch {
             setFieldsEnabled(false)
             try {
-                val apiKey =
-                    checkNotNull(SettingsRepo.apiKey) { kuttApp.getString(R.string.snackbar_api_key_missing) }
                 val model =
                     checkNotNull(screenModel) { kuttApp.getString(R.string.snackbar_generic_error) }
-                val creation = kuttService.postLink(apiKey, createNewKuttLinkBody(model))
+                val creation = kuttService.postLink(createNewKuttLinkBody(model))
                 clipboardManager?.setText(AnnotatedString(creation.link))
                 nav.postSnackbarBuffer(kuttApp.getString(R.string.snackbar_link_copied))
                 nav.popBackStack()

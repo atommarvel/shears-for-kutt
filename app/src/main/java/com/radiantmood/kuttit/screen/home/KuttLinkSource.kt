@@ -4,7 +4,6 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.radiantmood.kuttit.data.KuttLink
 import com.radiantmood.kuttit.data.RetrofitBuilder
-import com.radiantmood.kuttit.repo.SettingsRepo
 import kotlin.math.max
 
 class KuttLinkSource : PagingSource<Int, KuttLink>() {
@@ -13,7 +12,7 @@ class KuttLinkSource : PagingSource<Int, KuttLink>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, KuttLink> {
         return try {
             val skip = params.key ?: 0
-            val response = RetrofitBuilder.kuttService.getLinks(SettingsRepo.apiKey.orEmpty(), skip)
+            val response = RetrofitBuilder.kuttService.getLinks(skip)
             LoadResult.Page(
                 data = response.data,
                 prevKey = if (skip == 0) null else max(skip - params.loadSize, 0),
