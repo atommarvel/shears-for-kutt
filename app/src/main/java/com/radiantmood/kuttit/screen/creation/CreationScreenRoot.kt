@@ -17,10 +17,12 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.radiantmood.kuttit.LocalNavController
 import com.radiantmood.kuttit.LocalScaffoldState
+import com.radiantmood.kuttit.R
 import com.radiantmood.kuttit.RootCommon
 import com.radiantmood.kuttit.data.LoadingModelContainer
 import com.radiantmood.kuttit.data.ModelContainer
@@ -90,8 +92,11 @@ fun CreationAppBar(actions: CreationActions) {
     val nav = LocalNavController.current
     val clipboardManager = LocalClipboardManager.current
     val keyboardCtrl = LocalSoftwareKeyboardController.current
-    KuttTopAppBar(title = "Create") {
-        AppBarAction(imageVector = Icons.Default.Send, contentDescription = "Create link") {
+    KuttTopAppBar(title = stringResource(R.string.create)) {
+        AppBarAction(
+            imageVector = Icons.Default.Send,
+            contentDescription = stringResource(R.string.create_link)
+        ) {
             actions.createLink(nav, clipboardManager)
             keyboardCtrl?.hide()
         }

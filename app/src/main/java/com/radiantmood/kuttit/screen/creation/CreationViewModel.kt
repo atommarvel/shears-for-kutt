@@ -7,10 +7,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
+import com.radiantmood.kuttit.R
 import com.radiantmood.kuttit.data.LoadingModelContainer
 import com.radiantmood.kuttit.data.ModelContainer
 import com.radiantmood.kuttit.data.NewKuttLinkBody
 import com.radiantmood.kuttit.data.RetrofitBuilder.kuttService
+import com.radiantmood.kuttit.kuttApp
 import com.radiantmood.kuttit.repo.SettingsRepo
 import com.radiantmood.kuttit.util.snackbar.postSnackbar
 import com.radiantmood.kuttit.util.snackbar.postSnackbarBuffer
@@ -96,14 +98,17 @@ class CreationViewModel : ViewModel(), CreationInputs {
     }
 
     override fun createLink(nav: NavHostController, clipboardManager: ClipboardManager?) {
+
         viewModelScope.launch {
             setFieldsEnabled(false)
             try {
-                val apiKey = checkNotNull(SettingsRepo.apiKey) { "API key is missing" }
-                val model = checkNotNull(screenModel) { "Something went wrong" }
+                val apiKey =
+                    checkNotNull(SettingsRepo.apiKey) { kuttApp.getString(R.string.snackbar_api_key_missing) }
+                val model =
+                    checkNotNull(screenModel) { kuttApp.getString(R.string.snackbar_generic_error) }
                 val creation = kuttService.postLink(apiKey, createNewKuttLinkBody(model))
                 clipboardManager?.setText(AnnotatedString(creation.link))
-                nav.postSnackbarBuffer("Shortened link copied to clipboard.")
+                nav.postSnackbarBuffer(kuttApp.getString(R.string.snackbar_link_copied))
                 nav.popBackStack()
             } catch (e: Exception) {
                 postSnackbar(e)

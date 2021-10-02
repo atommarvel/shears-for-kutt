@@ -8,8 +8,10 @@ import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.radiantmood.kuttit.R
 import com.radiantmood.kuttit.ui.component.LazySpacer
 
 @Composable
@@ -21,14 +23,14 @@ fun CreationForm(model: CreationScreenModel, actions: CreationActions) {
             TextField(
                 value = model.targetUrl,
                 onValueChange = actions::onTargetUrlChanged,
-                label = { Text("URL to shorten") },
+                label = { Text(stringResource(id = R.string.url_label)) },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = model.fieldsEnabled,
             )
         }
         LazySpacer(Modifier.height(32.dp))
         item {
-            Text("Optional Advanced Options:", modifier = Modifier.fillMaxWidth())
+            Text(stringResource(R.string.advanced_options), modifier = Modifier.fillMaxWidth())
         }
         LazySpacer(Modifier.height(8.dp))
         item {
@@ -43,7 +45,7 @@ fun CreationForm(model: CreationScreenModel, actions: CreationActions) {
             TextField(
                 value = model.path,
                 onValueChange = actions::onPathChanged,
-                label = { Text("Custom path") },
+                label = { Text(stringResource(R.string.custom_path)) },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = model.fieldsEnabled,
             )
@@ -53,7 +55,7 @@ fun CreationForm(model: CreationScreenModel, actions: CreationActions) {
             TextField(
                 value = model.password,
                 onValueChange = actions::onPasswordChanged,
-                label = { Text("Password") },
+                label = { Text(stringResource(R.string.password)) },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = model.fieldsEnabled,
             )
@@ -63,9 +65,9 @@ fun CreationForm(model: CreationScreenModel, actions: CreationActions) {
             TextField(
                 value = model.expires,
                 onValueChange = actions::onExpiresChanged,
-                label = { Text("Expire in") },
-                placeholder = { Text("2 minutes/hours/days") },
+                label = { Text(stringResource(R.string.expire_in)) },
                 modifier = Modifier.fillMaxWidth(),
+                placeholder = { Text(stringResource(R.string.expire_in_placeholder)) },
                 enabled = model.fieldsEnabled,
             )
         }
@@ -74,7 +76,7 @@ fun CreationForm(model: CreationScreenModel, actions: CreationActions) {
             TextField(
                 value = model.description,
                 onValueChange = actions::onDescriptionChanged,
-                label = { Text("Description") },
+                label = { Text(stringResource(R.string.description)) },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = model.fieldsEnabled,
             )

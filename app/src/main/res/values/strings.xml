@@ -32,4 +32,21 @@
     <string name="crashlytics_enabled">Crashlytics enabled</string>
     <string name="crashlytics_disabled">Crashlytics disabled</string>
     <string name="open_source">Open Source Attributions</string>
+
+    <!--Creation-->
+    <string name="url_label">URL to shorten</string>
+    <string name="advanced_options">Optional Advanced Options:</string>
+    <string name="custom_path">Custom path</string>
+    <string name="password">Password</string>
+    <string name="expire_in">Expire in</string>
+    <string name="expire_in_placeholder">2 minutes/hours/days</string>
+    <string name="description">Description</string>
+    <string name="create">Create</string>
+    <string name="create_link">Create link</string>
+    <string name="snackbar_api_key_missing">API key is missing.</string>
+    <string name="snackbar_generic_error">Something went wrong.</string>
+    <string name="snackbar_link_copied">Shortened link copied to clipboard.</string>
+    <string name="custom_domain">Custom Domain:</string>
+    <string name="a11y_domain_choices">Show domain choices</string>
+    <string name="add_custom_domain">Add your custom domain</string>
 </resources>
