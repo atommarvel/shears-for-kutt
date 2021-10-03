@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
         AppUpdater.onResume(this)
     }
 
-    // TODO: Switch to contracts once the in-app updates library switches
+    // TODO#1knqt14: Switch to contracts once the in-app updates library switches
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         AppUpdater.onActivityResult(this, requestCode, resultCode)

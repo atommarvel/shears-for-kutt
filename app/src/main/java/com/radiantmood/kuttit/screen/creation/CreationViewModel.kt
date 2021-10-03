@@ -51,11 +51,11 @@ class CreationViewModel : ViewModel(), CreationInputs {
 
     private fun setupDefaultModel() {
         _creationScreen.value = CreationScreenModel(
-            targetUrl = "", // TODO: could we grab the data from the clipboard?
-            currentDomain = 0, // TODO: allow user to default to their custom domain in domain management.
+            targetUrl = "", // TODO#zbbnea: could we grab the data from the clipboard?
+            currentDomain = 0, // TODO#1knqt8g: allow user to default to their custom domain in domain management.
             domains = listOfNotNull(
                 SettingsRepo.baseUrl,
-                "radiantmood.com", // TODO: get domains from the domain repository
+                "radiantmood.com", // TODO#zbbn26: get domains from the domain repository
             ),
             path = "",
             password = "",

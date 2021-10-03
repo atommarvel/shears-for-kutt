@@ -5,7 +5,7 @@ import com.radiantmood.kuttit.data.FinishedModelContainer
 import com.radiantmood.kuttit.data.KuttLink
 
 sealed class HomeScreenModel : FinishedModelContainer<HomeScreenModel>() {
-    // TODO: abstract the pager into a state object + list of links?
+    // TODO#1knqy2t: abstract the pager into a state object + list of links?
     data class Content(
         val kuttLinkPager: Pager<Int, KuttLink>,
         val dialogLink: KuttLink? = null,

@@ -63,7 +63,7 @@ class HomeViewModel : ViewModel() {
             addDeletionModifier(link)
             kuttService.deleteLink(link.id)
             postSnackbar("Link deleted.")
-            getLinks() // TODO: play nicer with paging to not reload entire screen when getting fresh data
+            getLinks() // TODO#1knqy95: play nicer with paging to not reload entire screen when getting fresh data
         } catch (e: Exception) {
             postSnackbar(e)
         }

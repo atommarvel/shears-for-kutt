@@ -28,7 +28,7 @@ object AppUpdater {
 
     @Suppress("UNREACHABLE_CODE")
     private fun maybePromptForUpdate(activity: Activity) {
-        // TODO: test in-app updates
+        // TODO#15zpcjv: test in-app updates
         // https://developer.android.com/guide/playcore/in-app-updates/test
         return
 

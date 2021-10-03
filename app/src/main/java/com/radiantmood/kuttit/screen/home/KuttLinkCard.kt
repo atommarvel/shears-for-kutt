@@ -42,7 +42,7 @@ import kotlinx.coroutines.isActive
 
 @Composable
 fun KuttLinkCard(link: KuttLink, isDeleting: Boolean, onClick: () -> Unit) {
-    // TODO: decide on card color to make it stick out just a slight bit more without being annoying
+    // TODO#zbbng4: decide on card color to make it stick out just a slight bit more without being annoying
     val modifier = if (isDeleting) Modifier else Modifier.clickable { onClick() }
     val contentAlpha = if (isDeleting) 0.3f else 1f
     Card(
@@ -96,7 +96,7 @@ fun DeletionOverlay(boxScope: BoxScope) {
 fun flippingNumbers(initialValue: Float): State<Float> {
     return produceState(initialValue = initialValue) {
         while (isActive) {
-            delay(301) // TODO: magic number for animation durations
+            delay(301) // TODO#1ney5nn: magic number for animation durations
             value *= -1
         }
     }

@@ -42,8 +42,8 @@ fun LinkDialog(
                     UpdateActionItem(textMod, link, updateLink, closeDialog)
                     Divider()
                     DeleteActionItem(textMod, link, deleteLink, closeDialog)
-                    // TODO: View QR Code
-                    // TODO: View Stats
+                    // TODO#zbbnrk: View QR Code
+                    // TODO#zbbnqj: View Stats
                 }
             }
         }

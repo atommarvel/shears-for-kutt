@@ -44,7 +44,7 @@ fun DomainDropdown(
             )
             Spacer(Modifier.width(8.dp))
             Box {
-                // TODO: why does this button not disable until after the first time interacting with it? is this a me issue or a compose issue?
+                // TODO#zbbn7y: why does this button not disable until after the first time interacting with it? is this a me issue or a compose issue?
                 Button(onClick = { expanded = true }, enabled = !expanded && model.fieldsEnabled) {
                     Text(model.domains[model.currentDomain])
                     Icon(Icons.Default.ExpandMore, stringResource(R.string.a11y_domain_choices))
