@@ -13,7 +13,7 @@
 See the roadmap at [atom.fyi/shears-roadmap](http://atom.fyi/shears-roadmap).
 
 # Translations via POEditor.com
-<img src="data/poeditor.png" height="100"/>
+<img src="data/poeditor.png" height="40"/>
 
 If you are interested in contributing to translating the app for other languages, you can join
 the [poeditor translation project here](https://poeditor.com/join/project?hash=Tw8KdfZZno). 
