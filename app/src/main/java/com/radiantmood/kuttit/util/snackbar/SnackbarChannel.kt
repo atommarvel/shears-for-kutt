@@ -30,7 +30,6 @@ fun CoroutineScope.postSnackbar(e: Throwable) = e.localizedMessage?.let {
 
 /**
  * Use [NavHostController.saveState] to pass snackbar messages to previous backstack entries
- * TODO: support sending to future backstack entries via arguments?
  */
 private const val SNACKBAR_BUFFER_KEY = "snackbar_message"
 
