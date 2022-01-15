@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Help
@@ -39,6 +38,7 @@ import com.radiantmood.kuttit.RootCommon
 import com.radiantmood.kuttit.data.LoadingModelContainer
 import com.radiantmood.kuttit.ui.component.ApiKeyInput
 import com.radiantmood.kuttit.ui.component.AppBarAction
+import com.radiantmood.kuttit.ui.component.CrashlyticsOptInRow
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
 import com.radiantmood.kuttit.ui.component.LazyDivider
 import com.radiantmood.kuttit.ui.component.LazySpacer
@@ -209,22 +209,14 @@ fun Report() {
     )
 }
 
-// TODO#1ney68w: move to using CrashlyticsOptInRow component
 @Composable
 fun Crashlytics(enabled: Boolean) {
     val vm = LocalSettingsViewModel.current
-    val status = if (enabled) R.string.crashlytics_enabled else R.string.crashlytics_disabled
-    SettingsRow(onClick = {
-        vm.updateCrashlytics(!enabled)
-    }) {
-        Text(
-            modifier = Modifier.weight(1f),
-            text = stringResource(status)
-        )
-        Switch(
-            checked = enabled,
-            onCheckedChange = { vm.updateCrashlytics(!enabled) }
-        )
+    CrashlyticsOptInRow(
+        modifier = Modifier.padding(vertical = 16.dp),
+        crashlyticsEnabled = enabled,
+    ) {
+        vm.updateCrashlytics(it)
     }
 }
 

@@ -14,10 +14,14 @@ fun CrashlyticsOptInRow(
     setCrashlyticsEnabled: (Boolean) -> Unit,
 ) {
     val enabled = if (crashlyticsEnabled) "enabled" else "disabled"
-    Row(modifier.clickable { setCrashlyticsEnabled(!crashlyticsEnabled) }) {
+    Row(
+        modifier = Modifier
+            .clickable { setCrashlyticsEnabled(!crashlyticsEnabled) }
+            .then(modifier)
+    ) {
         Text(
             modifier = Modifier.weight(1f),
-            text = "Anonymous crash reporting $enabled"
+            text = "Anonymous crash reporting $enabled",
         )
         Switch(checked = crashlyticsEnabled, onCheckedChange = setCrashlyticsEnabled)
     }
