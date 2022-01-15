@@ -13,19 +13,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.radiantmood.kuttit.R
 import com.radiantmood.kuttit.dev.PreviewBox
-import com.radiantmood.kuttit.repo.SettingsRepo
 import com.radiantmood.kuttit.ui.component.ApiKeyInput
 import com.radiantmood.kuttit.ui.component.UrlClickableText
 
 @Composable
 fun ApiKeyOnboarding(
     screenModel: OnboardingScreenModel,
-    baseUrl: String = SettingsRepo.baseUrl.orEmpty(),
     setApiKey: (String) -> Unit,
 ) {
     Card {
         Column(Modifier.padding(8.dp)) {
-            ExplanationText(baseUrl)
+            ExplanationText(screenModel.baseUrl)
             Spacer(Modifier.height(8.dp))
             ApiKeyInput(
                 apiKey = screenModel.apiKey,
@@ -36,7 +34,7 @@ fun ApiKeyOnboarding(
 }
 
 @Composable
-private fun ExplanationText(baseUrl: String = SettingsRepo.baseUrl.orEmpty()) {
+private fun ExplanationText(baseUrl: String) {
     UrlClickableText(
         text = buildAnnotatedString {
             append(stringResource(R.string.api_explanation, baseUrl))
@@ -51,9 +49,9 @@ private fun DefaultPreview() {
         ApiKeyOnboarding(
             screenModel = OnboardingScreenModel(
                 apiKey = "abcdefghijklmnopqrstuvwxyz",
+                baseUrl = "https://kutt.it",
                 isCrashlyticsEnabled = true
             ),
-            baseUrl = "https://kutt.it",
             setApiKey = {}
         )
     }

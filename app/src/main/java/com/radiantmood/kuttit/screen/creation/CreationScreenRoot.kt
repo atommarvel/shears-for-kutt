@@ -19,7 +19,7 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.radiantmood.kuttit.LocalNavController
 import com.radiantmood.kuttit.LocalScaffoldState
 import com.radiantmood.kuttit.R
@@ -34,7 +34,7 @@ import com.radiantmood.kuttit.util.snackbar.KuttSnackbar
 
 @Composable
 fun CreationScreenRoot(target: String) {
-    val vm: CreationViewModel = viewModel()
+    val vm: CreationViewModel = hiltViewModel()
     val modelContainer by vm.creationScreen.observeAsState(LoadingModelContainer())
     val actions = rememberCreationActions(vm)
     val scaffoldState = rememberScaffoldState()

@@ -4,6 +4,8 @@ buildscript {
         compose_version = '1.0.5'
         accompanist_version = '0.13.0'
         lifecycle_version = '2.4.0'
+        dagger_version = '2.40.5'
+        fragment_version = "1.4.0"
     }
     repositories {
         google()
@@ -16,8 +18,10 @@ buildscript {
         //firebase
         classpath 'com.google.gms:google-services:4.3.10'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.8.1'
-
         classpath 'com.google.android.gms:oss-licenses-plugin:0.10.4'
+
+        //dagger
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$dagger_version"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

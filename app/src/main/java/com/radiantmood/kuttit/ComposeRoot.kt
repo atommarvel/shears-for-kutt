@@ -14,17 +14,15 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.radiantmood.kuttit.nav.ConsumeExternallySharedText
-import com.radiantmood.kuttit.nav.ExternallySharedTextViewModel
+import com.radiantmood.kuttit.nav.RootViewModel
 import com.radiantmood.kuttit.nav.composableScreen
 import com.radiantmood.kuttit.nav.navigate
-import com.radiantmood.kuttit.repo.SettingsRepo
 import com.radiantmood.kuttit.ui.theme.KuttItTheme
 import com.radiantmood.kuttit.util.snackbar.ConsumeSnackbarBuffer
 
 val LocalNavController = compositionLocalOf<NavHostController> { error("No NavController") }
 val LocalScaffoldState = compositionLocalOf<ScaffoldState> { error("No ScaffoldState") }
-val LocalExternallySharedTextViewModel =
-    compositionLocalOf<ExternallySharedTextViewModel> { error("No ExternallySharedTextViewModel") }
+val LocalRootViewModel = compositionLocalOf<RootViewModel> { error("No RootViewModel") }
 
 @Composable
 fun ComposeRoot() {
@@ -41,7 +39,7 @@ fun ComposeRoot() {
 fun RootLocalProvider(content: @Composable () -> Unit) {
     CompositionLocalProvider(
         LocalNavController provides rememberNavController(),
-        LocalExternallySharedTextViewModel provides viewModel()
+        LocalRootViewModel provides viewModel()
     ) {
         content()
     }
@@ -62,7 +60,7 @@ fun Navigation() {
 fun RootCommon() {
     ConsumeExternallySharedText()
     ConsumeSnackbarBuffer()
-    if (SettingsRepo.onboardingFinished != true) {
+    if (!LocalRootViewModel.current.isOnboardingFinished()) {
         LocalNavController.current.navigate(OnboardingScreen.route())
     }
 }

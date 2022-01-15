@@ -61,7 +61,8 @@ private fun DefaultPreview() {
     OnboardingPager(
         modelContainer = OnboardingScreenModel(
             apiKey = "abcdefghijklmnopqrstuvwxyz",
-            isCrashlyticsEnabled = true
+            baseUrl = "https://kutt.it",
+            isCrashlyticsEnabled = true,
         ),
         finishOnboarding = {}
     ) { page, _ ->

@@ -14,13 +14,12 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.radiantmood.kuttit.LocalNavController
 import com.radiantmood.kuttit.LocalScaffoldState
 import com.radiantmood.kuttit.R
 import com.radiantmood.kuttit.data.LoadingModelContainer
-import com.radiantmood.kuttit.repo.SettingsRepo
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
 
 val LocalOnboardingViewModel =
@@ -28,7 +27,7 @@ val LocalOnboardingViewModel =
 
 @Composable
 fun OnboardingScreenRoot() {
-    val vm: OnboardingViewModel = viewModel()
+    val vm: OnboardingViewModel = hiltViewModel()
     val scaffoldState = rememberScaffoldState()
     CompositionLocalProvider(
         LocalOnboardingViewModel provides vm,
@@ -61,16 +60,17 @@ fun OnboardingAppBar() {
 @Composable
 fun SkipAppBarAction() {
     val nav = LocalNavController.current
+    val vm = LocalOnboardingViewModel.current
     Text(
         text = stringResource(R.string.nav_skip),
         modifier = Modifier
-            .clickable { finishOnboarding(nav) }
+            .clickable { finishOnboarding(vm, nav) }
             .padding(8.dp)
     )
 }
 
-fun finishOnboarding(nav: NavHostController) {
-    SettingsRepo.onboardingFinished = true
+fun finishOnboarding(vm: OnboardingViewModel, nav: NavHostController) {
+    vm.setOnboardingFinished(true)
     nav.popBackStack(HomeScreen.routeString(), false)
 }
 
@@ -81,7 +81,7 @@ fun OnboardingBody() {
     val modelContainer by vm.screenModel.observeAsState(LoadingModelContainer())
     OnboardingPager(
         modelContainer = modelContainer,
-        finishOnboarding = { finishOnboarding(nav) }
+        finishOnboarding = { finishOnboarding(vm, nav) }
     ) { page, screenModel ->
         when (page) {
             0 -> ApiKeyOnboarding(screenModel, setApiKey = vm::updateApiKey)

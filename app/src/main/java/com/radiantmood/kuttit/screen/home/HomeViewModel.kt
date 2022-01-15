@@ -2,20 +2,30 @@ package com.radiantmood.kuttit.screen.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.radiantmood.kuttit.data.KuttLink
+import com.radiantmood.kuttit.data.KuttService
 import com.radiantmood.kuttit.data.LoadingModelContainer
 import com.radiantmood.kuttit.data.ModelContainer
-import com.radiantmood.kuttit.data.RetrofitBuilder.kuttService
-import com.radiantmood.kuttit.repo.SettingsRepo
+import com.radiantmood.kuttit.repo.KuttApiKeySource
 import com.radiantmood.kuttit.util.snackbar.postSnackbar
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import javax.inject.Provider
 
-class HomeViewModel : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val handle: SavedStateHandle,
+    private val apiKeySource: KuttApiKeySource,
+    private val kuttService: KuttService,
+    private val kuttLinkSourceProvider: Provider<KuttLinkSource>,
+) : ViewModel() {
 
     private var _homeScreen =
         MutableLiveData<ModelContainer<HomeScreenModel>>(LoadingModelContainer())
@@ -30,14 +40,14 @@ class HomeViewModel : ViewModel() {
         getLinks()
     }
 
-    private fun createPager() = Pager(PagingConfig(10)) { KuttLinkSource() }
+    private fun createPager() = Pager(PagingConfig(10)) { kuttLinkSourceProvider.get() }
 
     private fun getLinks() = viewModelScope.launch(Dispatchers.IO) {
         _homeScreen.postValue(LoadingModelContainer())
         _modifiers.postValue(emptyMap())
         kuttLinkPager = createPager()
-        val apiKey = SettingsRepo.apiKey
-        if (apiKey.isNullOrBlank()) {
+        val apiKey = apiKeySource.apiKey
+        if (apiKey.isBlank()) {
             _homeScreen.postValue(HomeScreenModel.ApiKeyMissing)
         } else {
             _homeScreen.postValue(HomeScreenModel.Content(kuttLinkPager))

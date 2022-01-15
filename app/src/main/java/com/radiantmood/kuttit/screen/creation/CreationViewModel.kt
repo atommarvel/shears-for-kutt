@@ -1,5 +1,6 @@
 package com.radiantmood.kuttit.screen.creation
 
+import android.app.Application
 import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.text.AnnotatedString
 import androidx.lifecycle.LiveData
@@ -8,15 +9,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.radiantmood.kuttit.R
+import com.radiantmood.kuttit.data.KuttService
 import com.radiantmood.kuttit.data.LoadingModelContainer
 import com.radiantmood.kuttit.data.ModelContainer
 import com.radiantmood.kuttit.data.NewKuttLinkBody
-import com.radiantmood.kuttit.data.RetrofitBuilder.kuttService
-import com.radiantmood.kuttit.kuttApp
-import com.radiantmood.kuttit.repo.SettingsRepo
+import com.radiantmood.kuttit.repo.KuttUrlProvider
 import com.radiantmood.kuttit.util.snackbar.postSnackbar
 import com.radiantmood.kuttit.util.snackbar.postSnackbarBuffer
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 interface CreationInputs {
     fun onTargetUrlChanged(url: String)
@@ -39,7 +41,12 @@ class CreationActionsImpl(
     private val nav: CreationNav,
 ) : CreationActions, CreationInputs by inputs, CreationNav by nav
 
-class CreationViewModel : ViewModel(), CreationInputs {
+@HiltViewModel
+class CreationViewModel @Inject constructor(
+    private val app: Application,
+    private val kuttUrlProvider: KuttUrlProvider,
+    private val kuttService: KuttService,
+) : ViewModel(), CreationInputs {
     private var _creationScreen =
         MutableLiveData<ModelContainer<CreationScreenModel>>(LoadingModelContainer())
     val creationScreen: LiveData<ModelContainer<CreationScreenModel>> get() = _creationScreen
@@ -54,7 +61,7 @@ class CreationViewModel : ViewModel(), CreationInputs {
             targetUrl = "", // TODO#zbbnea: could we grab the data from the clipboard?
             currentDomain = 0, // TODO#1knqt8g: allow user to default to their custom domain in domain management.
             domains = listOfNotNull(
-                SettingsRepo.baseUrl,
+                kuttUrlProvider.baseUrl,
                 "radiantmood.com", // TODO#zbbn26: get domains from the domain repository
             ),
             path = "",
@@ -102,10 +109,10 @@ class CreationViewModel : ViewModel(), CreationInputs {
             setFieldsEnabled(false)
             try {
                 val model =
-                    checkNotNull(screenModel) { kuttApp.getString(R.string.snackbar_generic_error) }
+                    checkNotNull(screenModel) { app.getString(R.string.snackbar_generic_error) }
                 val creation = kuttService.postLink(createNewKuttLinkBody(model))
                 clipboardManager?.setText(AnnotatedString(creation.link))
-                nav.postSnackbarBuffer(kuttApp.getString(R.string.snackbar_link_copied))
+                nav.postSnackbarBuffer(app.getString(R.string.snackbar_link_copied))
                 nav.popBackStack()
             } catch (e: Exception) {
                 postSnackbar(e)

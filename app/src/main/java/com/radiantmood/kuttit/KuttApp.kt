@@ -1,13 +1,7 @@
 package com.radiantmood.kuttit
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-lateinit var kuttApp: KuttApp
-    private set
-
-class KuttApp : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        kuttApp = this
-    }
-}
+@HiltAndroidApp
+class KuttApp : Application()

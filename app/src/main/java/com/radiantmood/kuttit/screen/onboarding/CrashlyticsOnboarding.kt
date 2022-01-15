@@ -39,7 +39,8 @@ private fun DefaultPreview() {
         CrashlyticsOnboarding(
             screenModel = OnboardingScreenModel(
                 apiKey = "abcdefghijklmnopqrstuvwxyz",
-                isCrashlyticsEnabled = true
+                baseUrl = "https://kutt.it",
+                isCrashlyticsEnabled = true,
             ),
             setCrashlyticsEnabled = {}
         )

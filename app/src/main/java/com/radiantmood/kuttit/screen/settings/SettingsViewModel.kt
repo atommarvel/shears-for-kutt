@@ -5,10 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.radiantmood.kuttit.data.LoadingModelContainer
 import com.radiantmood.kuttit.data.ModelContainer
-import com.radiantmood.kuttit.repo.SettingsRepo
+import com.radiantmood.kuttit.repo.CrashlyticsStatusSource
+import com.radiantmood.kuttit.repo.KuttApiKeySource
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SettingsViewModel : ViewModel() {
-
+@HiltViewModel
+class SettingsViewModel @Inject constructor(
+    private val apiKeySource: KuttApiKeySource,
+    private val crashlyticsStatusSource: CrashlyticsStatusSource,
+) : ViewModel() {
     private val _settingsScreen =
         MutableLiveData<ModelContainer<SettingsScreenModel>>(LoadingModelContainer())
     val settingsScreen: LiveData<ModelContainer<SettingsScreenModel>>
@@ -20,18 +26,18 @@ class SettingsViewModel : ViewModel() {
 
     private fun updateScreen() {
         _settingsScreen.value = SettingsScreenModel(
-            apiKey = SettingsRepo.apiKey,
-            isCrashlyticsEnabled = SettingsRepo.isCrashlyticsEnabled()
+            apiKey = apiKeySource.apiKey,
+            isCrashlyticsEnabled = crashlyticsStatusSource.isCrashlyticsEnabled()
         )
     }
 
     fun updateCrashlytics(enabled: Boolean) {
-        SettingsRepo.setIsCrashlyticsEnabled(enabled)
+        crashlyticsStatusSource.setIsCrashlyticsEnabled(enabled)
         updateScreen()
     }
 
     fun updateApiKey(key: String) {
-        SettingsRepo.apiKey = key
+        apiKeySource.apiKey = key
         updateScreen()
     }
 }

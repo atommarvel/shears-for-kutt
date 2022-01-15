@@ -31,7 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.radiantmood.kuttit.LocalNavController
@@ -53,7 +53,7 @@ private val LocalHomeViewModel =
 
 @Composable
 fun HomeScreenRoot() {
-    val vm: HomeViewModel = viewModel()
+    val vm: HomeViewModel = hiltViewModel()
     val scaffoldState = rememberScaffoldState()
     RootCommon()
     CompositionLocalProvider(

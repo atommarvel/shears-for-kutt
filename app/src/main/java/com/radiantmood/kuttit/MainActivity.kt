@@ -4,12 +4,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import com.radiantmood.kuttit.nav.ExternallySharedTextViewModel
+import com.radiantmood.kuttit.nav.RootViewModel
 import com.radiantmood.kuttit.util.AppUpdater
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val externallySharedTextViewModel by viewModels<ExternallySharedTextViewModel>()
+    private val rootViewModel: RootViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +38,7 @@ class MainActivity : ComponentActivity() {
     private fun consumeIntent() {
         intent?.let {
             intent = null
-            externallySharedTextViewModel.consumeIntent(it)
+            rootViewModel.consumeIntent(it)
         }
     }
 }
