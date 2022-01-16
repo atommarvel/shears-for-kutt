@@ -1,6 +1,5 @@
 package com.radiantmood.kuttit.screen.home
 
-import ComposableScreen
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -35,12 +34,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.radiantmood.kuttit.LocalNavController
+import com.radiantmood.kuttit.LocalRootViewModel
 import com.radiantmood.kuttit.LocalScaffoldState
 import com.radiantmood.kuttit.R
 import com.radiantmood.kuttit.RootCommon
-import com.radiantmood.kuttit.data.KuttLink
-import com.radiantmood.kuttit.data.LoadingModelContainer
-import com.radiantmood.kuttit.nav.navigate
+import com.radiantmood.kuttit.data.local.LoadingModelContainer
+import com.radiantmood.kuttit.data.server.KuttLink
+import com.radiantmood.kuttit.nav.navTo
 import com.radiantmood.kuttit.ui.component.AppBarAction
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
 import com.radiantmood.kuttit.util.Fullscreen
@@ -78,10 +78,11 @@ fun HomeScreen() {
 @Composable
 fun HomeAppBar() {
     val nav = LocalNavController.current
+    val rvm = LocalRootViewModel.current
     KuttTopAppBar(title = stringResource(R.string.app_name)) {
         AppBarAction(imageVector = Icons.Default.Settings,
             contentDescription = stringResource(R.string.settings)) {
-            nav.navigate(ComposableScreen.SettingsScreen.route())
+            nav.navTo(rvm.settingsDestinationNavRoute())
         }
     }
 }
@@ -101,8 +102,9 @@ fun HomeBody() {
 @Composable
 fun Fab() {
     val nav = LocalNavController.current
+    val rvm = LocalRootViewModel.current
     FloatingActionButton(
-        onClick = { nav.navigate(ComposableScreen.CreationScreen.route()) },
+        onClick = { nav.navTo(rvm.creationDestinationNavRoute()) },
         backgroundColor = MaterialTheme.colors.primary,
     ) {
         Icon(
@@ -115,13 +117,14 @@ fun Fab() {
 @Composable
 fun ApiKeyMissing() {
     val nav = LocalNavController.current
+    val rvm = LocalRootViewModel.current
     Fullscreen {
         Text(
             text = stringResource(R.string.missing_api_msg),
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { nav.navigate(ComposableScreen.SettingsScreen.route()) }) {
+        Button(onClick = { nav.navTo(rvm.settingsDestinationNavRoute()) }) {
             Icon(imageVector = Icons.Default.Settings, contentDescription = "Settings")
             Text("Settings")
         }

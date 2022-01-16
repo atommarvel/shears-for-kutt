@@ -1,9 +1,5 @@
 package com.radiantmood.kuttit
 
-import ComposableScreen.CreationScreen
-import ComposableScreen.HomeScreen
-import ComposableScreen.OnboardingScreen
-import ComposableScreen.SettingsScreen
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -15,8 +11,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.radiantmood.kuttit.nav.ConsumeExternallySharedText
 import com.radiantmood.kuttit.nav.RootViewModel
-import com.radiantmood.kuttit.nav.composableScreen
-import com.radiantmood.kuttit.nav.navigate
+import com.radiantmood.kuttit.nav.composable
+import com.radiantmood.kuttit.nav.destination.CreationDestinationSpec
+import com.radiantmood.kuttit.nav.destination.HomeDestinationSpec
+import com.radiantmood.kuttit.nav.destination.OnboardingDestinationSpec
+import com.radiantmood.kuttit.nav.destination.SettingsDestinationSpec
+import com.radiantmood.kuttit.nav.navTo
 import com.radiantmood.kuttit.ui.theme.KuttItTheme
 import com.radiantmood.kuttit.util.snackbar.ConsumeSnackbarBuffer
 
@@ -36,10 +36,12 @@ fun ComposeRoot() {
 }
 
 @Composable
-fun RootLocalProvider(content: @Composable () -> Unit) {
+fun RootLocalProvider(
+    content: @Composable () -> Unit,
+) {
     CompositionLocalProvider(
         LocalNavController provides rememberNavController(),
-        LocalRootViewModel provides viewModel()
+        LocalRootViewModel provides viewModel(),
     ) {
         content()
     }
@@ -48,19 +50,24 @@ fun RootLocalProvider(content: @Composable () -> Unit) {
 @Composable
 fun Navigation() {
     val nav = LocalNavController.current
-    NavHost(navController = nav, startDestination = HomeScreen.routeString()) {
-        composableScreen(OnboardingScreen)
-        composableScreen(HomeScreen)
-        composableScreen(SettingsScreen)
-        composableScreen(CreationScreen)
+    val rvm = LocalRootViewModel.current
+    NavHost(navController = nav, startDestination = rvm.homeDestinationNavRoute().toString()) {
+        composable(OnboardingDestinationSpec, rvm)
+        composable(HomeDestinationSpec, rvm)
+        composable(SettingsDestinationSpec, rvm)
+        composable(CreationDestinationSpec, rvm)
     }
 }
 
+/**
+ * TODO: move shared text and onboarding to the compose root level
+ */
 @Composable
 fun RootCommon() {
     ConsumeExternallySharedText()
     ConsumeSnackbarBuffer()
     if (!LocalRootViewModel.current.isOnboardingFinished()) {
-        LocalNavController.current.navigate(OnboardingScreen.route())
+        val rvm = LocalRootViewModel.current
+        LocalNavController.current.navTo(rvm.onboardingDestinationNavRoute())
     }
 }

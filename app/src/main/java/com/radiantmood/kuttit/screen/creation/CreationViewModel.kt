@@ -9,10 +9,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.radiantmood.kuttit.R
-import com.radiantmood.kuttit.data.KuttService
-import com.radiantmood.kuttit.data.LoadingModelContainer
-import com.radiantmood.kuttit.data.ModelContainer
-import com.radiantmood.kuttit.data.NewKuttLinkBody
+import com.radiantmood.kuttit.data.local.LoadingModelContainer
+import com.radiantmood.kuttit.data.local.ModelContainer
+import com.radiantmood.kuttit.data.server.PostLinkBody
+import com.radiantmood.kuttit.network.KuttService
 import com.radiantmood.kuttit.repo.KuttUrlProvider
 import com.radiantmood.kuttit.util.snackbar.postSnackbar
 import com.radiantmood.kuttit.util.snackbar.postSnackbarBuffer
@@ -93,8 +93,8 @@ class CreationViewModel @Inject constructor(
 
     private fun setFieldsEnabled(enabled: Boolean) = onChange { it.copy(fieldsEnabled = enabled) }
 
-    private fun createNewKuttLinkBody(model: CreationScreenModel): NewKuttLinkBody = with(model) {
-        NewKuttLinkBody(
+    private fun createNewKuttLinkBody(model: CreationScreenModel): PostLinkBody = with(model) {
+        PostLinkBody(
             targetUrl = targetUrl,
             description = description,
             expires = expires,

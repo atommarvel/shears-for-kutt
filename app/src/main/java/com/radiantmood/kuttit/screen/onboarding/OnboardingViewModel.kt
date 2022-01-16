@@ -3,8 +3,8 @@ package com.radiantmood.kuttit.screen.onboarding
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.radiantmood.kuttit.data.LoadingModelContainer
-import com.radiantmood.kuttit.data.ModelContainer
+import com.radiantmood.kuttit.data.local.LoadingModelContainer
+import com.radiantmood.kuttit.data.local.ModelContainer
 import com.radiantmood.kuttit.repo.CrashlyticsStatusSource
 import com.radiantmood.kuttit.repo.KuttApiKeySource
 import com.radiantmood.kuttit.repo.KuttUrlProvider

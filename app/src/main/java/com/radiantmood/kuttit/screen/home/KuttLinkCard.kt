@@ -36,7 +36,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.radiantmood.kuttit.data.KuttLink
+import com.radiantmood.kuttit.data.server.KuttLink
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 

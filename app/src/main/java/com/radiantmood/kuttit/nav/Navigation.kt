@@ -1,23 +1,24 @@
 package com.radiantmood.kuttit.nav
 
-import ComposableScreen
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import androidx.navigation.compose.composable
+import com.radiantmood.kuttit.nav.destination.DestinationSpec
+import com.radiantmood.kuttit.nav.destination.NavRouteFactory
 
-fun NavGraphBuilder.composableScreen(composableScreen: ComposableScreen) {
-    composable(
-        composableScreen.fullRoute,
-        composableScreen.optionalArgs,
-        composableScreen.deepLinks,
-        composableScreen.content
+fun NavGraphBuilder.composable(spec: DestinationSpec, navRouteFactory: NavRouteFactory) {
+    this.composable(
+        navRouteFactory.registerNavRoute(spec).toString(),
+        spec.optionalArgs,
+        spec.deepLinks,
+        spec.screenRoot,
     )
 }
 
-fun NavController.navigate(
-    route: ComposableScreen.Route,
+fun NavController.navTo(
+    route: NavRoute,
     navOptions: NavOptions? = null,
     navigatorExtras: Navigator.Extras? = null,
 ) {

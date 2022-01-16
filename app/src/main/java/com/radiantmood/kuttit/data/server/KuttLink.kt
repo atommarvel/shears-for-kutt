@@ -1,15 +1,11 @@
-package com.radiantmood.kuttit.data
+package com.radiantmood.kuttit.data.server
 
 import kotlinx.serialization.Serializable
 
-@Serializable
-data class KuttLinkResponse(
-    val limit: Int,
-    val skip: Int,
-    val total: Int,
-    val data: List<KuttLink>
-)
-
+/**
+ * @param link the shortened kutt url
+ * @param target the url that [link] redirects to
+ */
 @Serializable
 data class KuttLink(
     val id: String, //uuid
@@ -24,9 +20,4 @@ data class KuttLink(
     val banned: Boolean,
     val expire_in: String?,
     val domain: String?,
-)
-
-@Serializable
-data class KuttLinkCreation(
-    val link: String,
 )

@@ -1,6 +1,5 @@
 package com.radiantmood.kuttit.screen.onboarding
 
-import ComposableScreen.HomeScreen
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
@@ -17,9 +16,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.radiantmood.kuttit.LocalNavController
+import com.radiantmood.kuttit.LocalRootViewModel
 import com.radiantmood.kuttit.LocalScaffoldState
 import com.radiantmood.kuttit.R
-import com.radiantmood.kuttit.data.LoadingModelContainer
+import com.radiantmood.kuttit.data.local.LoadingModelContainer
+import com.radiantmood.kuttit.nav.destination.NavRouteFactory
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
 
 val LocalOnboardingViewModel =
@@ -61,27 +62,33 @@ fun OnboardingAppBar() {
 fun SkipAppBarAction() {
     val nav = LocalNavController.current
     val vm = LocalOnboardingViewModel.current
+    val rvm = LocalRootViewModel.current
     Text(
         text = stringResource(R.string.nav_skip),
         modifier = Modifier
-            .clickable { finishOnboarding(vm, nav) }
+            .clickable { finishOnboarding(vm, rvm, nav) }
             .padding(8.dp)
     )
 }
 
-fun finishOnboarding(vm: OnboardingViewModel, nav: NavHostController) {
+fun finishOnboarding(
+    vm: OnboardingViewModel,
+    routeFactory: NavRouteFactory,
+    nav: NavHostController,
+) {
     vm.setOnboardingFinished(true)
-    nav.popBackStack(HomeScreen.routeString(), false)
+    nav.popBackStack(routeFactory.homeDestinationNavRoute().toString(), false)
 }
 
 @Composable
 fun OnboardingBody() {
     val vm = LocalOnboardingViewModel.current
+    val rvm = LocalRootViewModel.current
     val nav = LocalNavController.current
     val modelContainer by vm.screenModel.observeAsState(LoadingModelContainer())
     OnboardingPager(
         modelContainer = modelContainer,
-        finishOnboarding = { finishOnboarding(vm, nav) }
+        finishOnboarding = { finishOnboarding(vm, rvm, nav) }
     ) { page, screenModel ->
         when (page) {
             0 -> ApiKeyOnboarding(screenModel, setApiKey = vm::updateApiKey)

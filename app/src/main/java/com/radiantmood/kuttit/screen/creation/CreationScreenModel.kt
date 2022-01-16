@@ -1,6 +1,6 @@
 package com.radiantmood.kuttit.screen.creation
 
-import com.radiantmood.kuttit.data.FinishedModelContainer
+import com.radiantmood.kuttit.data.local.FinishedModelContainer
 
 data class CreationScreenModel(
     val targetUrl: String,

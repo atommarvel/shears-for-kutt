@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
-import com.radiantmood.kuttit.data.ModelContainer
+import com.radiantmood.kuttit.data.local.ModelContainer
 import com.radiantmood.kuttit.util.ModelContainerContent
 
 /**

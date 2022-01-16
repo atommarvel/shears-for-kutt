@@ -9,9 +9,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
+/**
+ * Container for displaying previews more distinctly.
+ */
 @Composable
 fun PreviewBox(content: @Composable BoxScope.() -> Unit) {
-    Box(modifier = Modifier
-        .background(Color.Gray)
-        .padding(8.dp), content = content)
+    Box(
+        modifier = Modifier
+            .background(Color.Gray)
+            .padding(8.dp),
+        content = content,
+    )
 }

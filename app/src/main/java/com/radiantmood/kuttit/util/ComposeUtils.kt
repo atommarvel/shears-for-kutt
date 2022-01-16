@@ -17,10 +17,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.radiantmood.kuttit.data.ErrorModelContainer
-import com.radiantmood.kuttit.data.FinishedModelContainer
-import com.radiantmood.kuttit.data.LoadingModelContainer
-import com.radiantmood.kuttit.data.ModelContainer
+import com.radiantmood.kuttit.data.local.ErrorModelContainer
+import com.radiantmood.kuttit.data.local.FinishedModelContainer
+import com.radiantmood.kuttit.data.local.LoadingModelContainer
+import com.radiantmood.kuttit.data.local.ModelContainer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 

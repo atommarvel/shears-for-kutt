@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.radiantmood.kuttit.R
-import com.radiantmood.kuttit.data.KuttLink
+import com.radiantmood.kuttit.data.server.KuttLink
 import com.radiantmood.kuttit.ui.component.PlatformDialog
 
 @Composable

@@ -7,10 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.radiantmood.kuttit.data.KuttLink
-import com.radiantmood.kuttit.data.KuttService
-import com.radiantmood.kuttit.data.LoadingModelContainer
-import com.radiantmood.kuttit.data.ModelContainer
+import com.radiantmood.kuttit.data.local.LoadingModelContainer
+import com.radiantmood.kuttit.data.local.ModelContainer
+import com.radiantmood.kuttit.data.server.KuttLink
+import com.radiantmood.kuttit.network.KuttService
 import com.radiantmood.kuttit.repo.KuttApiKeySource
 import com.radiantmood.kuttit.util.snackbar.postSnackbar
 import dagger.hilt.android.lifecycle.HiltViewModel

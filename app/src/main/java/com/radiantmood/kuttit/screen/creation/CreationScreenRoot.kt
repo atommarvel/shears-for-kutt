@@ -1,6 +1,5 @@
 package com.radiantmood.kuttit.screen.creation
 
-import ComposableScreen
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
@@ -21,12 +20,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.radiantmood.kuttit.LocalNavController
+import com.radiantmood.kuttit.LocalRootViewModel
 import com.radiantmood.kuttit.LocalScaffoldState
 import com.radiantmood.kuttit.R
 import com.radiantmood.kuttit.RootCommon
-import com.radiantmood.kuttit.data.LoadingModelContainer
-import com.radiantmood.kuttit.data.ModelContainer
-import com.radiantmood.kuttit.nav.navigate
+import com.radiantmood.kuttit.data.local.LoadingModelContainer
+import com.radiantmood.kuttit.data.local.ModelContainer
+import com.radiantmood.kuttit.nav.navTo
 import com.radiantmood.kuttit.ui.component.AppBarAction
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
 import com.radiantmood.kuttit.util.ModelContainerContent
@@ -55,11 +55,12 @@ fun CreationScreenRoot(target: String) {
 @Composable
 fun rememberCreationActions(vm: CreationViewModel): CreationActions {
     val nav = LocalNavController.current
+    val rvm = LocalRootViewModel.current
     return remember {
         CreationActionsImpl(vm, object : CreationNav {
             override fun navToDomainManagement() {
                 // TODO#zbbn26: nav to domain management screen instead
-                nav.navigate(ComposableScreen.SettingsScreen.route())
+                nav.navTo(rvm.settingsDestinationNavRoute())
             }
         })
     }

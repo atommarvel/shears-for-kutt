@@ -1,8 +1,8 @@
 package com.radiantmood.kuttit.screen.home
 
 import androidx.paging.Pager
-import com.radiantmood.kuttit.data.FinishedModelContainer
-import com.radiantmood.kuttit.data.KuttLink
+import com.radiantmood.kuttit.data.local.FinishedModelContainer
+import com.radiantmood.kuttit.data.server.KuttLink
 
 sealed class HomeScreenModel : FinishedModelContainer<HomeScreenModel>() {
     // TODO#1knqy2t: abstract the pager into a state object + list of links?

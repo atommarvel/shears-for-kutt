@@ -1,6 +1,5 @@
 package com.radiantmood.kuttit.nav
 
-import ComposableScreen.CreationScreen
 import android.content.Intent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -10,21 +9,30 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.radiantmood.kuttit.LocalNavController
 import com.radiantmood.kuttit.LocalRootViewModel
+import com.radiantmood.kuttit.nav.destination.NavRouteFactory
 import com.radiantmood.kuttit.repo.OnboardingStatusSource
 import com.radiantmood.kuttit.util.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 /**
- * The [Event]s made available at [sharedText] contain text that was shared to this app via the following intent actions.
- * - [Intent.ACTION_SEND]
- * - [Intent.ACTION_SEND_MULTIPLE]
- * - [Intent.ACTION_PROCESS_TEXT]
+ * I'm not sure about a way to cleanly provide services to Compose yet, so I'm providing them via
+ *  this ViewModel.
  */
 @HiltViewModel
 class RootViewModel @Inject constructor(
     private val onboardingStatusSource: OnboardingStatusSource,
-) : ViewModel() {
+    private val navRouteFactory: NavRouteFactory,
+) : ViewModel(),
+    NavRouteFactory by navRouteFactory {
+
+    /**
+     * The [Event]s made available at [sharedText] contain text that was shared to this app via
+     *  the following intent actions.
+     * - [Intent.ACTION_SEND]
+     * - [Intent.ACTION_SEND_MULTIPLE]
+     * - [Intent.ACTION_PROCESS_TEXT]
+     */
     private val _sharedText = MutableLiveData<Event<String>>()
     val sharedText: LiveData<Event<String>> get() = _sharedText
 
@@ -37,12 +45,16 @@ class RootViewModel @Inject constructor(
     fun isOnboardingFinished() = onboardingStatusSource.onboardingFinished
 }
 
+/**
+ * React to receiving urls to shorten within Compose.
+ * TODO: move to the compose root level
+ */
 @Composable
 fun ConsumeExternallySharedText() {
-    val vm = LocalRootViewModel.current
-    val sharedText by vm.sharedText.observeAsState()
+    val rvm = LocalRootViewModel.current
+    val sharedText by rvm.sharedText.observeAsState()
     val nav = LocalNavController.current
     sharedText?.getContentIfNotHandled()?.let {
-        nav.navigate(CreationScreen.route(it))
+        nav.navTo(rvm.creationDestinationNavRoute(it))
     }
 }

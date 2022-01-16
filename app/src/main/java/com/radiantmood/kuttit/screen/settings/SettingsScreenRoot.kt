@@ -35,7 +35,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.radiantmood.kuttit.R
 import com.radiantmood.kuttit.RootCommon
-import com.radiantmood.kuttit.data.LoadingModelContainer
+import com.radiantmood.kuttit.data.local.LoadingModelContainer
 import com.radiantmood.kuttit.ui.component.ApiKeyInput
 import com.radiantmood.kuttit.ui.component.AppBarAction
 import com.radiantmood.kuttit.ui.component.CrashlyticsOptInRow

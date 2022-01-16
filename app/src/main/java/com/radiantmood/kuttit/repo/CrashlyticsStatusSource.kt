@@ -6,6 +6,9 @@ import com.radiantmood.kuttit.util.getPrefDelegate
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Tracks if crashlytics is enabled and passes on the state to [FirebaseCrashlytics].
+ */
 @Singleton
 class CrashlyticsStatusSource @Inject constructor(prefs: SharedPreferences) {
     private var crashlyticsEnabled: Boolean by getPrefDelegate(prefs, "crashlytics_enabled", false)

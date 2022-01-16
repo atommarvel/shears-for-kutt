@@ -2,8 +2,8 @@ package com.radiantmood.kuttit.screen.home
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.radiantmood.kuttit.data.KuttLink
-import com.radiantmood.kuttit.data.KuttService
+import com.radiantmood.kuttit.data.server.KuttLink
+import com.radiantmood.kuttit.network.KuttService
 import javax.inject.Inject
 import kotlin.math.max
 

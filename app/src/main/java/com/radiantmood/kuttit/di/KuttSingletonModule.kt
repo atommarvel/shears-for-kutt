@@ -3,8 +3,10 @@ package com.radiantmood.kuttit.di
 import android.app.Application
 import android.content.Context
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.radiantmood.kuttit.data.KuttApiKeyInterceptor
-import com.radiantmood.kuttit.data.KuttService
+import com.radiantmood.kuttit.nav.destination.NavRouteFactory
+import com.radiantmood.kuttit.nav.destination.NavRouteFactoryImpl
+import com.radiantmood.kuttit.network.KuttApiKeyInterceptor
+import com.radiantmood.kuttit.network.KuttService
 import com.radiantmood.kuttit.repo.KuttApiKeySource
 import com.radiantmood.kuttit.repo.KuttUrlProvider
 import dagger.Module
@@ -21,6 +23,9 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class KuttSingletonModule {
+
+    @Provides
+    fun navRouteFactory(impl: NavRouteFactoryImpl): NavRouteFactory = impl
 
     @Singleton
     @Provides

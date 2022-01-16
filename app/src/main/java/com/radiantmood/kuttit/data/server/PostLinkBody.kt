@@ -1,10 +1,15 @@
-package com.radiantmood.kuttit.data
+package com.radiantmood.kuttit.data.server
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * @param path the custom path the kutt url should use. Leave null to let Kutt backend make one up.
+ * @param targetUrl the url that [link] redirects to
+ * @param domain to specify a user-owned domain to use besides kutt.it
+ */
 @Serializable
-data class NewKuttLinkBody(
+data class PostLinkBody(
     @SerialName("target")
     val targetUrl: String,
     val description: String?,
