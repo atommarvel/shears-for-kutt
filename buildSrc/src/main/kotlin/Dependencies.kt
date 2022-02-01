@@ -3,6 +3,7 @@ object Dependencies {
     const val `retrofit-kotlinx-serialization` =
         "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
     const val junit = "junit:junit:4.+"
+    const val `android-plugin` = "com.android.tools.build:gradle:7.0.4"
 
     object androidx {
         const val core = "androidx.core:core-ktx:1.7.0"
@@ -46,6 +47,8 @@ object Dependencies {
     object google {
         const val material = "com.google.android.material:material:1.5.0"
         const val `play-oss-licenses` = "com.google.android.gms:play-services-oss-licenses:17.0.0"
+        const val `oss-licenses-plugin` = "com.google.android.gms:oss-licenses-plugin:0.10.4"
+        const val `services-plugin` = "com.google.gms:google-services:4.3.10"
 
         object accompanist {
             const val version = "0.13.0"
@@ -57,6 +60,7 @@ object Dependencies {
         object firebase {
             const val bom = "com.google.firebase:firebase-bom:28.2.0"
             const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx:18.2.7"
+            const val `crashlytics-plugin` = "com.google.firebase:firebase-crashlytics-gradle:2.8.1"
         }
 
         object play {
@@ -71,10 +75,16 @@ object Dependencies {
             const val hilt = "com.google.dagger:hilt-android:$version"
             const val `hilt-compiler` = "com.google.dagger:hilt-compiler:$version"
             const val `hilt-testing` = "com.google.dagger:hilt-android-testing:$version"
+            const val `hilt-plugin` = "com.google.dagger:hilt-android-gradle-plugin:$version"
         }
     }
 
     object jetbrains {
+        object kotlin {
+            const val version = "1.5.31"
+            const val plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
+        }
+
         object kotlinx {
             const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.1"
             const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0"
