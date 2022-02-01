@@ -1,13 +1,13 @@
 plugins {
-    id "com.android.application"
-    id "kotlin-android"
-    id "org.jetbrains.kotlin.plugin.serialization" version "1.5.0"
+    id("com.android.application")
+    id("kotlin-android")
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.5.0"
     //firebase
-    id "com.google.gms.google-services"
-    id "com.google.firebase.crashlytics"
-    id "com.google.android.gms.oss-licenses-plugin"
-    id "kotlin-kapt"
-    id "dagger.hilt.android.plugin"
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
+    id("com.google.android.gms.oss-licenses-plugin")
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
