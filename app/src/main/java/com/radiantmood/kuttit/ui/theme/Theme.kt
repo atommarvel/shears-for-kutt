@@ -45,7 +45,8 @@ fun KuttItTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable
 
     MaterialTheme(
         colors = colors,
-        typography = Typography,
+        // I'm not really feeling the font anymore. Commenting it out for now.
+        // typography = Typography,
         shapes = Shapes,
         content = content
     )
