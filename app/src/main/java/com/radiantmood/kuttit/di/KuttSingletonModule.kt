@@ -3,8 +3,8 @@ package com.radiantmood.kuttit.di
 import android.app.Application
 import android.content.Context
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.radiantmood.kuttit.nav.destination.NavRouteFactory
-import com.radiantmood.kuttit.nav.destination.NavRouteFactoryImpl
+import com.radiantmood.kuttit.nav.NavRouteFactory
+import com.radiantmood.kuttit.nav.NavRouteFactoryImpl
 import com.radiantmood.kuttit.network.KuttApiKeyInterceptor
 import com.radiantmood.kuttit.network.KuttService
 import com.radiantmood.kuttit.repo.KuttApiKeySource

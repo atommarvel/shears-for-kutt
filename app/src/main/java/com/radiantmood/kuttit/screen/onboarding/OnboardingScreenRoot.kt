@@ -20,7 +20,7 @@ import com.radiantmood.kuttit.LocalRootViewModel
 import com.radiantmood.kuttit.LocalScaffoldState
 import com.radiantmood.kuttit.R
 import com.radiantmood.kuttit.data.local.LoadingModelContainer
-import com.radiantmood.kuttit.nav.destination.NavRouteFactory
+import com.radiantmood.kuttit.nav.NavRouteFactory
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
 
 val LocalOnboardingViewModel =

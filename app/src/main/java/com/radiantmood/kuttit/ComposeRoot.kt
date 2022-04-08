@@ -68,6 +68,7 @@ fun RootCommon() {
     ConsumeSnackbarBuffer()
     if (!LocalRootViewModel.current.isOnboardingFinished()) {
         val rvm = LocalRootViewModel.current
+        // TODO: wrap nav controller in a NavigationManager
         LocalNavController.current.navTo(rvm.onboardingDestinationNavRoute())
     }
 }

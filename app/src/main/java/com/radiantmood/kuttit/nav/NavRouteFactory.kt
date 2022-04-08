@@ -1,8 +1,12 @@
-package com.radiantmood.kuttit.nav.destination
+package com.radiantmood.kuttit.nav
 
 import android.os.Bundle
 import androidx.navigation.NamedNavArgument
-import com.radiantmood.kuttit.nav.NavRoute
+import com.radiantmood.kuttit.nav.destination.CreationDestinationSpec
+import com.radiantmood.kuttit.nav.destination.DestinationSpec
+import com.radiantmood.kuttit.nav.destination.HomeDestinationSpec
+import com.radiantmood.kuttit.nav.destination.OnboardingDestinationSpec
+import com.radiantmood.kuttit.nav.destination.SettingsDestinationSpec
 import com.radiantmood.kuttit.util.bundleOfNotNull
 import javax.inject.Inject
 
@@ -23,9 +27,8 @@ class NavRouteFactoryImpl @Inject constructor() : NavRouteFactory {
         arguments = bundleOfNotNull(CreationDestinationSpec.TARGET_KEY to target),
     )
 
-    override fun homeDestinationNavRoute(): NavRoute = createNavRoute(
-        spec = HomeDestinationSpec
-    )
+    private val homeNav by lazy { createNavRoute(spec = HomeDestinationSpec) }
+    override fun homeDestinationNavRoute(): NavRoute = homeNav
 
     override fun onboardingDestinationNavRoute(): NavRoute = createNavRoute(
         spec = OnboardingDestinationSpec

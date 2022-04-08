@@ -36,13 +36,9 @@ class HomeViewModel @Inject constructor(
 
     private var kuttLinkPager: Pager<Int, KuttLink> = createPager()
 
-    init {
-        getLinks()
-    }
-
     private fun createPager() = Pager(PagingConfig(10)) { kuttLinkSourceProvider.get() }
 
-    private fun getLinks() = viewModelScope.launch(Dispatchers.IO) {
+    fun getLinks() = viewModelScope.launch(Dispatchers.IO) {
         _homeScreen.postValue(LoadingModelContainer())
         _modifiers.postValue(emptyMap())
         kuttLinkPager = createPager()

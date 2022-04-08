@@ -9,7 +9,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.radiantmood.kuttit.LocalNavController
 import com.radiantmood.kuttit.LocalRootViewModel
-import com.radiantmood.kuttit.nav.destination.NavRouteFactory
 import com.radiantmood.kuttit.repo.OnboardingStatusSource
 import com.radiantmood.kuttit.util.Event
 import dagger.hilt.android.lifecycle.HiltViewModel

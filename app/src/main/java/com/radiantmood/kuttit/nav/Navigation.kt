@@ -6,7 +6,6 @@ import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import androidx.navigation.compose.composable
 import com.radiantmood.kuttit.nav.destination.DestinationSpec
-import com.radiantmood.kuttit.nav.destination.NavRouteFactory
 
 fun NavGraphBuilder.composable(spec: DestinationSpec, navRouteFactory: NavRouteFactory) {
     this.composable(

@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -55,6 +56,11 @@ private val LocalHomeViewModel =
 fun HomeScreenRoot() {
     val vm: HomeViewModel = hiltViewModel()
     val scaffoldState = rememberScaffoldState()
+
+    LaunchedEffect(Unit) {
+        vm.getLinks()
+    }
+
     RootCommon()
     CompositionLocalProvider(
         LocalHomeViewModel provides vm,
