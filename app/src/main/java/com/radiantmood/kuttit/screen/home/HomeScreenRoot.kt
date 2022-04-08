@@ -149,12 +149,13 @@ fun UserLinks(content: HomeScreenModel.Content) {
 
 @Composable
 fun Overlays(content: HomeScreenModel.Content) {
+    KuttSnackbar()
+
     val vm = LocalHomeViewModel.current
     val clipboardManager = LocalClipboardManager.current
     val scope = rememberCoroutineScope()
     val snackbarComingSoonMsg = stringResource(R.string.snackbar_update_coming_soon)
     val snackbarLinkCopiedMsg = stringResource(R.string.snackbar_link_copied_to_clipboard)
-    KuttSnackbar()
     LinkDialog(
         link = content.dialogLink,
         copyToClipboard = {

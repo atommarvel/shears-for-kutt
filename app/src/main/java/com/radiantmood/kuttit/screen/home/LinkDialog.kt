@@ -12,9 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.radiantmood.kuttit.R
 import com.radiantmood.kuttit.data.server.KuttLink
+import com.radiantmood.kuttit.dev.preview
 import com.radiantmood.kuttit.ui.component.PlatformDialog
 
 @Composable
@@ -27,25 +29,36 @@ fun LinkDialog(
 ) {
     link?.let {
         PlatformDialog(onDismissRequest = closeDialog) {
-            Card {
-                val textMod = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth()
-                Column {
-                    Text(
-                        text = link.link,
-                        modifier = textMod,
-                        textAlign = TextAlign.Center
-                    )
-                    CopyActionItem(textMod, link, copyToClipboard, closeDialog)
-                    Divider()
-                    UpdateActionItem(textMod, link, updateLink, closeDialog)
-                    Divider()
-                    DeleteActionItem(textMod, link, deleteLink, closeDialog)
-                    // TODO#zbbnrk: View QR Code
-                    // TODO#zbbnqj: View Stats
-                }
-            }
+            LinkDialogContent(link, copyToClipboard, closeDialog, updateLink, deleteLink)
+        }
+    }
+}
+
+@Composable
+private fun LinkDialogContent(
+    link: KuttLink,
+    copyToClipboard: (String) -> Unit,
+    closeDialog: () -> Unit,
+    updateLink: (KuttLink) -> Unit,
+    deleteLink: (KuttLink) -> Unit,
+) {
+    Card {
+        val textMod = Modifier
+            .padding(16.dp)
+            .fillMaxWidth()
+        Column {
+            Text(
+                text = link.link,
+                modifier = textMod,
+                textAlign = TextAlign.Center
+            )
+            CopyActionItem(textMod, link, copyToClipboard, closeDialog)
+            Divider()
+            UpdateActionItem(textMod, link, updateLink, closeDialog)
+            Divider()
+            DeleteActionItem(textMod, link, deleteLink, closeDialog)
+            // TODO#zbbnrk: View QR Code
+            // TODO#zbbnqj: View Stats
         }
     }
 }
@@ -102,5 +115,18 @@ private fun CopyActionItem(
                 closeDialog()
             }
             .then(modifier)
+    )
+}
+
+@Preview
+@Composable
+private fun DefaultPreview() {
+    val link = KuttLink.preview()
+    LinkDialogContent(
+        link = link,
+        copyToClipboard = {},
+        updateLink = {},
+        deleteLink = {},
+        closeDialog = {},
     )
 }
