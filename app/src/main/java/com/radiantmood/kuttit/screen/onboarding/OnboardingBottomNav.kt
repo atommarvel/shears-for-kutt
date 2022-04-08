@@ -118,7 +118,7 @@ private fun NextNavButton(
 @Preview(showBackground = true)
 @Composable
 private fun DefaultPreview() {
-    val pagerState = rememberPagerState(pageCount = onboardingPageCount)
+    val pagerState = rememberPagerState()
     LaunchedEffect(true) {
         pagerState.scrollToPage(1)
     }

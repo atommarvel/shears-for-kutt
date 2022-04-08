@@ -28,14 +28,15 @@ fun OnboardingPager(
     finishOnboarding: () -> Unit,
     content: @Composable (Int, OnboardingScreenModel) -> Unit,
 ) {
-    val pagerState = rememberPagerState(onboardingPageCount)
+    val pagerState = rememberPagerState()
     ModelContainerContent(modelContainer) { screenModel ->
         Column {
             HorizontalPager(
                 state = pagerState,
+                count = onboardingPageCount,
                 modifier = Modifier
                     .weight(1f)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
             ) { page ->
                 Column(
                     Modifier

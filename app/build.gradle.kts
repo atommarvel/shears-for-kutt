@@ -1,13 +1,17 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.5.0"
+    id("org.jetbrains.kotlin.plugin.serialization") version Dependencies.jetbrains.kotlin.version
     //firebase
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    // TODO: replace with Aboutlibraries
     id("com.google.android.gms.oss-licenses-plugin")
+
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+
+    id("com.github.ben-manes.versions")
 }
 
 android {
@@ -45,7 +49,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.0.5"
+        kotlinCompilerExtensionVersion = Dependencies.androidx.compose.version
     }
 }
 
@@ -58,7 +62,7 @@ dependencies {
     //androidx
     implementation(Dependencies.androidx.core)
     implementation(Dependencies.androidx.appcompat)
-    implementation(Dependencies.androidx.activity)
+    implementation(Dependencies.androidx.activity.ktx)
     implementation(Dependencies.androidx.lifecycle.runtime)
     implementation(Dependencies.androidx.lifecycle.livedata)
     implementation(Dependencies.androidx.lifecycle.viewmodel)
@@ -77,7 +81,7 @@ dependencies {
     implementation(Dependencies.google.accompanist.`pager-indicators`)
 
     //compose adjacent
-    implementation(Dependencies.androidx.`activity-compose`)
+    implementation(Dependencies.androidx.activity.compose)
     implementation(Dependencies.androidx.lifecycle.`viewmodel-compose`)
     implementation(Dependencies.androidx.lifecycle.`viewmodel-compose`)
     implementation(Dependencies.androidx.navigation)
@@ -118,3 +122,21 @@ dependencies {
     androidTestImplementation(Dependencies.androidx.test.espresso)
     androidTestImplementation(Dependencies.androidx.compose.test)
 }
+
+fun String.isNonStable(): Boolean {
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { toUpperCase().contains(it) }
+    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+    val isStable = stableKeyword || regex.matches(this)
+    return isStable.not()
+}
+
+tasks.named<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask>("dependencyUpdates")
+    .configure {
+        rejectVersionIf {
+            candidate.version.isNonStable() && !currentVersion.isNonStable()
+        }
+        checkForGradleUpdate = true
+        outputFormatter = "html"
+        outputDir = "build/dependencyUpdates"
+        reportfileName = "report"
+    }
