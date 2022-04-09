@@ -17,6 +17,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Help
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
@@ -33,6 +34,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
+import com.radiantmood.kuttit.LocalScaffoldState
 import com.radiantmood.kuttit.R
 import com.radiantmood.kuttit.RootCommon
 import com.radiantmood.kuttit.data.local.LoadingModelContainer
@@ -43,6 +45,7 @@ import com.radiantmood.kuttit.ui.component.KuttTopAppBar
 import com.radiantmood.kuttit.ui.component.LazyDivider
 import com.radiantmood.kuttit.ui.component.LazySpacer
 import com.radiantmood.kuttit.ui.component.PlatformDialog
+import com.radiantmood.kuttit.ui.component.snackbar.KuttSnackbar
 import com.radiantmood.kuttit.ui.component.snackbar.postSnackbar
 import com.radiantmood.kuttit.util.ModelContainerContent
 
@@ -52,9 +55,12 @@ private val LocalSettingsViewModel =
 @Composable
 fun SettingsScreenRoot() {
     val vm: SettingsViewModel = hiltViewModel()
+    val scaffoldState = rememberScaffoldState()
+
     RootCommon()
     CompositionLocalProvider(
-        LocalSettingsViewModel provides vm
+        LocalSettingsViewModel provides vm,
+        LocalScaffoldState provides scaffoldState
     ) {
         SettingsScreen()
     }
@@ -65,7 +71,9 @@ fun SettingsScreen() {
     val (showHelpDialog, setShowHelpDialog) = remember { mutableStateOf(false) }
     Scaffold(
         topBar = { SettingsAppBar(setShowHelpDialog) },
+        scaffoldState = LocalScaffoldState.current,
     ) {
+        KuttSnackbar()
         SettingsBody(showHelpDialog, setShowHelpDialog)
     }
 }
@@ -126,6 +134,7 @@ fun HelpDialog(show: Boolean, updateShow: (Boolean) -> Unit) {
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     )
                     Spacer(modifier = Modifier.height(8.dp))
+                    // TODO: populate kutt domain with this string resource
                     Text(stringResource(R.string.api_explanation))
                 }
             }

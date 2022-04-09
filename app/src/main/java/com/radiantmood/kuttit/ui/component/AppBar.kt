@@ -71,7 +71,7 @@ fun AppBarAction(imageVector: ImageVector, contentDescription: String, onClick: 
 
 @Preview()
 @Composable
-fun DefaultPreview() {
+private fun DefaultPreview() {
     KuttItTheme(false) {
         CompositionLocalProvider(
             LocalNavController provides rememberNavController()

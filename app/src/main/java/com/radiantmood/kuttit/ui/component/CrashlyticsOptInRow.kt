@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun CrashlyticsOptInRow(
@@ -17,7 +19,8 @@ fun CrashlyticsOptInRow(
     Row(
         modifier = Modifier
             .clickable { setCrashlyticsEnabled(!crashlyticsEnabled) }
-            .then(modifier)
+            .then(modifier),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             modifier = Modifier.weight(1f),
@@ -25,4 +28,10 @@ fun CrashlyticsOptInRow(
         )
         Switch(checked = crashlyticsEnabled, onCheckedChange = setCrashlyticsEnabled)
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun DefaultPreview() {
+    CrashlyticsOptInRow(crashlyticsEnabled = true, setCrashlyticsEnabled = {})
 }

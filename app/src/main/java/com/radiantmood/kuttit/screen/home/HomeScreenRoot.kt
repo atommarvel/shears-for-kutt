@@ -148,8 +148,8 @@ fun Overlays(content: HomeScreenModel.Content) {
         },
         updateLink = {
             // TODO#15zpgn3: link updating
-            scope.postSnackbar(snackbarComingSoonMsg)
-            // content.dialogLink?.let { nav.navTo(rvm.updateDestinationNavRoute(it)) }
+            // scope.postSnackbar(snackbarComingSoonMsg)
+            content.dialogLink?.let { nav.navTo(rvm.updateDestinationNavRoute(it)) }
         },
         deleteLink = {
             vm.deleteLink(it)
