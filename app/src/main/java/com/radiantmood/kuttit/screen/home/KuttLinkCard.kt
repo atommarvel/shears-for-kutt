@@ -35,8 +35,10 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.radiantmood.kuttit.data.server.KuttLink
+import com.radiantmood.kuttit.dev.preview
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 
@@ -111,4 +113,10 @@ fun IconText(icon: ImageVector, text: String) {
         Spacer(Modifier.width(4.dp))
         Text(text)
     }
+}
+
+@Preview
+@Composable
+private fun DefaultPreview() {
+    KuttLinkCard(link = KuttLink.preview(), isDeleting = false, onClick = {})
 }

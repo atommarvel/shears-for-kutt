@@ -8,12 +8,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Button
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Settings
@@ -29,7 +27,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -44,7 +41,6 @@ import com.radiantmood.kuttit.data.server.KuttLink
 import com.radiantmood.kuttit.nav.navTo
 import com.radiantmood.kuttit.ui.component.AppBarAction
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
-import com.radiantmood.kuttit.util.Fullscreen
 import com.radiantmood.kuttit.util.ModelContainerContent
 import com.radiantmood.kuttit.util.snackbar.KuttSnackbar
 import com.radiantmood.kuttit.util.snackbar.postSnackbar
@@ -96,10 +92,13 @@ fun HomeAppBar() {
 @Composable
 fun HomeBody() {
     val vm = LocalHomeViewModel.current
+    val nav = LocalNavController.current
+    val rvm = LocalRootViewModel.current
     val modelContainer by vm.homeScreen.observeAsState(LoadingModelContainer())
     ModelContainerContent(modelContainer) { screenModel ->
         when (screenModel) {
-            is HomeScreenModel.ApiKeyMissing -> ApiKeyMissing()
+            is HomeScreenModel.ApiKeyMissing ->
+                ApiKeyMissing(navToSettings = { nav.navTo(rvm.settingsDestinationNavRoute()) })
             is HomeScreenModel.Content -> UserLinks(screenModel)
         }
     }
@@ -117,23 +116,6 @@ fun Fab() {
             imageVector = Icons.Default.Add,
             contentDescription = stringResource(R.string.a11y_create_link)
         )
-    }
-}
-
-@Composable
-fun ApiKeyMissing() {
-    val nav = LocalNavController.current
-    val rvm = LocalRootViewModel.current
-    Fullscreen {
-        Text(
-            text = stringResource(R.string.missing_api_msg),
-            textAlign = TextAlign.Center
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { nav.navTo(rvm.settingsDestinationNavRoute()) }) {
-            Icon(imageVector = Icons.Default.Settings, contentDescription = "Settings")
-            Text("Settings")
-        }
     }
 }
 
