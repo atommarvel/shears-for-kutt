@@ -13,7 +13,6 @@ import com.radiantmood.kuttit.data.local.LoadingModelContainer
 import com.radiantmood.kuttit.data.local.ModelContainer
 import com.radiantmood.kuttit.data.server.PostLinkBody
 import com.radiantmood.kuttit.network.KuttService
-import com.radiantmood.kuttit.repo.KuttUrlProvider
 import com.radiantmood.kuttit.ui.component.snackbar.postSnackbar
 import com.radiantmood.kuttit.ui.component.snackbar.postSnackbarBuffer
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,8 +43,8 @@ class CreationActionsImpl(
 @HiltViewModel
 class CreationViewModel @Inject constructor(
     private val app: Application,
-    private val kuttUrlProvider: KuttUrlProvider,
     private val kuttService: KuttService,
+    private val domainsRepository: DomainsRepository,
 ) : ViewModel(), CreationInputs {
     private var _creationScreen =
         MutableLiveData<ModelContainer<CreationScreenModel>>(LoadingModelContainer())
@@ -60,10 +59,7 @@ class CreationViewModel @Inject constructor(
         _creationScreen.value = CreationScreenModel(
             targetUrl = "", // TODO#zbbnea: could we grab the data from the clipboard?
             currentDomain = 0, // TODO#1knqt8g: allow user to default to their custom domain in domain management.
-            domains = listOfNotNull(
-                kuttUrlProvider.baseUrl,
-                "radiantmood.com", // TODO#zbbn26: get domains from the domain repository
-            ),
+            domains = domainsRepository.getDomains(),
             path = "",
             password = "",
             expires = "",
