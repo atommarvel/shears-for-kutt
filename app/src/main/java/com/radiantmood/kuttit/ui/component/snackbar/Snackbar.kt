@@ -1,4 +1,4 @@
-package com.radiantmood.kuttit.util.snackbar
+package com.radiantmood.kuttit.ui.component.snackbar
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState

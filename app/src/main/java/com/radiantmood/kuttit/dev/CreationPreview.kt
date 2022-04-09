@@ -1,7 +1,9 @@
-package com.radiantmood.kuttit.screen.creation
+package com.radiantmood.kuttit.dev
 
 import androidx.compose.ui.platform.ClipboardManager
 import androidx.navigation.NavHostController
+import com.radiantmood.kuttit.screen.creation.CreationActions
+import com.radiantmood.kuttit.screen.creation.CreationScreenModel
 
 val creationScreenModelPreview = CreationScreenModel(
     targetUrl = "atommarvel.com",

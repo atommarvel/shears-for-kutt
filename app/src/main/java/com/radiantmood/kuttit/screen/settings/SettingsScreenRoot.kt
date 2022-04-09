@@ -43,8 +43,8 @@ import com.radiantmood.kuttit.ui.component.KuttTopAppBar
 import com.radiantmood.kuttit.ui.component.LazyDivider
 import com.radiantmood.kuttit.ui.component.LazySpacer
 import com.radiantmood.kuttit.ui.component.PlatformDialog
+import com.radiantmood.kuttit.ui.component.snackbar.postSnackbar
 import com.radiantmood.kuttit.util.ModelContainerContent
-import com.radiantmood.kuttit.util.snackbar.postSnackbar
 
 private val LocalSettingsViewModel =
     compositionLocalOf<SettingsViewModel> { error("No SettingsViewModel") }

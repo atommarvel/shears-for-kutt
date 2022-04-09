@@ -12,7 +12,7 @@ import com.radiantmood.kuttit.data.local.ModelContainer
 import com.radiantmood.kuttit.data.server.KuttLink
 import com.radiantmood.kuttit.network.KuttService
 import com.radiantmood.kuttit.repo.KuttApiKeySource
-import com.radiantmood.kuttit.util.snackbar.postSnackbar
+import com.radiantmood.kuttit.ui.component.snackbar.postSnackbar
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

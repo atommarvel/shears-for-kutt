@@ -17,8 +17,8 @@ import com.radiantmood.kuttit.nav.destination.HomeDestinationSpec
 import com.radiantmood.kuttit.nav.destination.OnboardingDestinationSpec
 import com.radiantmood.kuttit.nav.destination.SettingsDestinationSpec
 import com.radiantmood.kuttit.nav.navTo
+import com.radiantmood.kuttit.ui.component.snackbar.ConsumeSnackbarBuffer
 import com.radiantmood.kuttit.ui.theme.KuttItTheme
-import com.radiantmood.kuttit.util.snackbar.ConsumeSnackbarBuffer
 
 val LocalNavController = compositionLocalOf<NavHostController> { error("No NavController") }
 val LocalScaffoldState = compositionLocalOf<ScaffoldState> { error("No ScaffoldState") }

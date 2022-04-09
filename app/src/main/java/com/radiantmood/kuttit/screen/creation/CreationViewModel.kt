@@ -14,8 +14,8 @@ import com.radiantmood.kuttit.data.local.ModelContainer
 import com.radiantmood.kuttit.data.server.PostLinkBody
 import com.radiantmood.kuttit.network.KuttService
 import com.radiantmood.kuttit.repo.KuttUrlProvider
-import com.radiantmood.kuttit.util.snackbar.postSnackbar
-import com.radiantmood.kuttit.util.snackbar.postSnackbarBuffer
+import com.radiantmood.kuttit.ui.component.snackbar.postSnackbar
+import com.radiantmood.kuttit.ui.component.snackbar.postSnackbarBuffer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

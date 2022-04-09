@@ -12,8 +12,8 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.radiantmood.kuttit.data.server.KuttLink
+import com.radiantmood.kuttit.ui.component.snackbar.postSnackbar
 import com.radiantmood.kuttit.util.LoadingScreen
-import com.radiantmood.kuttit.util.snackbar.postSnackbar
 
 fun lazyPagingFooter(
     lazyLinks: LazyPagingItems<KuttLink>,

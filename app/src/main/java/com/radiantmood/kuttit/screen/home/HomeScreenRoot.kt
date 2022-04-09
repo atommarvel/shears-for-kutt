@@ -41,9 +41,9 @@ import com.radiantmood.kuttit.data.server.KuttLink
 import com.radiantmood.kuttit.nav.navTo
 import com.radiantmood.kuttit.ui.component.AppBarAction
 import com.radiantmood.kuttit.ui.component.KuttTopAppBar
+import com.radiantmood.kuttit.ui.component.snackbar.KuttSnackbar
+import com.radiantmood.kuttit.ui.component.snackbar.postSnackbar
 import com.radiantmood.kuttit.util.ModelContainerContent
-import com.radiantmood.kuttit.util.snackbar.KuttSnackbar
-import com.radiantmood.kuttit.util.snackbar.postSnackbar
 
 private val LocalHomeViewModel =
     compositionLocalOf<HomeViewModel> { error("No HomeViewModel") }
