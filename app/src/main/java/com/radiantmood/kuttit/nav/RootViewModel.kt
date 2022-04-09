@@ -17,6 +17,7 @@ import javax.inject.Inject
 /**
  * I'm not sure about a way to cleanly provide services to Compose yet, so I'm providing them via
  *  this ViewModel.
+ *  TODO: check how the compose sample apps do this
  */
 @HiltViewModel
 class RootViewModel @Inject constructor(

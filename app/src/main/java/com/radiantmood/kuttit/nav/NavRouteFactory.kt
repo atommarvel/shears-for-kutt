@@ -2,12 +2,17 @@ package com.radiantmood.kuttit.nav
 
 import android.os.Bundle
 import androidx.navigation.NamedNavArgument
+import com.radiantmood.kuttit.data.server.KuttLink
 import com.radiantmood.kuttit.nav.destination.CreationDestinationSpec
 import com.radiantmood.kuttit.nav.destination.DestinationSpec
 import com.radiantmood.kuttit.nav.destination.HomeDestinationSpec
 import com.radiantmood.kuttit.nav.destination.OnboardingDestinationSpec
 import com.radiantmood.kuttit.nav.destination.SettingsDestinationSpec
+import com.radiantmood.kuttit.nav.destination.UpdateDestinationSpec
 import com.radiantmood.kuttit.util.bundleOfNotNull
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import java.net.URLEncoder
 import javax.inject.Inject
 
 /**
@@ -15,6 +20,7 @@ import javax.inject.Inject
  */
 interface NavRouteFactory {
     fun creationDestinationNavRoute(target: String? = null): NavRoute
+    fun updateDestinationNavRoute(kuttLink: KuttLink): NavRoute
     fun homeDestinationNavRoute(): NavRoute
     fun onboardingDestinationNavRoute(): NavRoute
     fun settingsDestinationNavRoute(): NavRoute
@@ -22,6 +28,14 @@ interface NavRouteFactory {
 }
 
 class NavRouteFactoryImpl @Inject constructor() : NavRouteFactory {
+
+    override fun updateDestinationNavRoute(kuttLink: KuttLink): NavRoute = createNavRoute(
+        spec = UpdateDestinationSpec,
+        arguments = bundleOfNotNull(
+            UpdateDestinationSpec.KUTT_LINK_KEY to URLEncoder.encode(Json.encodeToString(kuttLink), "utf-8")
+        )
+    )
+
     override fun creationDestinationNavRoute(target: String?): NavRoute = createNavRoute(
         spec = CreationDestinationSpec,
         arguments = bundleOfNotNull(CreationDestinationSpec.TARGET_KEY to target),

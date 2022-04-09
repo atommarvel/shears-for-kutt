@@ -16,6 +16,7 @@ import com.radiantmood.kuttit.nav.destination.CreationDestinationSpec
 import com.radiantmood.kuttit.nav.destination.HomeDestinationSpec
 import com.radiantmood.kuttit.nav.destination.OnboardingDestinationSpec
 import com.radiantmood.kuttit.nav.destination.SettingsDestinationSpec
+import com.radiantmood.kuttit.nav.destination.UpdateDestinationSpec
 import com.radiantmood.kuttit.nav.navTo
 import com.radiantmood.kuttit.ui.component.snackbar.ConsumeSnackbarBuffer
 import com.radiantmood.kuttit.ui.theme.KuttItTheme
@@ -56,6 +57,7 @@ fun Navigation() {
         composable(HomeDestinationSpec, rvm)
         composable(SettingsDestinationSpec, rvm)
         composable(CreationDestinationSpec, rvm)
+        composable(UpdateDestinationSpec, rvm)
     }
 }
 

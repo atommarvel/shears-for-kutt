@@ -133,6 +133,8 @@ fun UserLinks(content: HomeScreenModel.Content) {
 fun Overlays(content: HomeScreenModel.Content) {
     KuttSnackbar()
 
+    val nav = LocalNavController.current
+    val rvm = LocalRootViewModel.current
     val vm = LocalHomeViewModel.current
     val clipboardManager = LocalClipboardManager.current
     val scope = rememberCoroutineScope()
@@ -147,6 +149,7 @@ fun Overlays(content: HomeScreenModel.Content) {
         updateLink = {
             // TODO#15zpgn3: link updating
             scope.postSnackbar(snackbarComingSoonMsg)
+            // content.dialogLink?.let { nav.navTo(rvm.updateDestinationNavRoute(it)) }
         },
         deleteLink = {
             vm.deleteLink(it)
