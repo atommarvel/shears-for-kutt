@@ -82,7 +82,9 @@ fun HomeAppBar() {
     val nav = LocalNavController.current
     val rvm = LocalRootViewModel.current
     KuttTopAppBar(title = stringResource(R.string.app_name)) {
-        AppBarAction(imageVector = Icons.Default.Settings,
+        // TODO: expand/contract all items
+        AppBarAction(
+            imageVector = Icons.Default.Settings,
             contentDescription = stringResource(R.string.settings)) {
             nav.navTo(rvm.settingsDestinationNavRoute())
         }
@@ -171,6 +173,7 @@ private fun UserLinkList(
         item { Spacer(modifier = Modifier.height(16.dp)) }
         items(lazyLinks) { link -> KuttLinkCardListItem(link, mods) }
         lazyPagingFooter(lazyLinks, this)
+        item { Spacer(modifier = Modifier.height(72.dp)) }
     }
 }
 

@@ -1,5 +1,6 @@
 package com.radiantmood.kuttit.screen.home
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -22,18 +23,22 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Description
+import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.Link
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -47,28 +52,61 @@ fun KuttLinkCard(link: KuttLink, isDeleting: Boolean, onClick: () -> Unit) {
     // TODO#zbbng4: decide on card color to make it stick out just a slight bit more without being annoying
     val modifier = if (isDeleting) Modifier else Modifier.clickable { onClick() }
     val contentAlpha = if (isDeleting) 0.3f else 1f
+    val (isExpanded, setIsExpanded) = remember { mutableStateOf(false) }
+
     Card(
         modifier = modifier.fillMaxWidth()
     ) {
-        Box {
+        Box(
+            modifier.animateContentSize()
+        ) {
             Column(
                 modifier = Modifier
                     .padding(8.dp)
                     .alpha(contentAlpha)
             ) {
-                Text(link.link, style = MaterialTheme.typography.h6)
-                Spacer(Modifier.height(8.dp))
-                IconText(icon = Icons.Default.Link, text = link.target)
-                link.description?.let { IconText(icon = Icons.Default.Description, it) }
-                // TODO: parse date string to something more human readable
-                IconText(icon = Icons.Default.Schedule, text = link.created_at)
-                IconText(icon = Icons.Default.Visibility, text = "${link.visit_count} views")
+                LinkHeader(link, isExpanded, setIsExpanded)
+                if (isExpanded) {
+                    Spacer(Modifier.height(8.dp))
+                    IconText(icon = Icons.Default.Link, text = link.target)
+                    link.description?.let { IconText(icon = Icons.Default.Description, it) }
+                    // TODO: parse date string to something more human readable
+                    IconText(icon = Icons.Default.Schedule, text = link.created_at)
+                    IconText(icon = Icons.Default.Visibility, text = "${link.visit_count} views")
+                }
             }
             if (isDeleting) {
                 DeletionOverlay(boxScope = this)
             }
         }
     }
+}
+
+@Composable
+fun LinkHeader(link: KuttLink, isExpanded: Boolean, setIsExpanded: (Boolean) -> Unit) {
+    Row {
+        // TODO: ideally, this http:// removal should live outside the UI
+        val linkDisplay = link.link.removePrefix("http://")
+        Text(linkDisplay, style = MaterialTheme.typography.h6)
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .clickable { setIsExpanded(!isExpanded) },
+            contentAlignment = Alignment.CenterEnd
+        ) {
+            ExpandIcon(isExpanded = isExpanded)
+        }
+    }
+}
+
+@Composable
+fun ExpandIcon(modifier: Modifier = Modifier, isExpanded: Boolean) {
+    val expandIconRotation = animateFloatAsState(targetValue = if (isExpanded) 0f else 180f)
+    Icon(
+        modifier = modifier.graphicsLayer(rotationZ = expandIconRotation.value),
+        imageVector = Icons.Default.ExpandLess,
+        contentDescription = "expand"
+    )
 }
 
 @Composable
