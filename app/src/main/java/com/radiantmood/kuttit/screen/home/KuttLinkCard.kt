@@ -48,11 +48,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 
 @Composable
-fun KuttLinkCard(link: KuttLink, isDeleting: Boolean, onClick: () -> Unit) {
+fun KuttLinkCard(link: KuttLink, isDeleting: Boolean, isDefaultExpanded: Boolean, onClick: () -> Unit) {
     // TODO#zbbng4: decide on card color to make it stick out just a slight bit more without being annoying
     val modifier = if (isDeleting) Modifier else Modifier.clickable { onClick() }
     val contentAlpha = if (isDeleting) 0.3f else 1f
-    val (isExpanded, setIsExpanded) = remember { mutableStateOf(false) }
+    val (isExpanded, setIsExpanded) = remember(isDefaultExpanded) { mutableStateOf(isDefaultExpanded) }
 
     Card(
         modifier = modifier.fillMaxWidth()
@@ -156,5 +156,5 @@ fun IconText(icon: ImageVector, text: String) {
 @Preview
 @Composable
 private fun DefaultPreview() {
-    KuttLinkCard(link = KuttLink.preview(), isDeleting = false, onClick = {})
+    KuttLinkCard(link = KuttLink.preview(), isDeleting = false, isDefaultExpanded = true, onClick = {})
 }

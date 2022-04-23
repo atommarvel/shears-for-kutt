@@ -14,6 +14,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Compress
+import androidx.compose.material.icons.filled.Expand
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -81,8 +83,15 @@ fun HomeScreen() {
 fun HomeAppBar() {
     val nav = LocalNavController.current
     val rvm = LocalRootViewModel.current
+    val vm = LocalHomeViewModel.current
+    val isExpanded = vm.isDefaultExpanded.value
+    val expansionIcon = if (isExpanded) Icons.Default.Compress else Icons.Default.Expand
     KuttTopAppBar(title = stringResource(R.string.app_name)) {
-        // TODO: expand/contract all items
+        AppBarAction(
+            imageVector = expansionIcon,
+            contentDescription = "Expand or Collapse Cards") { // TODO: dynamic/translated content desc
+            vm.isDefaultExpanded.value = !isExpanded
+        }
         AppBarAction(
             imageVector = Icons.Default.Settings,
             contentDescription = stringResource(R.string.settings)) {
@@ -184,7 +193,7 @@ fun KuttLinkCardListItem(link: KuttLink?, mods: Map<String, KuttLinkModifier>) {
         Box(modifier = Modifier
             .padding(vertical = 8.dp, horizontal = 16.dp)
             .fillMaxWidth()) {
-            KuttLinkCard(link, mods.containsKey(link.id)) {
+            KuttLinkCard(link, mods.containsKey(link.id), vm.isDefaultExpanded.value) {
                 vm.openDialog(link)
             }
         }

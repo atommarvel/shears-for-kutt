@@ -1,5 +1,6 @@
 package com.radiantmood.kuttit.screen.home
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -35,6 +36,8 @@ class HomeViewModel @Inject constructor(
     val modifiers: LiveData<Map<String, KuttLinkModifier>> get() = _modifiers
 
     private var kuttLinkPager: Pager<Int, KuttLink> = createPager()
+
+    var isDefaultExpanded = mutableStateOf(false)
 
     private fun createPager() = Pager(PagingConfig(10)) { kuttLinkSourceProvider.get() }
 
